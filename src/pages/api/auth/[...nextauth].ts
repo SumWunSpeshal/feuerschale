@@ -5,7 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "src/server/db/client";
 
 export const authOptions: NextAuthOptions = {
-  // Include user.id on sessio
+  // Include user.id on session
   callbacks: {
     session({ session, user }) {
       if (session.user) {
