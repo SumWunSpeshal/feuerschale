@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import { trpc } from "../utils/trpc";
+import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
@@ -65,14 +65,13 @@ const AuthShowcase: React.FC = () => {
   // const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery();
 
   const { data: sessionData } = useSession();
+  console.log(sessionData);
 
   return (
     <div className="flex flex-col items-center justify-center gap-2">
-      {sessionData && (
-        <p className="text-2xl text-blue-500">
-          Logged in as {sessionData?.user?.name}
-        </p>
-      )}
+      <p className="text-2xl text-blue-500">
+        Logged in as {sessionData?.user?.name}
+      </p>
       {/* {secretMessage && (
         <p className="text-2xl text-blue-500">{secretMessage}</p>
       )} */}

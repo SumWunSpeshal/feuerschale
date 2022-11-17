@@ -1,4 +1,4 @@
-import { t } from "../trpc";
+import { t } from "src/server/trpc/trpc";
 import { z } from "zod";
 
 export const exampleRouter = t.router({
