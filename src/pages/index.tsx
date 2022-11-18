@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
+import Link from "next/link";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
@@ -81,6 +82,8 @@ const AuthShowcase: React.FC = () => {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
+
+      <Link href="/auth/signin">Sign in</Link>
     </div>
   );
 };
