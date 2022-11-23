@@ -27,13 +27,13 @@ model CityText {
 }
 
 model City {
-  Schluesselnummer Int?
+  Schluesselnummer String?
   Stadt            String?
-  PLZ              Int?
+  PLZ              String?
   Bundesland       String?
   Landkreis        String?
   cityTexts        CityText[]
-  id               Int        @id(map: "City_pkey1") @default(autoincrement()) @db.SmallInt
+  id               Int        @id @default(autoincrement()) @db.SmallInt
 }
 
 model Text {
