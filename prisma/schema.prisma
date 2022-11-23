@@ -32,7 +32,7 @@ model City {
   lon        Float?
   district   String?
   name       String?
-  population BigInt?
+  population Int?
   state      String?
   cityTexts  CityText[]
   id         Int        @id @default(autoincrement()) @db.SmallInt
