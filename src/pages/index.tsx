@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const { data: helloData } = trpc.example.hello.useQuery({
     text: "from tRPC",
   });
-  const { data: cityData } = trpc.city.search.useQuery({ text: "munich" });
+  const { data: cityData } = trpc.city.search.useQuery({ text: "30159" });
 
   console.log(cityData);
 

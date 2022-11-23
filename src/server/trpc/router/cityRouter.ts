@@ -7,10 +7,20 @@ export const cityRouter = t.router({
     .query(({ input, ctx }) => {
       return ctx.prisma.city.findMany({
         where: {
-          name: {
-            contains: input?.text || "",
-            mode: "insensitive",
-          },
+          OR: [
+            {
+              Stadt: {
+                contains: input?.text || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              PLZ: {
+                contains: input?.text || "",
+                mode: "insensitive",
+              },
+            },
+          ],
         },
       });
     }),
