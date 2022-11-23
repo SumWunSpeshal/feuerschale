@@ -22,20 +22,18 @@ model CityText {
   id     String @id @default(cuid())
   textId String
   cityId Int
-  city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  city   City  @relation(fields: [cityId], references: [id], onDelete: Cascade)
   text   Text   @relation(fields: [textId], references: [id], onDelete: Cascade)
 }
 
 model City {
-  area       Float?
-  lat        Float?
-  lon        Float?
-  district   String?
-  name       String?
-  population Int?
-  state      String?
+  Schluesselnummer Int?
+  Stadt            String?
+  PLZ              Int?
+  Bundesland       String?
+  Landkreis        String?
   cityTexts  CityText[]
-  id         Int        @id @default(autoincrement()) @db.SmallInt
+  id               Int     @id @default(autoincrement()) @db.SmallInt
 }
 
 model Text {
