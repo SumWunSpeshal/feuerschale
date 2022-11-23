@@ -22,7 +22,7 @@ model CityText {
   id     String @id @default(cuid())
   textId String
   cityId Int    @db.SmallInt
-  city   City  @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
   text   Text   @relation(fields: [textId], references: [id], onDelete: Cascade)
 }
 
@@ -33,7 +33,7 @@ model City {
   Bundesland       String?
   Landkreis        String?
   cityTexts        CityText[]
-  id               Int        @id @default(autoincrement()) @db.SmallInt
+  id               Int        @id(map: "City_pkey1") @default(autoincrement()) @db.SmallInt
 }
 
 model Text {
