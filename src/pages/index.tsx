@@ -2,13 +2,14 @@ import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { DebounceInput } from "react-debounce-input";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: helloData } = trpc.example.hello.useQuery({
     text: "from tRPC",
   });
-  const { data: cityData } = trpc.city.search.useQuery({ text: "30159" });
+  const { data: cityData, mutate } = trpc.city.searchCities.useMutation();
 
   console.log(cityData);
 
@@ -28,8 +29,14 @@ const Home: NextPage = () => {
           {helloData ? <p>{helloData.greeting}</p> : <p>Loading..</p>}
         </div>
         <AuthShowcase />
+        <DebounceInput
+          minLength={3}
+          debounceTimeout={500}
+          style={{ border: "1px solid blue" }}
+          onChange={({ target }) => mutate({ value: target.value })}
+        />
         <pre style={{ width: "100%" }}>
-          {JSON.stringify(cityData, undefined, 2)}
+          {cityData?.length ? JSON.stringify(cityData, undefined, 2) : "empty"}
         </pre>
       </main>
     </>
