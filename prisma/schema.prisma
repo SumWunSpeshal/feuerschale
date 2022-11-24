@@ -27,11 +27,11 @@ model CityText {
 }
 
 model City {
-  Schluesselnummer String?
-  Stadt            String?
-  PLZ              String?
-  Bundesland       String?
-  Landkreis        String?
+  Schluesselnummer String
+  Stadt            String
+  PLZ              String
+  Bundesland       String
+  Landkreis        String
   cityTexts        CityText[]
   id               Int        @id @default(autoincrement()) @db.SmallInt
 }

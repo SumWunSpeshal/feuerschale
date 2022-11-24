@@ -11,8 +11,6 @@ const Home: NextPage = () => {
   });
   const { data: cityData, mutate } = trpc.city.searchCities.useMutation();
 
-  console.log(cityData);
-
   return (
     <>
       <Head>
@@ -34,7 +32,19 @@ const Home: NextPage = () => {
           debounceTimeout={500}
           style={{ border: "1px solid blue" }}
           onChange={({ target }) => mutate({ value: target.value })}
+          id="city-search"
+          name="city-search"
+          list="city-suggestions"
         />
+        {cityData?.length ? (
+          <datalist id="city-suggestions">
+            {cityData.map(({ Stadt }) => (
+              <option value={Stadt} key={Stadt} />
+            ))}
+          </datalist>
+        ) : (
+          "empty"
+        )}
         <pre style={{ width: "100%" }}>
           {cityData?.length ? JSON.stringify(cityData, undefined, 2) : "empty"}
         </pre>
