@@ -19,7 +19,7 @@ export const requireAuthSession: GsspHOF = (func) => {
     if (!session) {
       return {
         redirect: {
-          destination: "/api/auth/signin",
+          destination: "/auth/signin",
           permanent: false,
         },
       };
