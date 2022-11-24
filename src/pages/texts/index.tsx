@@ -13,7 +13,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const Texts: NextPage = ({}) => {
+const Texts: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });

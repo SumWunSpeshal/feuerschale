@@ -9,12 +9,12 @@ export const TextInput = forwardRef(function TextInput(
   props: Omit<TextInputProps, "ref">,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const { label, name, ...rest } = { ...props, ref };
+  const { label, name } = props;
 
   return (
     <label htmlFor={props.name}>
       <span>{label || name}</span>
-      <input type="text" name={name} {...rest} />
+      <input type="text" {...props} ref={ref} />
     </label>
   );
 });
