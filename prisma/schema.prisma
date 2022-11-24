@@ -39,6 +39,7 @@ model City {
 model Text {
   id        String     @id @default(cuid())
   name      String
+  description      String
   userId    String
   cityTexts CityText[]
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
