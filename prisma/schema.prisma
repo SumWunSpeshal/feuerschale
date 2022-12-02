@@ -15,11 +15,11 @@ datasource db {
 }
 
 model CityText {
-  id     String @id @default(cuid())
-  textId String
-  cityId Int    @db.SmallInt
-  city   City   @relation(fields: [cityId], references: [id], onDelete: Cascade)
-  text   Text   @relation(fields: [textId], references: [id], onDelete: Cascade)
+  id      String @id @default(cuid())
+  textId  String
+  venueId Int    @db.SmallInt
+  text    Text   @relation(fields: [textId], references: [id], onDelete: Cascade)
+  Venue   Venue  @relation(fields: [venueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model City {
@@ -28,18 +28,17 @@ model City {
   PLZ              String
   Bundesland       String
   Landkreis        String
-  id               Int        @id @default(autoincrement()) @db.SmallInt
-  cityTexts        CityText[]
-  Venue            Venue[]
+  id               Int    @id @default(autoincrement()) @db.SmallInt
 }
 
 model Text {
-  id          String     @id @default(cuid())
-  name        String
-  userId      String
-  description String     @default("")
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cityTexts   CityText[]
+  id               String     @id @default(cuid())
+  name             String
+  userId           String
+  description      String     @default("")
+  slamTextFileName String     @default("")
+  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cityTexts        CityText[]
 }
 
 // Necessary for Next auth
@@ -90,12 +89,12 @@ model VerificationToken {
 }
 
 model Venue {
-  id          Int       @id @default(autoincrement()) @db.SmallInt
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  name        String    @unique @default("")
-  description String?   @default("")
+  id          Int        @id @default(autoincrement()) @db.SmallInt
+  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  name        String     @unique @default("")
+  description String?    @default("")
   userId      String
-  cityId      Int       @db.SmallInt
-  City        City      @relation(fields: [cityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  User        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  cityId      Int        @db.SmallInt
+  User        User       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  CityText    CityText[]
 }
