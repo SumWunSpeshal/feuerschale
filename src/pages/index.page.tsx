@@ -6,11 +6,7 @@ import { Layout } from "src/components/Layout";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
-  const { data: helloData } = trpc.example.hello.useQuery({
-    text: "from tRPC",
-  });
   const { data: cityData, mutate } = trpc.city.searchCities.useMutation();
-  console.log("cityData", cityData);
 
   return (
     <Layout>
@@ -19,9 +15,6 @@ const Home: NextPage = () => {
           Create <span className="text-purple-300">T3</span> App
         </h1>
         <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div className="flex w-full items-center justify-center pt-6 text-2xl text-blue-500">
-          {helloData ? <p>{helloData.greeting}</p> : <p>Loading..</p>}
-        </div>
         <AuthShowcase />
         <DebounceInput
           minLength={3}

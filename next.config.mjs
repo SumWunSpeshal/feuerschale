@@ -20,4 +20,12 @@ export default defineNextConfig({
     locales: ["en"],
     defaultLocale: "en",
   },
+  pageExtensions: [
+    "page.tsx",
+    "page.ts",
+    "page.jsx",
+    "page.js",
+    "api.js",
+    "api.ts",
+  ],
 });

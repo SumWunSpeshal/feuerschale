@@ -3,7 +3,7 @@ import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { Session } from "next-auth";
 import { getServerAuthSession } from "src/server/common/get-server-auth-session";
-import { prisma } from "src/server/db/client";
+import { prisma, supabase } from "src/server/db/client";
 
 type CreateContextOptions = {
   session: Session | null;
@@ -17,6 +17,7 @@ export const createContextInner = async (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
+    supabase,
   };
 };
 
