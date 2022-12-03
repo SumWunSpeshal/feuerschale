@@ -1,12 +1,16 @@
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
 import { DebounceInput } from "react-debounce-input";
+import AutoSuggest from "src/components/AutoSuggest";
+import HighlightMatch from "src/components/HighlightMatch";
 import { Layout } from "src/components/Layout";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: cityData, mutate } = trpc.city.searchCities.useMutation();
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <Layout>
@@ -16,20 +20,25 @@ const Home: NextPage = () => {
         </h1>
         <p className="text-2xl text-gray-700">This stack uses:</p>
         <AuthShowcase />
-        <DebounceInput
-          minLength={3}
-          debounceTimeout={500}
-          style={{ border: "1px solid blue" }}
-          onChange={({ target }) => mutate({ value: target.value })}
-          id="city-search"
-          name="city-search"
-          list="city-suggestions"
-        />
-        <datalist id="city-suggestions">
-          {cityData?.map(({ Stadt }) => (
-            <option value={Stadt} key={Stadt} />
-          ))}
-        </datalist>
+
+        <AutoSuggest
+          data={cityData ?? []}
+          renderItem={(city) => (
+            <HighlightMatch input={searchTerm}>{city.Stadt}</HighlightMatch>
+          )}
+        >
+          <DebounceInput
+            minLength={3}
+            debounceTimeout={500}
+            style={{ border: "1px solid blue" }}
+            onChange={({ target }) => {
+              setSearchTerm(target.value);
+              mutate({ value: target.value });
+            }}
+            id="city-search"
+            name="city-search"
+          />
+        </AutoSuggest>
         <pre style={{ width: "100%", display: "none" }}>
           {cityData?.length ? JSON.stringify(cityData, undefined, 2) : "empty"}
         </pre>
