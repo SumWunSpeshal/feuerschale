@@ -1,16 +1,19 @@
+import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import { DebounceInput } from "react-debounce-input";
-import AutoSuggest from "src/components/AutoSuggest";
-import HighlightMatch from "src/components/HighlightMatch";
 import { Layout } from "src/components/Layout";
+import Search from "src/components/Search";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
-  const { data: cityData, mutate } = trpc.city.searchCities.useMutation();
-  const [searchTerm, setSearchTerm] = useState("");
+  const {
+    data: cityData,
+    mutate,
+    reset,
+  } = trpc.city.searchCities.useMutation();
+  const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
     <Layout>
@@ -21,24 +24,16 @@ const Home: NextPage = () => {
         <p className="text-2xl text-gray-700">This stack uses:</p>
         <AuthShowcase />
 
-        <AutoSuggest
-          data={cityData ?? []}
-          renderItem={(city) => (
-            <HighlightMatch input={searchTerm}>{city.Stadt}</HighlightMatch>
-          )}
-        >
-          <DebounceInput
-            minLength={3}
-            debounceTimeout={500}
-            style={{ border: "1px solid blue" }}
-            onChange={({ target }) => {
-              setSearchTerm(target.value);
-              mutate({ value: target.value });
-            }}
-            id="city-search"
-            name="city-search"
-          />
-        </AutoSuggest>
+        <Search
+          data={cityData}
+          onChange={({ target }) => mutate({ value: target.value })}
+          onSelection={(e) => {
+            reset();
+            setCity(e);
+          }}
+          suggestion={(city) => city?.Stadt}
+          id="city-search"
+        />
         <pre style={{ width: "100%", display: "none" }}>
           {cityData?.length ? JSON.stringify(cityData, undefined, 2) : "empty"}
         </pre>
