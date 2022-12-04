@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-type ContainerProps = PropsWithChildren<{}>;
+type ContainerProps = PropsWithChildren;
 
 export function Container(props: ContainerProps) {
   const { children } = props;
