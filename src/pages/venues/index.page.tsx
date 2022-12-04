@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Layout } from "src/components/Layout";
-import { Search } from "src/components/Search";
+import { Search, SearchRef } from "src/components/Search";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -30,6 +31,7 @@ const Venues: NextPage = () => {
   });
 
   const {
+    formState: { errors },
     register,
     handleSubmit,
     reset: resetForm,
@@ -38,7 +40,7 @@ const Venues: NextPage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  register("cityId");
+  const searchRef = useRef<SearchRef>(null);
 
   return (
     <Layout authGuarded>
@@ -52,6 +54,8 @@ const Venues: NextPage = () => {
             name,
             description,
           });
+
+          searchRef.current?.reset();
         })}
       >
         <TextInput {...register("name")} />
@@ -67,6 +71,7 @@ const Venues: NextPage = () => {
           }}
           afterSelectionMode="apply"
           id="citySearch"
+          searchRef={searchRef}
         />
         <button type="submit">Submit</button>
       </form>

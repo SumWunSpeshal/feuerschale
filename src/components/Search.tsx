@@ -1,7 +1,16 @@
-import { ChangeEvent, useState } from "react";
+import {
+  ChangeEvent,
+  ForwardedRef,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { DebounceInput } from "react-debounce-input";
 import { AutoSuggest } from "./AutoSuggest";
 import { HighlightMatch } from "./HighlightMatch";
+
+export type SearchRef = {
+  reset: () => void;
+};
 
 type SearchProps<TData> = {
   data: TData[] | undefined;
@@ -11,6 +20,7 @@ type SearchProps<TData> = {
   afterSelectionMode?: "clear" | "apply" | "noop";
   disabled?: boolean;
   id: string;
+  searchRef?: ForwardedRef<SearchRef>;
 };
 
 export function Search<TData>(props: SearchProps<TData>) {
@@ -22,8 +32,13 @@ export function Search<TData>(props: SearchProps<TData>) {
     onSelection,
     afterSelectionMode = "clear",
     disabled = false,
+    searchRef,
   } = props;
   const [value, setValue] = useState("");
+
+  useImperativeHandle(searchRef, () => ({
+    reset: () => setValue(""),
+  }));
 
   const selectionModeActions = {
     clear: () => setValue(""),
