@@ -8,7 +8,8 @@ type SearchProps<TData> = {
   onChange?: (elem: ChangeEvent<HTMLInputElement>) => void;
   onSelection?: (elem: TData) => void;
   suggestion: (elem: TData) => string;
-  resetAfterSelection?: boolean;
+  afterSelectionMode?: "clear" | "apply" | "noop";
+  disabled?: boolean;
   id: string;
 };
 
@@ -19,22 +20,27 @@ export default function Search<TData>(props: SearchProps<TData>) {
     suggestion,
     id,
     onSelection,
-    resetAfterSelection = true,
+    afterSelectionMode = "clear",
+    disabled = false,
   } = props;
   const [value, setValue] = useState("");
+
+  const selectionModeActions = {
+    clear: () => setValue(""),
+    apply: (data: TData) => setValue(suggestion(data)),
+    noop: () => null,
+  };
 
   return (
     <AutoSuggest
       data={data ?? []}
-      renderItem={(city) => (
-        <HighlightMatch input={value}>{suggestion(city)}</HighlightMatch>
-      )}
-      onSuggestionSelect={(e: TData) => {
-        if (resetAfterSelection) {
-          setValue("");
-        }
-        onSelection?.(e);
+      onSuggestionSelect={(data) => {
+        selectionModeActions[afterSelectionMode](data);
+        onSelection?.(data);
       }}
+      renderItem={(data) => (
+        <HighlightMatch input={value}>{suggestion(data)}</HighlightMatch>
+      )}
     >
       <DebounceInput
         value={value}
@@ -47,6 +53,7 @@ export default function Search<TData>(props: SearchProps<TData>) {
         }}
         id={id}
         name={id}
+        disabled={disabled}
       />
     </AutoSuggest>
   );

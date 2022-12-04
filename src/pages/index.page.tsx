@@ -33,6 +33,7 @@ const Home: NextPage = () => {
           }}
           suggestion={(city) => city?.Stadt}
           id="city-search"
+          afterSelectionMode="clear"
         />
         <pre style={{ width: "100%", display: "none" }}>
           {cityData?.length ? JSON.stringify(cityData, undefined, 2) : "empty"}
