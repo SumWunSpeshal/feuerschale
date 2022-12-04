@@ -6,10 +6,10 @@ import ShowImg from "public/img/show.jpg";
 import TextImg from "public/img/text.jpg";
 import VenueImg from "public/img/venue.jpg";
 import { useState } from "react";
-import Container from "src/components/Container";
+import { Container } from "src/components/Container";
 import { Layout } from "src/components/Layout";
-import Search from "src/components/Search";
-import Tile from "src/components/Tile";
+import { Search } from "src/components/Search";
+import { Tile } from "src/components/Tile";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {

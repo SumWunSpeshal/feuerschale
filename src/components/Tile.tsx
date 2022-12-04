@@ -9,7 +9,7 @@ type TileProps = {
   href?: FeuerschaleRoute;
 };
 
-export default function Tile(props: TileProps) {
+export function Tile(props: TileProps) {
   const { title, src, imgAlt, href } = props;
 
   return (

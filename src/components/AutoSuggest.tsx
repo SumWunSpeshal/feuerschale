@@ -5,7 +5,7 @@ type AutoSuggestProps<T> = {
   onSuggestionSelect?: (e: T) => void;
 };
 
-export default function AutoSuggest<TData>(props: AutoSuggestProps<TData>) {
+export function AutoSuggest<TData>(props: AutoSuggestProps<TData>) {
   const { data, children, renderItem, onSuggestionSelect } = props;
 
   return (

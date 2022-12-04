@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { DebounceInput } from "react-debounce-input";
-import AutoSuggest from "./AutoSuggest";
-import HighlightMatch from "./HighlightMatch";
+import { AutoSuggest } from "./AutoSuggest";
+import { HighlightMatch } from "./HighlightMatch";
 
 type SearchProps<TData> = {
   data: TData[] | undefined;
@@ -13,7 +13,7 @@ type SearchProps<TData> = {
   id: string;
 };
 
-export default function Search<TData>(props: SearchProps<TData>) {
+export function Search<TData>(props: SearchProps<TData>) {
   const {
     data,
     onChange,

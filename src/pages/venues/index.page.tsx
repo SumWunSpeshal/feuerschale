@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { Layout } from "src/components/Layout";
-import Search from "src/components/Search";
+import { Search } from "src/components/Search";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -19,7 +19,7 @@ const Venues: NextPage = () => {
   const {
     data: cityData,
     mutate,
-    reset,
+    reset: resetCities,
   } = trpc.city.searchCities.useMutation();
   const { data: venueData, refetch } = trpc.venue.getAll.useQuery();
   const { mutate: createVenue } = trpc.venue.create.useMutation({
@@ -37,6 +37,8 @@ const Venues: NextPage = () => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  register("cityId");
 
   return (
     <Layout authGuarded>
@@ -60,7 +62,7 @@ const Venues: NextPage = () => {
           suggestion={(city) => city.Stadt}
           onChange={({ target }) => mutate({ value: target.value })}
           onSelection={(city) => {
-            reset();
+            resetCities();
             setValue("cityId", city.id);
           }}
           afterSelectionMode="apply"
