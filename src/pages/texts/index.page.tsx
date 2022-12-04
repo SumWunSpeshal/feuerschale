@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
+import { Container } from "src/components/Container";
 import { Layout } from "src/components/Layout";
 import { TextInput } from "src/components/TextInput";
 import { isBrowser } from "src/utils/is-browser";
@@ -42,50 +43,51 @@ const Texts: NextPage = () => {
 
   return (
     <Layout authGuarded>
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          const { files, ...rest } = data;
-          const fileName = files?.[0]?.name
-            ? `${Date.now()}_${files?.[0].name}`
-            : undefined;
-
-          await maybeUploadSlamText(sessionData, files?.[0], fileName);
-          createText({ ...rest, slamTextFileName: fileName });
-        })}
-      >
-        <TextInput {...register("name")} />
+      <Container>
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            const { files, ...rest } = data;
+            const fileName = files?.[0]?.name
+              ? `${Date.now()}_${files?.[0].name}`
+              : undefined;
+            await maybeUploadSlamText(sessionData, files?.[0], fileName);
+            createText({ ...rest, slamTextFileName: fileName });
+          })}
+        >
+          <TextInput {...register("name")} />
+          <br />
+          <label htmlFor="upload">
+            <span>Upload</span>
+            <input id="upload" type="file" {...register("files")}></input>
+          </label>
+          <button type="submit">Submit</button>
+        </form>
         <br />
-        <label htmlFor="upload">
-          <span>Upload</span>
-          <input id="upload" type="file" {...register("files")}></input>
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-      <br />
-      <br />
-      <br />
-      <br />
-      <h1>
-        <strong>Texts</strong>
-      </h1>
-      {isLoading && <div>Loading...</div>}
-      <ul>
-        {textData?.map(({ id, name, slamTextFileName }) => (
-          <li key={id} className="mb-4">
-            <div>
-              <span>{name}</span>
-            </div>
-            {slamTextFileName && <div>Dateiname: {slamTextFileName}</div>}
-            <button
-              type="button"
-              onClick={() => deleteText({ id, slamTextFileName })}
-              style={{ border: "1px solid red" }}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+        <br />
+        <br />
+        <br />
+        <h1>
+          <strong>Texts</strong>
+        </h1>
+        {isLoading && <div>Loading...</div>}
+        <ul>
+          {textData?.map(({ id, name, slamTextFileName }) => (
+            <li key={id} className="mb-4">
+              <div>
+                <span>{name}</span>
+              </div>
+              {slamTextFileName && <div>Dateiname: {slamTextFileName}</div>}
+              <button
+                type="button"
+                onClick={() => deleteText({ id, slamTextFileName })}
+                style={{ border: "1px solid red" }}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </Container>
     </Layout>
   );
 };

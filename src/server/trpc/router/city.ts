@@ -2,7 +2,7 @@ import { t } from "src/server/trpc/trpc";
 import { z } from "zod";
 
 export const cityRouter = t.router({
-  searchCities: t.procedure
+  search: t.procedure
     .input(z.object({ value: z.string().nullish() }))
     .mutation(({ input, ctx }) => {
       return !input.value

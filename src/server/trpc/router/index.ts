@@ -2,12 +2,10 @@
 import { t } from "src/server/trpc/trpc";
 import { authRouter } from "./auth";
 import { cityRouter } from "./city";
-import { exampleRouter } from "./example";
 import { textRouter } from "./text";
 import { venueRouter } from "./venue";
 
 export const appRouter = t.router({
-  example: exampleRouter,
   auth: authRouter,
   city: cityRouter,
   text: textRouter,

@@ -1,8 +1,8 @@
-import { t } from "src/server/trpc/trpc";
+import { authedProcedure, t } from "src/server/trpc/trpc";
 import { z } from "zod";
 
 export const textRouter = t.router({
-  create: t.procedure
+  create: authedProcedure
     .input(
       z.object({
         name: z.string().min(1),
@@ -14,10 +14,6 @@ export const textRouter = t.router({
       const { prisma, session } = ctx;
       const { name, description, slamTextFileName } = input;
 
-      if (!session?.user?.id) {
-        return null;
-      }
-
       return prisma.text.create({
         data: {
           userId: session.user.id,
@@ -27,18 +23,16 @@ export const textRouter = t.router({
         },
       });
     }),
-  delete: t.procedure
+  delete: authedProcedure
     .input(z.object({ id: z.string(), slamTextFileName: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const { session, prisma, supabase } = ctx;
 
-      if (session?.user?.id) {
-        await supabase.storage
-          .from(session?.user?.id)
-          .remove([`slam-texts/${input.slamTextFileName}`])
-          .then(console.log)
-          .catch(console.warn);
-      }
+      await supabase.storage
+        .from(session.user.id)
+        .remove([`slam-texts/${input.slamTextFileName}`])
+        .then(console.log)
+        .catch(console.warn);
 
       return prisma.text.delete({
         where: {
@@ -46,16 +40,14 @@ export const textRouter = t.router({
         },
       });
     }),
-  getAll: t.procedure.query(async ({ ctx }) => {
+  getAll: authedProcedure.query(async ({ ctx }) => {
     const { prisma, session, supabase } = ctx;
 
-    if (session?.user?.id) {
-      if (!(await supabase.storage.getBucket(session.user.id)).data) {
-        await supabase.storage
-          .createBucket(session.user.id)
-          .then(console.log)
-          .catch(console.warn);
-      }
+    if (!(await supabase.storage.getBucket(session.user.id)).data) {
+      await supabase.storage
+        .createBucket(session.user.id)
+        .then(console.log)
+        .catch(console.warn);
     }
 
     return prisma.text.findMany({

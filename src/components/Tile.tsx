@@ -14,14 +14,16 @@ export function Tile(props: TileProps) {
 
   return (
     <Link href={href || "/"}>
-      <div className="relative aspect-square overflow-hidden rounded-3xl">
+      <div className="group relative aspect-square overflow-hidden rounded-3xl">
         <NextImage
           src={src}
+          width={363}
+          height={363}
           alt={imgAlt}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-zinc-900 bg-opacity-80"></div>
-        <div className="absolute bottom-0 right-0 py-4 px-6 text-white">
+        <div className="absolute inset-0 bg-amber-900/60"></div>
+        <div className="absolute bottom-0 right-0 py-6 px-8 text-xl font-medium tracking-wide text-white transition-all group-hover:font-bold">
           {title}
         </div>
       </div>

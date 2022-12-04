@@ -1,44 +1,40 @@
 import { authedProcedure, t } from "src/server/trpc/trpc";
 import { z } from "zod";
 
-export const venueRouter = t.router({
+export const venueTextRouter = t.router({
   create: authedProcedure
     .input(
       z.object({
-        cityId: z.number(),
-        name: z.string(),
-        description: z.string().optional(),
+        venueId: z.number(),
+        textId: z.string(),
       })
     )
     .mutation(({ input, ctx }) => {
       const { prisma, session } = ctx;
 
-      return prisma.venue.create({
+      return prisma.venueText.create({
         data: {
           userId: session.user.id,
-          cityId: input.cityId,
-          name: input.name,
-          description: input.description,
+          textId: input.textId,
+          venueId: input.venueId,
         },
       });
     }),
   delete: authedProcedure
     .input(
       z.object({
-        venueId: z.number(),
+        venueTextId: z.string(),
       })
     )
     .mutation(({ input, ctx }) => {
-      const { prisma } = ctx;
-
-      return prisma.venue.delete({
+      return ctx.prisma.venueText.delete({
         where: {
-          id: input.venueId,
+          id: input.venueTextId,
         },
       });
     }),
   getAll: authedProcedure.query(({ ctx }) => {
-    return ctx.prisma.venue.findMany({
+    return ctx.prisma.venueText.findMany({
       where: {
         userId: {
           equals: ctx.session?.user?.id,

@@ -14,42 +14,40 @@ import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
-  const {
-    data: cityData,
-    mutate,
-    reset,
-  } = trpc.city.searchCities.useMutation();
+  const { data: cityData, mutate, reset } = trpc.city.search.useMutation();
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
-    <Layout>
-      <main>
-        <Container>
-          <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+    <Layout authGuarded>
+      <Container>
+        <div className="mb-8">
+          <h1 className="text-5xl font-extrabold text-gray-700 md:text-[5rem]">
             Hallo{" "}
-            <span className="text-purple-300">{sessionData?.user?.name}</span>
+            <span className="text-amber-700">{sessionData?.user?.name}</span>
           </h1>
+        </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <Tile
-              title="Meine Auftritte"
-              src={ShowImg}
-              imgAlt="Meine Auftritte"
-              href="/"
-            />
-            <Tile
-              title="Meine Texte"
-              src={TextImg}
-              imgAlt="Meine Texte"
-              href="/texts"
-            />
-            <Tile
-              title="Meine Venues"
-              src={VenueImg}
-              imgAlt="Meine Venues"
-              href="/venues"
-            />
-          </div>
+        <div className="grid grid-cols-3 gap-8">
+          <Tile
+            title="Meine Auftritte"
+            src={ShowImg}
+            imgAlt="Meine Auftritte"
+            href="/"
+          />
+          <Tile
+            title="Meine Texte"
+            src={TextImg}
+            imgAlt="Meine Texte"
+            href="/texts"
+          />
+          <Tile
+            title="Meine Venues"
+            src={VenueImg}
+            imgAlt="Meine Venues"
+            href="/venues"
+          />
+        </div>
+        <div className="hidden">
           <Search
             data={cityData}
             onChange={({ target }) => mutate({ value: target.value })}
@@ -61,8 +59,8 @@ const Home: NextPage = () => {
             id="city-search"
             afterSelectionMode="clear"
           />
-        </Container>
-      </main>
+        </div>
+      </Container>
     </Layout>
   );
 };

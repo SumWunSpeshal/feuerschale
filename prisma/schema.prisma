@@ -62,15 +62,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   texts         Text[]
   Venue         Venue[]
+  VenueText     VenueText[]
 }
 
 model VerificationToken {
@@ -98,6 +99,8 @@ model VenueText {
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   textId     String
   venueId    Int       @db.SmallInt
+  userId     String
   Text       Text      @relation(fields: [textId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User       User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Venue      Venue     @relation(fields: [venueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
