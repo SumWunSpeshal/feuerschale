@@ -44,6 +44,14 @@ export const venueRouter = t.router({
           equals: ctx.session?.user?.id,
         },
       },
+      include: {
+        VenueText: {
+          include: {
+            Text: true,
+          },
+        },
+        City: true,
+      },
     });
   }),
 });
