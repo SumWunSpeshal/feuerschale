@@ -20,7 +20,8 @@ model City {
   PLZ              String
   Bundesland       String
   Landkreis        String
-  id               Int    @id @default(autoincrement()) @db.SmallInt
+  id               Int     @id @default(autoincrement()) @db.SmallInt
+  Venue            Venue[]
 }
 
 model Text {
@@ -87,6 +88,7 @@ model Venue {
   description String?     @default("")
   userId      String
   cityId      Int         @db.SmallInt
+  City        City        @relation(fields: [cityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User        User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   VenueText   VenueText[]
 }
