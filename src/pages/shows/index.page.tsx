@@ -33,8 +33,6 @@ const Shows: NextPage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  console.log(errors);
-
   return (
     <Layout authGuarded>
       <Container>
