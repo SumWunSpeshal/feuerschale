@@ -32,7 +32,7 @@ const Home: NextPage = () => {
             title="Meine Auftritte"
             src={ShowImg}
             imgAlt="Meine Auftritte"
-            href="/"
+            href="/shows"
           />
           <Tile
             title="Meine Texte"

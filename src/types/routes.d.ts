@@ -1,1 +1,6 @@
-export type FeuerschaleRoute = "/" | "/texts" | "/venues" | "/auth/signin";
+export type FeuerschaleRoute =
+  | "/"
+  | "/texts"
+  | "/shows"
+  | "/venues"
+  | "/auth/signin";
