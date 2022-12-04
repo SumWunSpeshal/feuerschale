@@ -4,12 +4,14 @@ import { authRouter } from "./auth";
 import { cityRouter } from "./city";
 import { textRouter } from "./text";
 import { venueRouter } from "./venue";
+import { venueTextRouter } from "./venueText";
 
 export const appRouter = t.router({
   auth: authRouter,
   city: cityRouter,
   text: textRouter,
   venue: venueRouter,
+  venueText: venueTextRouter,
 });
 
 // export type definition of API
