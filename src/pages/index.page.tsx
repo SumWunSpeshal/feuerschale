@@ -2,12 +2,16 @@ import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import TestImg from "public/img/test.jpg";
 import { useState } from "react";
+import Container from "src/components/Container";
 import { Layout } from "src/components/Layout";
 import Search from "src/components/Search";
+import Tile from "src/components/Tile";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
+  const { data: sessionData } = trpc.auth.getSession.useQuery();
   const {
     data: cityData,
     mutate,
@@ -17,27 +21,30 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
-          Create <span className="text-purple-300">T3</span> App
-        </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <AuthShowcase />
+      <main>
+        <Container>
+          <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+            Hallo{" "}
+            <span className="text-purple-300">{sessionData?.user?.name}</span>
+          </h1>
 
-        <Search
-          data={cityData}
-          onChange={({ target }) => mutate({ value: target.value })}
-          onSelection={(e) => {
-            reset();
-            setCity(e);
-          }}
-          suggestion={(city) => city?.Stadt}
-          id="city-search"
-          afterSelectionMode="clear"
-        />
-        <pre style={{ width: "100%", display: "none" }}>
-          {cityData?.length ? JSON.stringify(cityData, undefined, 2) : "empty"}
-        </pre>
+          <div className="grid grid-cols-3 gap-4">
+            <Tile title="Meine Auftritte" src={TestImg} imgAlt="todo"></Tile>
+            <Tile title="Meine Texte" src={TestImg} imgAlt="todo"></Tile>
+            <Tile title="Meine Venues" src={TestImg} imgAlt="todo"></Tile>
+          </div>
+          <Search
+            data={cityData}
+            onChange={({ target }) => mutate({ value: target.value })}
+            onSelection={(e) => {
+              reset();
+              setCity(e);
+            }}
+            suggestion={(city) => city?.Stadt}
+            id="city-search"
+            afterSelectionMode="clear"
+          />
+        </Container>
       </main>
     </Layout>
   );

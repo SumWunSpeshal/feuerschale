@@ -9,7 +9,7 @@ export default function AutoSuggest<TData>(props: AutoSuggestProps<TData>) {
   const { data, children, renderItem, onSuggestionSelect } = props;
 
   return (
-    <div className="relative">
+    <div className="relative inline-flex">
       {children}
       <ul className="absolute top-full min-w-full overflow-hidden rounded-lg bg-gray-50">
         {data.map((elem, idx) => {
