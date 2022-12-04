@@ -9,7 +9,7 @@ export function Logo(props: LogoProps) {
 
   return (
     <Link href="/">
-      <NextImage src={LogoSvg} alt="Feuerschale Logo" />
+      <NextImage src={LogoSvg} alt="Feuerschale Logo" priority />
     </Link>
   );
 }

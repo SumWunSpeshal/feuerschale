@@ -37,8 +37,49 @@ export const venueRouter = t.router({
         },
       });
     }),
+  getOne: authedProcedure
+    .input(
+      z.object({
+        venueId: z.string().optional(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      if (!input.venueId) {
+        return null;
+      }
+
+      return ctx.prisma.venue.findFirst({
+        where: {
+          AND: [
+            {
+              userId: {
+                equals: ctx.session.user.id,
+              },
+            },
+            {
+              id: {
+                equals: +input.venueId,
+              },
+            },
+          ],
+        },
+        include: {
+          VenueText: {
+            select: {
+              Text: true,
+            },
+          },
+          City: true,
+        },
+      });
+    }),
   getAll: authedProcedure.query(({ ctx }) => {
     return ctx.prisma.venue.findMany({
+      orderBy: {
+        City: {
+          Stadt: "asc",
+        },
+      },
       where: {
         userId: {
           equals: ctx.session?.user?.id,
@@ -46,7 +87,7 @@ export const venueRouter = t.router({
       },
       include: {
         VenueText: {
-          include: {
+          select: {
             Text: true,
           },
         },

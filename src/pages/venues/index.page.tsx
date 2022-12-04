@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Container } from "src/components/Container";
@@ -8,6 +10,7 @@ import { Search, SearchRef } from "src/components/Search";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
+import { groupVenues } from "./utils";
 
 const formSchema = z.object({
   cityId: z.number(),
@@ -43,10 +46,11 @@ const Venues: NextPage = () => {
 
   const searchRef = useRef<SearchRef>(null);
 
+  const groupedVenues = groupVenues(venueData);
+
   return (
     <Layout authGuarded>
       <Container>
-        Venues page works!
         <form
           onSubmit={handleSubmit(async (data) => {
             const { cityId, name, description } = data;
@@ -75,7 +79,35 @@ const Venues: NextPage = () => {
           />
           <button type="submit">Submit</button>
         </form>
-        <pre>{JSON.stringify(venueData, null, 2)}</pre>
+        <pre className="hidden">{JSON.stringify(venueData, null, 2)}</pre>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div className="space-y-4">
+          {Object.entries(groupedVenues || {}).map(([cityName, venues]) => (
+            <div key={cityName}>
+              <h2 className="text-xl">
+                <strong>{cityName}</strong>
+              </h2>
+              {venues?.map(({ id, name, VenueText }) => (
+                <div key={id}>
+                  <Link href={"/venues/" + id} className="text-blue-700">
+                    <span className="flex items-center gap-2">
+                      <span
+                        className={clsx(
+                          "block aspect-square h-3 rounded-full border-2 border-gray-400",
+                          VenueText.length && "bg-gray-400"
+                        )}
+                      ></span>
+                      <span>{name}</span>
+                    </span>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </Container>
     </Layout>
   );
