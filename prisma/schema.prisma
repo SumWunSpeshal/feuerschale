@@ -84,7 +84,7 @@ model VerificationToken {
 model Venue {
   id          Int         @id @default(autoincrement()) @db.SmallInt
   created_at  DateTime?   @default(now()) @db.Timestamptz(6)
-  name        String      @unique @default("")
+  name        String
   description String?     @default("")
   userId      String
   cityId      Int         @db.SmallInt

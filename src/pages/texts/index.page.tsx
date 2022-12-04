@@ -22,14 +22,18 @@ type FormData = {
 
 const Texts: NextPage = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
-  const { register, handleSubmit, reset } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+  } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
   const { data: textData, refetch } = trpc.text.getAll.useQuery();
   const { mutate: createText, isLoading } = trpc.text.create.useMutation({
     onSuccess: () => {
       refetch();
-      reset();
+      resetForm();
     },
   });
   const { mutate: deleteText } = trpc.text.delete.useMutation({
