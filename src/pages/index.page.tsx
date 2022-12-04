@@ -2,7 +2,9 @@ import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
-import TestImg from "public/img/test.jpg";
+import ShowImg from "public/img/show.jpg";
+import TextImg from "public/img/text.jpg";
+import VenueImg from "public/img/venue.jpg";
 import { useState } from "react";
 import Container from "src/components/Container";
 import { Layout } from "src/components/Layout";
@@ -29,9 +31,17 @@ const Home: NextPage = () => {
           </h1>
 
           <div className="grid grid-cols-3 gap-4">
-            <Tile title="Meine Auftritte" src={TestImg} imgAlt="todo"></Tile>
-            <Tile title="Meine Texte" src={TestImg} imgAlt="todo"></Tile>
-            <Tile title="Meine Venues" src={TestImg} imgAlt="todo"></Tile>
+            <Tile
+              title="Meine Auftritte"
+              src={ShowImg}
+              imgAlt="Meine Auftritte"
+            ></Tile>
+            <Tile title="Meine Texte" src={TextImg} imgAlt="Meine Texte"></Tile>
+            <Tile
+              title="Meine Venues"
+              src={VenueImg}
+              imgAlt="Meine Venues"
+            ></Tile>
           </div>
           <Search
             data={cityData}
