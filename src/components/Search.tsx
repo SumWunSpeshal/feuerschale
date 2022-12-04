@@ -46,7 +46,7 @@ export default function Search<TData>(props: SearchProps<TData>) {
         value={value}
         minLength={3}
         debounceTimeout={500}
-        style={{ border: "1px solid blue" }}
+        className="border-2 border-blue-600"
         onChange={(e) => {
           setValue(e.target.value);
           onChange?.(e);

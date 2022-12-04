@@ -35,13 +35,20 @@ const Home: NextPage = () => {
               title="Meine Auftritte"
               src={ShowImg}
               imgAlt="Meine Auftritte"
-            ></Tile>
-            <Tile title="Meine Texte" src={TextImg} imgAlt="Meine Texte"></Tile>
+              href="/"
+            />
+            <Tile
+              title="Meine Texte"
+              src={TextImg}
+              imgAlt="Meine Texte"
+              href="/texts"
+            />
             <Tile
               title="Meine Venues"
               src={VenueImg}
               imgAlt="Meine Venues"
-            ></Tile>
+              href="/venues"
+            />
           </div>
           <Search
             data={cityData}

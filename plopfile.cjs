@@ -33,7 +33,7 @@ module.exports = (plop) => {
           return [
             {
               type: "add",
-              path: "pages/{{kebabCase name}}.page.tsx",
+              path: "src/pages/{{kebabCase name}}/index.page.tsx",
               templateFile: "plop-templates/page.hbs",
             },
           ];
