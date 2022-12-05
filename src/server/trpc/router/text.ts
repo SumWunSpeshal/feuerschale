@@ -41,14 +41,7 @@ export const textRouter = t.router({
       });
     }),
   getAll: authedProcedure.query(async ({ ctx }) => {
-    const { prisma, session, supabase } = ctx;
-
-    if (!(await supabase.storage.getBucket(session.user.id)).data) {
-      await supabase.storage
-        .createBucket(session.user.id)
-        .then(console.log)
-        .catch(console.warn);
-    }
+    const { prisma, session } = ctx;
 
     return prisma.text.findMany({
       where: {

@@ -65,7 +65,7 @@ export const venueRouter = t.router({
         },
         include: {
           VenueText: {
-            select: {
+            include: {
               Text: true,
             },
           },
@@ -87,7 +87,7 @@ export const venueRouter = t.router({
       },
       include: {
         VenueText: {
-          select: {
+          include: {
             Text: true,
           },
         },

@@ -5,6 +5,7 @@ import { Container } from "src/components/Container";
 import { Layout } from "src/components/Layout";
 import { TextInput } from "src/components/TextInput";
 import { isBrowser } from "src/utils/is-browser";
+import { assertUserBucketExists } from "src/utils/supabase";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 import { maybeUploadSlamText } from "./supabase";
@@ -50,6 +51,7 @@ const Texts: NextPage = () => {
             const fileName = files?.[0]?.name
               ? `${Date.now()}_${files?.[0].name}`
               : undefined;
+            await assertUserBucketExists(sessionData?.user?.id);
             await maybeUploadSlamText(sessionData, files?.[0], fileName);
             createText({ ...rest, slamTextFileName: fileName });
           })}
