@@ -1,3 +1,5 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
@@ -26,6 +28,8 @@ const Home: NextPage = () => {
             <span className="text-amber-700">{sessionData?.user?.name}</span>
           </h1>
         </div>
+
+        <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
 
         <div className="grid grid-cols-3 gap-8">
           <Tile

@@ -1,3 +1,4 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   ChangeEvent,
   ForwardedRef,
@@ -7,6 +8,7 @@ import {
 import { DebounceInput } from "react-debounce-input";
 import { AutoSuggest } from "./AutoSuggest";
 import { HighlightMatch } from "./HighlightMatch";
+import { TextInput } from "./TextInput";
 
 export type SearchRef = {
   reset: () => void;
@@ -69,6 +71,8 @@ export function Search<TData>(props: SearchProps<TData>) {
         id={id}
         name={id}
         disabled={disabled}
+        icon={faSearch}
+        element={TextInput}
       />
     </AutoSuggest>
   );

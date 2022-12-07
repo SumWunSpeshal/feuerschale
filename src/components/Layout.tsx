@@ -21,10 +21,10 @@ export function Layout({ children, authGuarded = false }: LayoutProps) {
   return authGuarded && !sessionData ? (
     <>unauthorized</>
   ) : (
-    <>
+    <div className="font-semibold">
       <Header />
       <Main>{children}</Main>
       <footer>Footer</footer>
-    </>
+    </div>
   );
 }

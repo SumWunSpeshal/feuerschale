@@ -62,22 +62,23 @@ const Venues: NextPage = () => {
             searchRef.current?.reset();
           })}
         >
-          <TextInput {...register("name")} />
-          <TextInput {...register("description")} />
-          <br />
-          <Search
-            data={cityData}
-            suggestion={(city) => city.Stadt}
-            onChange={({ target }) => mutate({ value: target.value })}
-            onSelection={(city) => {
-              resetCities();
-              setValue("cityId", city.id);
-            }}
-            afterSelectionMode="apply"
-            id="citySearch"
-            searchRef={searchRef}
-          />
-          <button type="submit">Submit</button>
+          <div className="space-y-4">
+            <TextInput {...register("name")} />
+            <TextInput {...register("description")} />
+            <Search
+              data={cityData}
+              suggestion={(city) => city.Stadt}
+              onChange={({ target }) => mutate({ value: target.value })}
+              onSelection={(city) => {
+                resetCities();
+                setValue("cityId", city.id);
+              }}
+              afterSelectionMode="apply"
+              id="citySearch"
+              searchRef={searchRef}
+            />
+            <button type="submit">Submit</button>
+          </div>
         </form>
         <pre className="hidden">{JSON.stringify(venueData, null, 2)}</pre>
         <br />

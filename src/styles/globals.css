@@ -5,3 +5,17 @@
 body {
   -webkit-font-smoothing: antialiased;
 }
+
+strong {
+  font-weight: theme("fontWeight.bold");
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  color: theme("colors.neutral.400");
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: theme("colors.neutral.400");
+}
