@@ -14,7 +14,7 @@ module.exports = {
         "brutal-lg": `6px 6px 0px 0px ${theme("colors.black")}`,
       }),
       transitionDuration: {
-        DEFAULT: "250ms",
+        DEFAULT: "200ms",
       },
     },
   },

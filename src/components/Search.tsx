@@ -22,6 +22,7 @@ type SearchProps<TData> = {
   afterSelectionMode?: "clear" | "apply" | "noop";
   disabled?: boolean;
   id: string;
+  label?: string;
   searchRef?: ForwardedRef<SearchRef>;
 };
 
@@ -35,6 +36,7 @@ export function Search<TData>(props: SearchProps<TData>) {
     afterSelectionMode = "clear",
     disabled = false,
     searchRef,
+    label,
   } = props;
   const [value, setValue] = useState("");
 
@@ -70,6 +72,7 @@ export function Search<TData>(props: SearchProps<TData>) {
         }}
         id={id}
         name={id}
+        label={label || id}
         disabled={disabled}
         icon={faSearch}
         element={TextInput}

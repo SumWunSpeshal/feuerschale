@@ -1,8 +1,8 @@
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { Icon } from "./Icon";
 
 type TextInputProps = {
   [key: string]: any;
@@ -19,8 +19,8 @@ export const TextInput = forwardRef(function TextInput(
   return (
     <div className="relative">
       {icon && (
-        <div className="square-4 absolute top-1/2 left-4 -translate-y-1/2">
-          <FontAwesomeIcon icon={icon} className="text-gray-400" />
+        <div className="absolute top-1/2 left-4 -translate-y-1/2">
+          <Icon icon={icon} className="text-gray-400" />
         </div>
       )}
 

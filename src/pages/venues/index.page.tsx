@@ -4,6 +4,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
 import { Layout } from "src/components/Layout";
 import { Search, SearchRef } from "src/components/Search";
@@ -63,8 +64,8 @@ const Venues: NextPage = () => {
           })}
         >
           <div className="space-y-4">
-            <TextInput {...register("name")} />
-            <TextInput {...register("description")} />
+            <TextInput label="Name" {...register("name")} />
+            <TextInput label="Beschreibung" {...register("description")} />
             <Search
               data={cityData}
               suggestion={(city) => city.Stadt}
@@ -75,9 +76,10 @@ const Venues: NextPage = () => {
               }}
               afterSelectionMode="apply"
               id="citySearch"
+              label="Stadt"
               searchRef={searchRef}
             />
-            <button type="submit">Submit</button>
+            <Button type="submit">Submit</Button>
           </div>
         </form>
         <pre className="hidden">{JSON.stringify(venueData, null, 2)}</pre>
