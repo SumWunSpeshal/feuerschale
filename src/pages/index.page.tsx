@@ -1,4 +1,3 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
@@ -8,7 +7,7 @@ import TextImg from "public/img/text.jpg";
 import VenueImg from "public/img/venue.jpg";
 import { useState } from "react";
 import { Container } from "src/components/Container";
-import { Icon } from "src/components/Icon";
+import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Search } from "src/components/Search";
 import { Tile } from "src/components/Tile";
@@ -24,12 +23,9 @@ const Home: NextPage = () => {
       <Container>
         <div className="mb-8">
           <h1 className="text-5xl font-extrabold text-gray-700 md:text-[5rem]">
-            Hallo{" "}
-            <span className="text-amber-700">{sessionData?.user?.name}</span>
+            Hallo <Highlight>{sessionData?.user?.name}</Highlight>
           </h1>
         </div>
-
-        <Icon icon={faSearch} />
 
         <div className="grid grid-cols-3 gap-8">
           <Tile
