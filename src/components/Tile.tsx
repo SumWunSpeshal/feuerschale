@@ -23,7 +23,7 @@ export function Tile(props: TileProps) {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-amber-900/60"></div>
-        <div className="absolute bottom-0 right-0 py-6 px-8 text-xl font-medium tracking-wide text-white transition-all group-hover:font-bold">
+        <div className="absolute bottom-0 right-0 w-min py-6 px-8 text-right text-3xl tracking-wide text-white transition-all group-hover:font-bold">
           {title}
         </div>
       </div>

@@ -12,7 +12,7 @@ export function Fab(props: ButtonProps) {
 
   return (
     <button {...rest} className="p-4">
-      <Icon icon={icon} size={24} className={className}></Icon>
+      <Icon icon={icon} size={32} className={className}></Icon>
     </button>
   );
 }

@@ -34,14 +34,14 @@ const Home: NextPage = () => {
               className="relative mb-8 grid grid-cols-4"
               style={{
                 "--gap-y": "4rem",
-                "--gap-x": "10rem",
+                "--gap-x": "12rem",
                 rowGap: "var(--gap-y)",
                 columnGap: "var(--gap-x)",
               }}
             >
               <div className="absolute inset-0">
                 <div
-                  className="absolute inset-0 scale-110 bg-white"
+                  className="absolute inset-0 scale-110 bg-amber-50"
                   style={{
                     clipPath: false
                       ? "polygon(50% 0%, 0% 100%, 100% 100%, 99% 99%, 1% 99%, 50% 1%, 99% 99%, 100% 100%, 50% 0)"
@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                   priority
                   width={128}
                   height={128}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 opacity-25"
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 opacity-20"
                 />
               </div>
               <div className="relative col-span-2 col-start-2">
