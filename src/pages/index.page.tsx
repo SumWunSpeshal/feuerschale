@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Container } from "src/components/Container";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
+import { Logo } from "src/components/Logo";
 import { Search } from "src/components/Search";
 import { Tile } from "src/components/Tile";
 import { trpc } from "src/utils/trpc";
@@ -27,25 +28,61 @@ const Home: NextPage = () => {
           </h1>
         </div>
 
-        <div className="grid grid-cols-3 gap-8">
-          <Tile
-            title="Meine Auftritte"
-            src={ShowImg}
-            imgAlt="Meine Auftritte"
-            href="/shows"
-          />
-          <Tile
-            title="Meine Texte"
-            src={TextImg}
-            imgAlt="Meine Texte"
-            href="/texts"
-          />
-          <Tile
-            title="Meine Venues"
-            src={VenueImg}
-            imgAlt="Meine Venues"
-            href="/venues"
-          />
+        <div className="mx-auto max-w-3xl">
+          <div
+            className="relative mb-8 grid grid-cols-4"
+            style={{
+              "--gap-y": "5rem",
+              "--gap-x": "10rem",
+              rowGap: "var(--gap-y)",
+              columnGap: "var(--gap-x)",
+            }}
+          >
+            <div className="col-span-2 col-start-2">
+              <Tile
+                title="Meine Auftritte"
+                src={ShowImg}
+                imgAlt="Meine Auftritte"
+                href="/shows"
+              />
+            </div>
+            <div className="col-span-2">
+              <Tile
+                title="Meine Texte"
+                src={TextImg}
+                imgAlt="Meine Texte"
+                href="/texts"
+              />
+            </div>
+            <div className="col-span-2">
+              <Tile
+                title="Meine Venues"
+                src={VenueImg}
+                imgAlt="Meine Venues"
+                href="/venues"
+              />
+            </div>
+            <div
+              className="absolute inset-y-1/4 grid place-items-center"
+              style={{
+                top: "calc(25% - calc(var(--gap-y) / 4))",
+                bottom: "calc(25% - calc(var(--gap-y) / 4))",
+                right: "calc(25% - calc(var(--gap-x) / 4))",
+                left: "calc(25% - calc(var(--gap-x) / 4))",
+              }}
+            >
+              <div
+                className="absolute inset-0 bg-amber-600"
+                style={{
+                  clipPath:
+                    "polygon(50% 0%, 0% 100%, 100% 100%, 99% 99%, 1% 99%, 50% 1%, 99% 99%, 100% 100%, 50% 0",
+                }}
+              ></div>
+              <div className="translate-y-1/2">
+                <Logo></Logo>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="hidden">
           <Search
