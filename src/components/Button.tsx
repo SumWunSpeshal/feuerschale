@@ -6,7 +6,7 @@ import {
 } from "react";
 
 const baseButtonStyles =
-  "inline-flex cursor-pointer gap-3 rounded-lg border-2 border-black bg-yellow-300 py-3 px-4 shadow-brutal transition-all hover:shadow-brutal-lg";
+  "inline-flex cursor-pointer gap-3 rounded-lg border-2 border-black bg-yellow-300 py-3 px-4 shadow-brutal transition-all hover:shadow-brutal-lg outline-none focus:shadow-brutal-lg";
 
 type ButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>;
 
