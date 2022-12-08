@@ -8,7 +8,9 @@ import ShowImg from "public/img/show.jpg";
 import TextImg from "public/img/text.jpg";
 import VenueImg from "public/img/venue.jpg";
 import { useState } from "react";
+import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
+import { DashboardTile } from "src/components/DashboardTile";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Search } from "src/components/Search";
@@ -22,7 +24,7 @@ const Home: NextPage = () => {
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
-    <Layout authGuarded>
+    <Layout authGuarded floatingNav>
       <Section>
         <Container>
           <div className="mb-16">
@@ -30,6 +32,69 @@ const Home: NextPage = () => {
               Hallo <Highlight>{sessionData?.user?.name}</Highlight>
             </h1>
           </div>
+          <div className="grid auto-rows-fr grid-cols-3 gap-8">
+            <div>
+              <DashboardTile title="Ich" titleClassName="bg-teal-500">
+                {sessionData?.user?.image && (
+                  <div className="mb-4">
+                    <div className="inline-flex overflow-hidden rounded-full border-2 border-black shadow-brutal">
+                      <NextImage
+                        src={sessionData.user.image}
+                        height={64}
+                        width={64}
+                        alt={`Profilbild ${sessionData?.user?.name}`}
+                      />
+                    </div>
+                  </div>
+                )}
+                <div className="mb-4">
+                  <span className="text-xl">{sessionData?.user?.name}</span>
+                  {sessionData?.user?.email && (
+                    <div>
+                      <span className="text-gray-600">
+                        {sessionData?.user?.email}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="">
+                  <Button onClick={() => signOut()} className="bg-red-400">
+                    Abmelden
+                  </Button>
+                </div>
+              </DashboardTile>
+            </div>
+            <div className="col-span-2">
+              <DashboardTile
+                title="Meine Auftritte"
+                titleClassName="bg-amber-500"
+              >
+                ajsbhd
+              </DashboardTile>
+            </div>
+
+            <div className="col-span-2">
+              <DashboardTile
+                title="Meine Rechnungen"
+                titleClassName="bg-sky-500"
+              >
+                ajsbhd
+              </DashboardTile>
+            </div>
+            <div>
+              <DashboardTile title="Meine Texte" titleClassName="bg-indigo-400">
+                ajsbhd
+              </DashboardTile>
+            </div>
+          </div>
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <div className="mx-auto max-w-2xl py-14">
             <div
               className="relative mb-8 grid grid-cols-4"

@@ -1,13 +1,13 @@
 import clsx from "clsx";
-import { ButtonHTMLAttributes, PropsWithChildren } from "react";
+import { AnchorHTMLAttributes, PropsWithChildren } from "react";
 
-type ButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>;
+type ButtonProps = PropsWithChildren<AnchorHTMLAttributes<HTMLAnchorElement>>;
 
-export function Button(props: ButtonProps) {
+export function AnchorButton(props: ButtonProps) {
   const { children, className, ...rest } = props;
 
   return (
-    <button
+    <a
       {...rest}
       className={clsx(
         "inline-flex cursor-pointer gap-3 rounded-lg border-2 border-black bg-yellow-300 py-3 px-4 shadow-brutal transition-all hover:shadow-brutal-lg",
@@ -15,6 +15,6 @@ export function Button(props: ButtonProps) {
       )}
     >
       {children}
-    </button>
+    </a>
   );
 }

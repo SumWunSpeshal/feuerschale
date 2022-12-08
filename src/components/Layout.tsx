@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { PropsWithChildren } from "react";
 import { trpc } from "src/utils/trpc";
+import { FloatingNav } from "./FloatingNav";
 import { Footer } from "./Footer";
 import { Global } from "./Global";
 import { Header } from "./Header";
@@ -8,9 +9,14 @@ import { Main } from "./Main";
 
 type LayoutProps = PropsWithChildren<{
   authGuarded?: boolean;
+  floatingNav?: boolean;
 }>;
 
-export function Layout({ children, authGuarded = false }: LayoutProps) {
+export function Layout({
+  children,
+  authGuarded = false,
+  floatingNav,
+}: LayoutProps) {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
   const router = useRouter();
 
@@ -27,6 +33,7 @@ export function Layout({ children, authGuarded = false }: LayoutProps) {
       <Header />
       <Main>{children}</Main>
       <Footer />
+      {floatingNav && <FloatingNav />}
     </Global>
   );
 }

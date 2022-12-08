@@ -28,4 +28,13 @@ export default defineNextConfig({
     "api.js",
     "api.ts",
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/a/**",
+      },
+    ],
+  },
 });
