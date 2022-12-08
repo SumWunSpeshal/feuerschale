@@ -69,6 +69,7 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  Invoice       Invoice[]
   sessions      Session[]
   texts         Text[]
   Venue         Venue[]
@@ -113,5 +114,7 @@ model Invoice {
   issued      Boolean?
   settled     Boolean?
   venueTextId String
+  userId      String
+  User        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   VenueText   VenueText @relation(fields: [venueTextId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
