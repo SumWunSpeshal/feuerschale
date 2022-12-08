@@ -113,7 +113,11 @@ const Home: NextPage = () => {
 
             <div className="col-span-2">
               <DashboardTile title="Rechnungen" titleClassName="bg-fuchsia-500">
-                ajsbhd
+                <PreviewList>
+                  {dashboardData?.texts.map(({ id, name }) => (
+                    <PreviewList.Item key={id} title={name} />
+                  ))}
+                </PreviewList>
               </DashboardTile>
             </div>
             <div>

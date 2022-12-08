@@ -96,25 +96,22 @@ model Venue {
 }
 
 model VenueText {
-  id                                     String    @id @default(cuid())
-  created_at                             DateTime? @default(now()) @db.Timestamptz(6)
-  textId                                 String
-  venueId                                Int       @db.SmallInt
-  userId                                 String
-  invoiceId                              Int?      @db.SmallInt
-  Invoice_InvoiceToVenueText_invoiceId   Invoice?  @relation("InvoiceToVenueText_invoiceId", fields: [invoiceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Text                                   Text      @relation(fields: [textId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  User                                   User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Venue                                  Venue     @relation(fields: [venueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Invoice_Invoice_venueTextIdToVenueText Invoice[] @relation("Invoice_venueTextIdToVenueText")
+  id         String    @id @default(cuid())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  textId     String
+  venueId    Int       @db.SmallInt
+  userId     String
+  Text       Text      @relation(fields: [textId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User       User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Venue      Venue     @relation(fields: [venueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Invoice    Invoice[]
 }
 
 model Invoice {
-  id                                       Int         @id @default(autoincrement()) @db.SmallInt
-  created_at                               DateTime?   @default(now()) @db.Timestamptz(6)
-  issued                                   Boolean?
-  settled                                  Boolean?
-  venueTextId                              String
-  VenueText_Invoice_venueTextIdToVenueText VenueText   @relation("Invoice_venueTextIdToVenueText", fields: [venueTextId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  VenueText_InvoiceToVenueText_invoiceId   VenueText[] @relation("InvoiceToVenueText_invoiceId")
+  id          Int       @id @default(autoincrement()) @db.SmallInt
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  issued      Boolean?
+  settled     Boolean?
+  venueTextId String
+  VenueText   VenueText @relation(fields: [venueTextId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
