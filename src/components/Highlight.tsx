@@ -6,7 +6,7 @@ export function Highlight(props: HighlightProps) {
   const { children } = props;
 
   return (
-    <span className="bg-gradient-to-r from-red-400 to-red-400 bg-[length:100%_40%] bg-[left_66%] bg-no-repeat">
+    <span className="animate-highlight bg-gradient-to-r from-red-400 to-red-400 bg-[length:0%_30%] bg-[0%_80%] bg-no-repeat">
       {children}
     </span>
   );

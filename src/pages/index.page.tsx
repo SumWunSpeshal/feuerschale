@@ -41,12 +41,8 @@ const Home: NextPage = () => {
             >
               <div className="absolute inset-0">
                 <div
-                  className="absolute inset-0 scale-110 bg-amber-50"
-                  style={{
-                    clipPath: false
-                      ? "polygon(50% 0%, 0% 100%, 100% 100%, 99% 99%, 1% 99%, 50% 1%, 99% 99%, 100% 100%, 50% 0)"
-                      : "polygon(50% 0%, 0% 100%, 100% 100%)",
-                  }}
+                  className="absolute inset-0 scale-110 bg-amber-100"
+                  style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
                 ></div>
                 <NextImage
                   src={LogoSvg}

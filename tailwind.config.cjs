@@ -16,6 +16,16 @@ module.exports = {
       transitionDuration: {
         DEFAULT: "200ms",
       },
+      keyframes: {
+        highlight: {
+          from: { backgroundSize: "0% 30%" },
+          to: { backgroundSize: "97% 30%" },
+        },
+      },
+      animation: {
+        highlight:
+          "highlight 700ms cubic-bezier(0, 0.55, 0.45, 1) 500ms forwards",
+      },
     },
   },
   plugins: [
