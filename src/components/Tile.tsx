@@ -14,7 +14,7 @@ export function Tile(props: TileProps) {
 
   return (
     <Link href={href || "/"}>
-      <div className="group relative aspect-square overflow-hidden rounded-3xl">
+      <div className="group relative aspect-square overflow-hidden rounded-3xl border-2 border-black shadow-brutal transition-shadow hover:shadow-brutal-lg">
         <NextImage
           src={src}
           width={363}

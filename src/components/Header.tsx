@@ -13,7 +13,7 @@ export function Header(props: HeaderProps) {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
   return (
-    <div className="flex items-center justify-between border-b-2 border-black py-3 px-6">
+    <div className="flex items-center justify-between border-b-2 border-black bg-white py-4 px-6">
       <Logo />
       <div>
         {sessionData ? (

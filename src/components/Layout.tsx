@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { PropsWithChildren } from "react";
 import { trpc } from "src/utils/trpc";
 import { Footer } from "./Footer";
+import { Global } from "./Global";
 import { Header } from "./Header";
 import { Main } from "./Main";
 
@@ -17,15 +18,15 @@ export function Layout({ children, authGuarded = false }: LayoutProps) {
     if (typeof window === "object") {
       router.push("/auth/signin");
     }
+
+    return null;
   }
 
-  return authGuarded && !sessionData ? (
-    <>unauthorized</>
-  ) : (
-    <div className="h-full border-2 border-black font-semibold">
+  return (
+    <Global>
       <Header />
       <Main>{children}</Main>
       <Footer />
-    </div>
+    </Global>
   );
 }

@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
+import { Global } from "src/components/Global";
 
 const SignOut: NextPage = ({}) => {
-  return <div>Todo: Sign Out</div>;
+  return <Global>Todo: Sign Out</Global>;
 };
 
 export default SignOut;
