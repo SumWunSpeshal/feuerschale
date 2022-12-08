@@ -34,7 +34,7 @@ const Home: NextPage = () => {
           </div>
           <div className="grid auto-rows-fr grid-cols-3 gap-8">
             <div>
-              <DashboardTile title="Ich" titleClassName="bg-teal-500">
+              <DashboardTile title="Profil" titleClassName="bg-teal-500">
                 {sessionData?.user?.image && (
                   <div className="mb-4">
                     <div className="inline-flex overflow-hidden rounded-full border-2 border-black shadow-brutal">
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
                     </div>
                   )}
                 </div>
-                <div className="">
+                <div>
                   <Button onClick={() => signOut()} className="bg-red-400">
                     Abmelden
                   </Button>
@@ -65,24 +65,18 @@ const Home: NextPage = () => {
               </DashboardTile>
             </div>
             <div className="col-span-2">
-              <DashboardTile
-                title="Meine Auftritte"
-                titleClassName="bg-amber-500"
-              >
+              <DashboardTile title="Auftritte" titleClassName="bg-amber-500">
                 ajsbhd
               </DashboardTile>
             </div>
 
             <div className="col-span-2">
-              <DashboardTile
-                title="Meine Rechnungen"
-                titleClassName="bg-sky-500"
-              >
+              <DashboardTile title="Rechnungen" titleClassName="bg-sky-500">
                 ajsbhd
               </DashboardTile>
             </div>
             <div>
-              <DashboardTile title="Meine Texte" titleClassName="bg-indigo-400">
+              <DashboardTile title="Texte" titleClassName="bg-indigo-400">
                 ajsbhd
               </DashboardTile>
             </div>

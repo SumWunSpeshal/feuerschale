@@ -8,6 +8,8 @@ type DashboardTileProps = PropsWithChildren<{
 
 export function DashboardTile(props: DashboardTileProps) {
   const { title, children, titleClassName } = props;
+  const stackClasses =
+    "square-full absolute left-0 top-0 translate-x-1 translate-y-1 rounded-3xl border-2 border-black";
 
   return (
     <div className="relative h-full">
@@ -23,8 +25,12 @@ export function DashboardTile(props: DashboardTileProps) {
           </div>
           <div className="grow bg-amber-100 px-6 py-6">{children}</div>
         </div>
-        <div className="square-full absolute left-0 top-0 translate-x-1 translate-y-1 rounded-3xl border-2 border-black"></div>
-        <div className="square-full absolute left-0 top-0 translate-x-2 translate-y-2 rounded-3xl border-2 border-black"></div>
+        <div
+          className={clsx(stackClasses, "translate-x-1 translate-y-1")}
+        ></div>
+        <div
+          className={clsx(stackClasses, "translate-x-2 translate-y-2")}
+        ></div>
       </div>
     </div>
   );
