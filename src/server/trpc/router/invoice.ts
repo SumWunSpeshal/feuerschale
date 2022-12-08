@@ -11,6 +11,7 @@ export const invoiceRouter = t.router({
     .mutation(async ({ input, ctx }) => {
       return ctx.prisma.invoice.create({
         data: {
+          userId: ctx.session.user.id,
           venueTextId: input.venueTextId,
           issued: false,
           settled: false,
