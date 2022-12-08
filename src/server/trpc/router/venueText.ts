@@ -42,4 +42,21 @@ export const venueTextRouter = t.router({
       },
     });
   }),
+  getOne: authedProcedure
+    .input(
+      z.object({
+        venueTextId: z.string().optional(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      if (!input.venueTextId) {
+        return null;
+      }
+
+      return ctx.prisma.venueText.findFirst({
+        where: {
+          id: input.venueTextId,
+        },
+      });
+    }),
 });

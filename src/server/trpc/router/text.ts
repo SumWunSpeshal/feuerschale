@@ -51,4 +51,21 @@ export const textRouter = t.router({
       },
     });
   }),
+  getOne: authedProcedure
+    .input(
+      z.object({
+        textId: z.string().optional(),
+      })
+    )
+    .query(({ input, ctx }) => {
+      if (!input.textId) {
+        return null;
+      }
+
+      return ctx.prisma.text.findFirst({
+        where: {
+          id: input.textId,
+        },
+      });
+    }),
 });

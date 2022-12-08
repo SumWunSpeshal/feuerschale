@@ -28,14 +28,14 @@ type FormData = {
   files?: FileList;
 };
 
-type VenuesDetailPageProps = {
+type VenueDetailPageProps = {
   id: string;
 };
 
-const Venues: NextPage<VenuesDetailPageProps> = ({ id }) => {
+const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
-  const { data: venueDetailsData } = trpc.venue.getOne.useQuery({
+  const { data: venueDetailData } = trpc.venue.getOne.useQuery({
     venueId: id,
   });
 
@@ -69,9 +69,9 @@ const Venues: NextPage<VenuesDetailPageProps> = ({ id }) => {
           </label>
           <button type="submit">Submit</button>
         </form>
-        <pre>{JSON.stringify(venueDetailsData, null, 2)}</pre>
+        <pre>{JSON.stringify(venueDetailData, null, 2)}</pre>
 
-        {venueDetailsData?.VenueText.map(({ Text: { id: textId } }) => (
+        {venueDetailData?.VenueText.map(({ Text: { id: textId } }) => (
           <div key={textId}>asd</div>
         ))}
       </Container>
@@ -79,4 +79,4 @@ const Venues: NextPage<VenuesDetailPageProps> = ({ id }) => {
   );
 };
 
-export default Venues;
+export default VenueDetail;

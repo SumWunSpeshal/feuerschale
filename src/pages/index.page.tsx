@@ -81,6 +81,7 @@ const Home: NextPage = () => {
                         <PreviewList.Item
                           key={id}
                           title={formatDate["dd.MM.yyyy"](created_at)}
+                          href={`/shows/${id}`}
                           description={
                             <>
                               {Text.name} / {Venue.name}
@@ -102,6 +103,7 @@ const Home: NextPage = () => {
                   {dashboardData?.Venue.map(({ id, name, City }) => (
                     <PreviewList.Item
                       key={id}
+                      href={`/venues/${id}`}
                       title={name}
                       description={City.Stadt}
                     />
@@ -137,7 +139,11 @@ const Home: NextPage = () => {
               >
                 <PreviewList>
                   {dashboardData?.texts.map(({ id, name }) => (
-                    <PreviewList.Item key={id} title={name} />
+                    <PreviewList.Item
+                      key={id}
+                      title={name}
+                      href={`/texts/${id}`}
+                    />
                   ))}
                 </PreviewList>
               </DashboardTile>
