@@ -8,19 +8,23 @@ import ShowImg from "public/img/show.jpg";
 import TextImg from "public/img/text.jpg";
 import VenueImg from "public/img/venue.jpg";
 import { useState } from "react";
+import { Anchor } from "src/components/Anchor";
 import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
 import { DashboardTile } from "src/components/DashboardTile";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
+import { PreviewList } from "src/components/PreviewList";
 import { Search } from "src/components/Search";
 import { Section } from "src/components/Section";
 import { Tile } from "src/components/Tile";
+import { formatDate } from "src/utils/format-date";
 import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
   const { data: cityData, mutate, reset } = trpc.city.search.useMutation();
+  const { data: dashboardData } = trpc.dashboard.get.useQuery();
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
@@ -32,6 +36,8 @@ const Home: NextPage = () => {
               Hallo <Highlight>{sessionData?.user?.name}</Highlight>
             </h1>
           </div>
+
+          <pre>{JSON.stringify(dashboardData, null, 2)}</pre>
           <div className="grid auto-rows-fr grid-cols-3 gap-8">
             <div>
               <DashboardTile title="Profil" titleClassName="bg-teal-500">
@@ -64,20 +70,58 @@ const Home: NextPage = () => {
                 </div>
               </DashboardTile>
             </div>
-            <div className="col-span-2">
-              <DashboardTile title="Auftritte" titleClassName="bg-amber-500">
-                ajsbhd
+            <div>
+              <DashboardTile
+                title={<Anchor href="/shows">Auftritte</Anchor>}
+                titleClassName="bg-amber-500"
+              >
+                <PreviewList>
+                  {dashboardData?.VenueText.map(
+                    ({ created_at, id, Text, Venue }) => {
+                      return (
+                        <PreviewList.Item
+                          key={id}
+                          title={formatDate["dd.MM.yyyy"](created_at)}
+                          description={
+                            <>
+                              {Text.name} / {Venue.name}
+                            </>
+                          }
+                        />
+                      );
+                    }
+                  )}
+                </PreviewList>
+              </DashboardTile>
+            </div>
+            <div>
+              <DashboardTile
+                title={<Anchor href="/venues">Venues</Anchor>}
+                titleClassName="bg-sky-500"
+              >
+                <PreviewList>
+                  {dashboardData?.Venue.map(({ id, name }) => (
+                    <PreviewList.Item key={id} title={name} />
+                  ))}
+                </PreviewList>
               </DashboardTile>
             </div>
 
             <div className="col-span-2">
-              <DashboardTile title="Rechnungen" titleClassName="bg-sky-500">
+              <DashboardTile title="Rechnungen" titleClassName="bg-fuchsia-500">
                 ajsbhd
               </DashboardTile>
             </div>
             <div>
-              <DashboardTile title="Texte" titleClassName="bg-indigo-400">
-                ajsbhd
+              <DashboardTile
+                title={<Anchor href="/texts">Texte</Anchor>}
+                titleClassName="bg-indigo-400"
+              >
+                <PreviewList>
+                  {dashboardData?.texts.map(({ id, name }) => (
+                    <PreviewList.Item key={id} title={name} />
+                  ))}
+                </PreviewList>
               </DashboardTile>
             </div>
           </div>
