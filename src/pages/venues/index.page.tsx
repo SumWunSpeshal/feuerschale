@@ -6,8 +6,10 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
+import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Search, SearchRef } from "src/components/Search";
+import { Section } from "src/components/Section";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -51,21 +53,26 @@ const Venues: NextPage = () => {
 
   return (
     <Layout authGuarded>
-      <Container>
-        <form
-          onSubmit={handleSubmit(async (data) => {
-            const { cityId, name, description } = data;
-            createVenue({
-              cityId,
-              name,
-              description,
-            });
-            searchRef.current?.reset();
-          })}
-        >
-          <div className="space-y-4">
-            <TextInput label="Name" {...register("name")} />
-            <TextInput label="Beschreibung" {...register("description")} />
+      <Section>
+        <Container>
+          <div className="mb-8">
+            <h2 className="text-4xl font-bold">
+              Neue <Highlight>Venue</Highlight> erstellen
+            </h2>
+          </div>
+          <form
+            onSubmit={handleSubmit(async (data) => {
+              const { cityId, name, description } = data;
+              createVenue({
+                cityId,
+                name,
+                description,
+              });
+              searchRef.current?.reset();
+            })}
+            className="grid grid-cols-2 gap-x-6 gap-y-6"
+          >
+            <TextInput label="Name" {...register("name")} required />
             <Search
               data={cityData}
               suggestion={(city) => city.Stadt}
@@ -77,17 +84,26 @@ const Venues: NextPage = () => {
               afterSelectionMode="apply"
               id="citySearch"
               label="Stadt"
+              required
               searchRef={searchRef}
             />
-            <Button type="submit">Submit</Button>
+            <div className="col-span-full">
+              <TextInput label="Beschreibung" {...register("description")} />
+            </div>
+            <div className="col-span-full flex justify-end">
+              <Button type="submit">Erstellen</Button>
+            </div>
+          </form>
+        </Container>
+      </Section>
+      <pre className="hidden">{JSON.stringify(venueData, null, 2)}</pre>
+      <Container>
+        <div className="space-y-4 pt-20">
+          <div className="mb-8">
+            <h2 className="text-6xl font-bold">
+              Meine <Highlight>Venues</Highlight>
+            </h2>
           </div>
-        </form>
-        <pre className="hidden">{JSON.stringify(venueData, null, 2)}</pre>
-        <br />
-        <br />
-        <br />
-        <br />
-        <div className="space-y-4">
           {Object.entries(groupedVenues || {}).map(([cityName, venues]) => (
             <div key={cityName}>
               <h2 className="text-xl">

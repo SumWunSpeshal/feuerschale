@@ -14,7 +14,7 @@ export const TextInput = forwardRef(function TextInput(
   props: Omit<TextInputProps, "ref">,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const { label, name, icon } = props;
+  const { label, name, icon, required } = props;
 
   return (
     <div className="relative">
@@ -28,7 +28,7 @@ export const TextInput = forwardRef(function TextInput(
         type="text"
         {...props}
         ref={ref}
-        placeholder={label || name}
+        placeholder={`${label || name}${required ? " *" : ""}`}
         className={clsx(
           "w-full rounded-lg border-2 border-black py-3 px-4 shadow-brutal outline-none transition-shadow focus:shadow-brutal-lg",
           icon && "pl-10"

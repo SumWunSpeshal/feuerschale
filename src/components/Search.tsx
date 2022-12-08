@@ -23,6 +23,7 @@ type SearchProps<TData> = {
   disabled?: boolean;
   id: string;
   label?: string;
+  required?: boolean;
   searchRef?: ForwardedRef<SearchRef>;
 };
 
@@ -37,6 +38,7 @@ export function Search<TData>(props: SearchProps<TData>) {
     disabled = false,
     searchRef,
     label,
+    required,
   } = props;
   const [value, setValue] = useState("");
 
@@ -74,6 +76,7 @@ export function Search<TData>(props: SearchProps<TData>) {
         name={id}
         label={label || id}
         disabled={disabled}
+        required={required}
         icon={faSearch}
         element={TextInput}
       />

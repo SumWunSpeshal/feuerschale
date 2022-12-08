@@ -9,7 +9,7 @@ export function AutoSuggest<TData>(props: AutoSuggestProps<TData>) {
   const { data, children, renderItem, onSuggestionSelect } = props;
 
   return (
-    <div className="group relative">
+    <div className="group relative z-10">
       {children}
       <ul className="absolute top-full mt-2 hidden min-w-full divide-y-2 divide-black overflow-hidden rounded-lg border-2 border-black bg-white shadow-brutal transition-shadow empty:border-0 group-focus-within:block group-focus-within:shadow-brutal-lg">
         {data.map((elem, idx) => {

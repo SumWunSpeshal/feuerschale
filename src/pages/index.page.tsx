@@ -12,6 +12,7 @@ import { Container } from "src/components/Container";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Search } from "src/components/Search";
+import { Section } from "src/components/Section";
 import { Tile } from "src/components/Tile";
 import { trpc } from "src/utils/trpc";
 
@@ -21,15 +22,15 @@ const Home: NextPage = () => {
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
-    <div className="h-full bg-amber-200">
-      <Layout authGuarded>
+    <Layout authGuarded>
+      <Section>
         <Container>
           <div className="mb-16">
-            <h1 className="text-5xl font-extrabold text-gray-700 md:text-[5rem]">
+            <h1 className="text-5xl font-extrabold md:text-[5rem]">
               Hallo <Highlight>{sessionData?.user?.name}</Highlight>
             </h1>
           </div>
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-2xl py-14">
             <div
               className="relative mb-8 grid grid-cols-4"
               style={{
@@ -41,8 +42,15 @@ const Home: NextPage = () => {
             >
               <div className="absolute inset-0">
                 <div
-                  className="absolute inset-0 scale-110 bg-amber-100"
+                  className="absolute inset-0 scale-[1.13] bg-black"
                   style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
+                ></div>
+                <div
+                  className="absolute inset-0 scale-110 bg-amber-200"
+                  style={{
+                    clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
+                    transform: "translateY(2px) scale(1.1)",
+                  }}
                 ></div>
                 <NextImage
                   src={LogoSvg}
@@ -93,8 +101,8 @@ const Home: NextPage = () => {
             />
           </div>
         </Container>
-      </Layout>
-    </div>
+      </Section>
+    </Layout>
   );
 };
 

@@ -17,7 +17,11 @@ export function Header(props: HeaderProps) {
       <Logo />
       <div>
         {sessionData ? (
-          <Fab icon={faArrowRightFromBracket} onClick={() => signOut()} />
+          <Fab
+            icon={faArrowRightFromBracket}
+            onClick={() => signOut()}
+            className="stroke-black stroke-[30] text-yellow-200"
+          />
         ) : (
           <Link href="/auth/signin">Sign in Page</Link>
         )}
