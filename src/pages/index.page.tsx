@@ -1,7 +1,9 @@
 import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signIn, signOut } from "next-auth/react";
+import NextImage from "next/image";
 import Link from "next/link";
+import LogoSvg from "public/img/logo.svg";
 import ShowImg from "public/img/show.jpg";
 import TextImg from "public/img/text.jpg";
 import VenueImg from "public/img/venue.jpg";
@@ -9,7 +11,6 @@ import { useState } from "react";
 import { Container } from "src/components/Container";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
-import { Logo } from "src/components/Logo";
 import { Search } from "src/components/Search";
 import { Tile } from "src/components/Tile";
 import { trpc } from "src/utils/trpc";
@@ -20,85 +21,84 @@ const Home: NextPage = () => {
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
-    <Layout authGuarded>
-      <Container>
-        <div className="mb-8">
-          <h1 className="text-5xl font-extrabold text-gray-700 md:text-[5rem]">
-            Hallo <Highlight>{sessionData?.user?.name}</Highlight>
-          </h1>
-        </div>
-
-        <div className="mx-auto max-w-3xl">
-          <div
-            className="relative mb-8 grid grid-cols-4"
-            style={{
-              "--gap-y": "5rem",
-              "--gap-x": "10rem",
-              rowGap: "var(--gap-y)",
-              columnGap: "var(--gap-x)",
-            }}
-          >
-            <div className="col-span-2 col-start-2">
-              <Tile
-                title="Meine Auftritte"
-                src={ShowImg}
-                imgAlt="Meine Auftritte"
-                href="/shows"
-              />
-            </div>
-            <div className="col-span-2">
-              <Tile
-                title="Meine Texte"
-                src={TextImg}
-                imgAlt="Meine Texte"
-                href="/texts"
-              />
-            </div>
-            <div className="col-span-2">
-              <Tile
-                title="Meine Venues"
-                src={VenueImg}
-                imgAlt="Meine Venues"
-                href="/venues"
-              />
-            </div>
+    <div className="h-full bg-amber-200">
+      <Layout authGuarded>
+        <Container>
+          <div className="mb-16">
+            <h1 className="text-5xl font-extrabold text-gray-700 md:text-[5rem]">
+              Hallo <Highlight>{sessionData?.user?.name}</Highlight>
+            </h1>
+          </div>
+          <div className="mx-auto max-w-3xl">
             <div
-              className="absolute inset-y-1/4 grid place-items-center"
+              className="relative mb-8 grid grid-cols-4"
               style={{
-                top: "calc(25% - calc(var(--gap-y) / 4))",
-                bottom: "calc(25% - calc(var(--gap-y) / 4))",
-                right: "calc(25% - calc(var(--gap-x) / 4))",
-                left: "calc(25% - calc(var(--gap-x) / 4))",
+                "--gap-y": "4rem",
+                "--gap-x": "10rem",
+                rowGap: "var(--gap-y)",
+                columnGap: "var(--gap-x)",
               }}
             >
-              <div
-                className="absolute inset-0 bg-amber-600"
-                style={{
-                  clipPath:
-                    "polygon(50% 0%, 0% 100%, 100% 100%, 99% 99%, 1% 99%, 50% 1%, 99% 99%, 100% 100%, 50% 0",
-                }}
-              ></div>
-              <div className="translate-y-1/2">
-                <Logo></Logo>
+              <div className="absolute inset-0">
+                <div
+                  className="absolute inset-0 scale-110 bg-white"
+                  style={{
+                    clipPath: false
+                      ? "polygon(50% 0%, 0% 100%, 100% 100%, 99% 99%, 1% 99%, 50% 1%, 99% 99%, 100% 100%, 50% 0)"
+                      : "polygon(50% 0%, 0% 100%, 100% 100%)",
+                  }}
+                ></div>
+                <NextImage
+                  src={LogoSvg}
+                  alt="Feuerschale Logo"
+                  priority
+                  width={128}
+                  height={128}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 opacity-25"
+                />
+              </div>
+              <div className="relative col-span-2 col-start-2">
+                <Tile
+                  title="Meine Auftritte"
+                  src={ShowImg}
+                  imgAlt="Meine Auftritte"
+                  href="/shows"
+                />
+              </div>
+              <div className="relative col-span-2">
+                <Tile
+                  title="Meine Texte"
+                  src={TextImg}
+                  imgAlt="Meine Texte"
+                  href="/texts"
+                />
+              </div>
+              <div className="relative col-span-2">
+                <Tile
+                  title="Meine Venues"
+                  src={VenueImg}
+                  imgAlt="Meine Venues"
+                  href="/venues"
+                />
               </div>
             </div>
           </div>
-        </div>
-        <div className="hidden">
-          <Search
-            data={cityData}
-            onChange={({ target }) => mutate({ value: target.value })}
-            onSelection={(e) => {
-              reset();
-              setCity(e);
-            }}
-            suggestion={(city) => city?.Stadt}
-            id="city-search"
-            afterSelectionMode="clear"
-          />
-        </div>
-      </Container>
-    </Layout>
+          <div className="hidden">
+            <Search
+              data={cityData}
+              onChange={({ target }) => mutate({ value: target.value })}
+              onSelection={(e) => {
+                reset();
+                setCity(e);
+              }}
+              suggestion={(city) => city?.Stadt}
+              id="city-search"
+              afterSelectionMode="clear"
+            />
+          </div>
+        </Container>
+      </Layout>
+    </div>
   );
 };
 
