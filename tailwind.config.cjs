@@ -21,10 +21,16 @@ module.exports = {
           from: { backgroundSize: "0% 30%" },
           to: { backgroundSize: "97% 30%" },
         },
+        "floating-nav": {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(0)" },
+        },
       },
       animation: {
         highlight:
           "highlight 700ms cubic-bezier(0, 0.55, 0.45, 1) 500ms forwards",
+        "floating-nav":
+          "floating-nav 200ms cubic-bezier(0, 0.55, 0.45, 1) 500ms forwards",
       },
     },
   },

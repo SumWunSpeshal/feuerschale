@@ -8,13 +8,13 @@ import { Main } from "./Main";
 
 type LayoutProps = PropsWithChildren<{
   authGuarded?: boolean;
-  floatingNav?: boolean;
+  noFloatingNav?: boolean;
 }>;
 
 export function Layout({
   children,
   authGuarded = false,
-  floatingNav,
+  noFloatingNav,
 }: LayoutProps) {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
   const router = useRouter();
@@ -32,7 +32,7 @@ export function Layout({
       {/* <Header /> */}
       <Main>{children}</Main>
       <Footer />
-      {floatingNav && <FloatingNav />}
+      {!noFloatingNav && <FloatingNav />}
     </Global>
   );
 }

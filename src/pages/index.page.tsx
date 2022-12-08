@@ -28,7 +28,7 @@ const Home: NextPage = () => {
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
-    <Layout authGuarded>
+    <Layout authGuarded noFloatingNav>
       <Section>
         <Container>
           <div className="mb-16">
