@@ -21,7 +21,7 @@ const Item: React.FC<PreviewListItemProps> = (props) => {
   const { title, description } = props;
 
   return (
-    <li className="py-2">
+    <li className="py-2 first:pt-0 last:pb-0">
       <span className="text-lg leading-tight">{title}</span>
       {description && (
         <>

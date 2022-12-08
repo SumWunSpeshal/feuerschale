@@ -4,7 +4,6 @@ import { trpc } from "src/utils/trpc";
 import { FloatingNav } from "./FloatingNav";
 import { Footer } from "./Footer";
 import { Global } from "./Global";
-import { Header } from "./Header";
 import { Main } from "./Main";
 
 type LayoutProps = PropsWithChildren<{
@@ -30,7 +29,7 @@ export function Layout({
 
   return (
     <Global>
-      <Header />
+      {/* <Header /> */}
       <Main>{children}</Main>
       <Footer />
       {floatingNav && <FloatingNav />}

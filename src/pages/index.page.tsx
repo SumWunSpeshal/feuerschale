@@ -28,7 +28,7 @@ const Home: NextPage = () => {
   const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
-    <Layout authGuarded floatingNav>
+    <Layout authGuarded>
       <Section>
         <Container>
           <div className="mb-16">
@@ -37,7 +37,6 @@ const Home: NextPage = () => {
             </h1>
           </div>
 
-          <pre>{JSON.stringify(dashboardData, null, 2)}</pre>
           <div className="grid auto-rows-fr grid-cols-3 gap-8">
             <div>
               <DashboardTile title="Profil" titleClassName="bg-teal-500">
@@ -114,9 +113,20 @@ const Home: NextPage = () => {
             <div className="col-span-2">
               <DashboardTile title="Rechnungen" titleClassName="bg-fuchsia-500">
                 <PreviewList>
-                  {dashboardData?.texts.map(({ id, name }) => (
-                    <PreviewList.Item key={id} title={name} />
-                  ))}
+                  {dashboardData?.Invoice.map(
+                    ({ id, VenueText, venueTextId }) => (
+                      <PreviewList.Item
+                        key={id}
+                        title={`${venueTextId}.pdf`}
+                        description={
+                          <>
+                            {formatDate["dd.MM.yyyy"](VenueText.created_at)} /{" "}
+                            {VenueText.Venue.name} / {VenueText.Text.name}
+                          </>
+                        }
+                      />
+                    )
+                  )}
                 </PreviewList>
               </DashboardTile>
             </div>

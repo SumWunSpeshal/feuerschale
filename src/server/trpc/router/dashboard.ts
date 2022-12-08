@@ -46,6 +46,24 @@ export const dashboardRouter = t.router({
             },
           },
         },
+        Invoice: {
+          include: {
+            VenueText: {
+              include: {
+                Text: {
+                  select: {
+                    name: true,
+                  },
+                },
+                Venue: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
   }),
