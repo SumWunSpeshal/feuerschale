@@ -10,6 +10,7 @@ import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Search, SearchRef } from "src/components/Search";
 import { Section } from "src/components/Section";
+import { Snackbar, SnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -34,8 +35,14 @@ const Venues: NextPage = () => {
     onSuccess: () => {
       refetch();
       resetForm();
+      snackbarRef.current?.open({
+        message: "Die neue Venue wurde erfolgreich gespeichert.",
+        state: "success",
+      });
     },
   });
+
+  const snackbarRef = useRef<SnackbarRef>(null);
 
   const {
     formState: { errors },
@@ -128,6 +135,7 @@ const Venues: NextPage = () => {
           ))}
         </div>
       </Container>
+      <Snackbar snackbarRef={snackbarRef} />
     </Layout>
   );
 };

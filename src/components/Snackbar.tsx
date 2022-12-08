@@ -1,42 +1,44 @@
 import clsx from "clsx";
-import {
-  ForwardedRef,
-  PropsWithChildren,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { ForwardedRef, useEffect, useImperativeHandle, useState } from "react";
 import { Container } from "./Container";
 
+type State = "success" | "error" | "info";
+
+type SnackbarOpenArgs = {
+  message: string;
+  state: State;
+};
+
 export type SnackbarRef = {
-  open: () => void;
+  open: (args: SnackbarOpenArgs) => void;
   close: () => void;
 };
 
-type SnackbarProps = PropsWithChildren<{
-  state?: "success" | "error" | "info";
+type SnackbarProps = {
   snackbarRef?: ForwardedRef<SnackbarRef>;
   timeoutInMs?: number;
-}>;
+};
 
-const stateMap: Record<NonNullable<SnackbarProps["state"]>, string> = {
+const stateMap: Record<State, string> = {
   success: "bg-lime-400",
   error: "bg-red-600",
   info: "bg-blue-400",
 };
 
 export function Snackbar(props: SnackbarProps) {
-  const {
-    children,
-    snackbarRef,
-    state = "success",
-    timeoutInMs = 3000,
-  } = props;
+  const { snackbarRef, timeoutInMs = 3000 } = props;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [snackBarState, setSnackBarState] = useState<SnackbarOpenArgs>({
+    message: "",
+    state: "success",
+  });
 
   useImperativeHandle(snackbarRef, () => ({
-    open: () => setIsOpen(true),
+    open: (args) => {
+      setIsOpen(true);
+      setSnackBarState(args);
+    },
     close: () => setIsOpen(false),
   }));
 
@@ -62,10 +64,10 @@ export function Snackbar(props: SnackbarProps) {
         <div
           className={clsx(
             "mt-6 rounded-2xl border-2 border-black p-4 font-bold shadow-brutal",
-            stateMap[state]
+            stateMap[snackBarState.state]
           )}
         >
-          {children}
+          {snackBarState.message}
         </div>
       </Container>
     </div>
