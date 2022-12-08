@@ -100,8 +100,12 @@ const Home: NextPage = () => {
                 titleClassName="bg-sky-500"
               >
                 <PreviewList>
-                  {dashboardData?.Venue.map(({ id, name }) => (
-                    <PreviewList.Item key={id} title={name} />
+                  {dashboardData?.Venue.map(({ id, name, City }) => (
+                    <PreviewList.Item
+                      key={id}
+                      title={name}
+                      description={City.Stadt}
+                    />
                   ))}
                 </PreviewList>
               </DashboardTile>

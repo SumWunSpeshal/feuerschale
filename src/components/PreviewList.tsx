@@ -13,17 +13,16 @@ export function PreviewList(props: PreviewListProps) {
 }
 
 type PreviewListItemProps = {
-  key: string | number;
   title?: string | JSX.Element | null;
   description?: string | JSX.Element;
 };
 
 const Item: React.FC<PreviewListItemProps> = (props) => {
-  const { key, title, description } = props;
+  const { title, description } = props;
 
   return (
-    <li key={key} className="py-1">
-      <span className="text-lg">{title}</span>
+    <li className="py-2">
+      <span className="text-lg leading-tight">{title}</span>
       {description && (
         <>
           <br />

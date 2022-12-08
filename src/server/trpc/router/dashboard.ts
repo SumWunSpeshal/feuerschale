@@ -13,25 +13,37 @@ export const dashboardRouter = t.router({
           orderBy: {
             created_at: "desc",
           },
-          take: 6,
+          take: 3,
         },
         Venue: {
           orderBy: {
             created_at: "desc",
           },
           include: {
-            City: true,
+            City: {
+              select: {
+                Stadt: true,
+              },
+            },
           },
-          take: 6,
+          take: 3,
         },
         VenueText: {
           orderBy: {
             created_at: "desc",
           },
-          take: 6,
+          take: 3,
           include: {
-            Venue: true,
-            Text: true,
+            Venue: {
+              select: {
+                name: true,
+              },
+            },
+            Text: {
+              select: {
+                name: true,
+              },
+            },
           },
         },
       },
