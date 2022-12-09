@@ -66,9 +66,10 @@ export function Search<TData>(props: SearchProps<TData>) {
       <DebounceInput
         value={value}
         minLength={3}
-        debounceTimeout={500}
+        debounceTimeout={200}
         className="border-2 border-blue-600"
         onChange={(e) => {
+          e.target.value = e.target.value.trim();
           setValue(e.target.value);
           onChange?.(e);
         }}
