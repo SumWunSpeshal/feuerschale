@@ -4,6 +4,7 @@ import { authRouter } from "./auth";
 import { cityRouter } from "./city";
 import { dashboardRouter } from "./dashboard";
 import { invoiceRouter } from "./invoice";
+import { showRouter } from "./show";
 import { textRouter } from "./text";
 import { venueRouter } from "./venue";
 import { venueTextRouter } from "./venueText";
@@ -15,6 +16,7 @@ export const appRouter = t.router({
   text: textRouter,
   venue: venueRouter,
   venueText: venueTextRouter,
+  show: showRouter,
   invoice: invoiceRouter,
 });
 

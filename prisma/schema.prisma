@@ -71,6 +71,7 @@ model User {
   accounts      Account[]
   Invoice       Invoice[]
   sessions      Session[]
+  Show          Show[]
   texts         Text[]
   Venue         Venue[]
   VenueText     VenueText[]
@@ -124,6 +125,8 @@ model Show {
   id         String      @id @default(cuid())
   created_at DateTime?   @default(now()) @db.Timestamptz(6)
   date       DateTime    @db.Date
+  userId     String
+  User       User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Invoice    Invoice[]
   VenueText  VenueText[]
 }
