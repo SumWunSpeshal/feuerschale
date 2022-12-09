@@ -5,14 +5,14 @@ export const invoiceRouter = t.router({
   create: authedProcedure
     .input(
       z.object({
-        venueTextId: z.string(),
+        showId: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       return ctx.prisma.invoice.create({
         data: {
           userId: ctx.session.user.id,
-          venueTextId: input.venueTextId,
+          showId: input.showId,
           issued: false,
           settled: false,
         },

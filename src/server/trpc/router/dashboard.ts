@@ -48,16 +48,20 @@ export const dashboardRouter = t.router({
         },
         Invoice: {
           include: {
-            VenueText: {
+            Show: {
               include: {
-                Text: {
+                VenueText: {
                   select: {
-                    name: true,
-                  },
-                },
-                Venue: {
-                  select: {
-                    name: true,
+                    Text: {
+                      select: {
+                        name: true,
+                      },
+                    },
+                    Venue: {
+                      select: {
+                        name: true,
+                      },
+                    },
                   },
                 },
               },

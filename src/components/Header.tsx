@@ -10,6 +10,7 @@ type HeaderProps = {
 };
 
 export function Header(props: HeaderProps) {
+  const {} = props;
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
   return (

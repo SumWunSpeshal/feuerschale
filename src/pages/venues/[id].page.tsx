@@ -57,7 +57,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
             const { files, venueTextId } = data;
             await assertUserBucketExists(sessionData?.user?.id);
             await maybeUploadInvoice(sessionData, files?.[0], venueTextId);
-            createInvoice({ venueTextId });
+            createInvoice({ showId: venueTextId });
             resetForm();
           })}
         >

@@ -2,24 +2,25 @@ import { authedProcedure, t } from "src/server/trpc/trpc";
 import { z } from "zod";
 
 export const venueTextRouter = t.router({
-  create: authedProcedure
-    .input(
-      z.object({
-        venueId: z.number(),
-        textId: z.string(),
-      })
-    )
-    .mutation(({ input, ctx }) => {
-      const { prisma, session } = ctx;
+  // todo creating standalone venueText even possible anymore?
+  // create: authedProcedure
+  //   .input(
+  //     z.object({
+  //       venueId: z.number(),
+  //       textId: z.string(),
+  //     })
+  //   )
+  //   .mutation(({ input, ctx }) => {
+  //     const { prisma, session } = ctx;
 
-      return prisma.venueText.create({
-        data: {
-          userId: session.user.id,
-          textId: input.textId,
-          venueId: input.venueId,
-        },
-      });
-    }),
+  //     return prisma.venueText.create({
+  //       data: {
+  //         userId: session.user.id,
+  //         textId: input.textId,
+  //         venueId: input.venueId,
+  //       },
+  //     });
+  //   }),
   delete: authedProcedure
     .input(
       z.object({

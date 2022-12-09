@@ -1,8 +1,6 @@
-import { City } from "@prisma/client";
 import type { NextPage } from "next";
 import { signOut } from "next-auth/react";
 import NextImage from "next/image";
-import { useState } from "react";
 import { Anchor } from "src/components/Anchor";
 import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
@@ -16,9 +14,7 @@ import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
-  const { data: cityData, mutate, reset } = trpc.city.search.useMutation();
   const { data: dashboardData } = trpc.dashboard.get.useQuery();
-  const [city, setCity] = useState<City | undefined>(undefined);
 
   return (
     <Layout authGuarded noFloatingNav>
@@ -108,20 +104,19 @@ const Home: NextPage = () => {
             <div className="col-span-2">
               <DashboardTile title="Rechnungen" titleClassName="bg-fuchsia-500">
                 <PreviewList>
-                  {dashboardData?.Invoice.map(
-                    ({ id, VenueText, venueTextId }) => (
-                      <PreviewList.Item
-                        key={id}
-                        title={`${venueTextId}.pdf`}
-                        description={
-                          <>
-                            {formatDate["dd.MM.yyyy"](VenueText.created_at)} /{" "}
-                            {VenueText.Venue.name} / {VenueText.Text.name}
-                          </>
-                        }
-                      />
-                    )
-                  )}
+                  {dashboardData?.Invoice.map(({ id, Show }) => (
+                    <PreviewList.Item
+                      key={id}
+                      title={`${Show.id}.pdf`} // todo This doesn't work yet
+                      description={
+                        <>
+                          {formatDate["dd.MM.yyyy"](Show.date)} /{" "}
+                          {Show.VenueText[0]?.Venue.name} /{" "}
+                          {Show.VenueText[0]?.Text.name}
+                        </>
+                      }
+                    />
+                  ))}
                 </PreviewList>
               </DashboardTile>
             </div>

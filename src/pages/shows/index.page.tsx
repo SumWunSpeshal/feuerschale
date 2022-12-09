@@ -17,12 +17,13 @@ const Shows: NextPage = () => {
   const { data: venueData } = trpc.venue.getAll.useQuery();
   const { data: textData } = trpc.text.getAll.useQuery();
   const { data: venueTextData, refetch } = trpc.venueText.getAll.useQuery();
-  const { mutate: createVenueText } = trpc.venueText.create.useMutation({
-    onSuccess: () => {
-      refetch();
-      resetForm();
-    },
-  });
+  // todo create show instead
+  // const { mutate: createVenueText } = trpc.venueText.create.useMutation({
+  //   onSuccess: () => {
+  //     refetch();
+  //     resetForm();
+  //   },
+  // });
 
   const {
     formState: { errors },
@@ -47,10 +48,10 @@ const Shows: NextPage = () => {
               return;
             }
 
-            createVenueText({
-              textId: data.textId,
-              venueId: +data.venueId,
-            });
+            // createVenueText({
+            //   textId: data.textId,
+            //   venueId: +data.venueId,
+            // });
           })}
         >
           <select id="venue" {...register("venueId")}>
