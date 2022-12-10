@@ -9,7 +9,9 @@
     "lint": "next lint",
     "start": "next start",
     "g": "plop generate",
-    "dbdump": "ts-node --skip-project prisma/db-dump.ts",
+    "dbdump": "ts-node --skip-project prisma/db-dump.ts"
+  },
+  "prisma": {
     "seed": "ts-node --skip-project prisma/seed.ts"
   },
   "dependencies": {
