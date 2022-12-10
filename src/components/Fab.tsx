@@ -5,14 +5,15 @@ import { Icon } from "./Icon";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon: IconDefinition;
+  size?: 16 | 32;
 };
 
 export function Fab(props: ButtonProps) {
-  const { icon, className, ...rest } = props;
+  const { icon, className, size = 32, ...rest } = props;
 
   return (
     <button {...rest} className="p-4">
-      <Icon icon={icon} size={32} className={className}></Icon>
+      <Icon icon={icon} size={size} className={className}></Icon>
     </button>
   );
 }

@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useForm } from "react-hook-form";
 import { Container } from "src/components/Container";
+import { FileInput } from "src/components/FileInput";
 import { Layout } from "src/components/Layout";
 import { TextInput } from "src/components/TextInput";
 import { isBrowser } from "src/utils/is-browser";
@@ -27,6 +28,7 @@ const Texts: NextPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     reset: resetForm,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -58,10 +60,11 @@ const Texts: NextPage = () => {
         >
           <TextInput {...register("name")} />
           <br />
-          <label htmlFor="upload">
-            <span>Upload</span>
-            <input id="upload" type="file" {...register("files")}></input>
-          </label>
+          <FileInput
+            id="upload"
+            reset={() => setValue("files", undefined)}
+            {...register("files")}
+          />
           <button type="submit">Submit</button>
         </form>
         <br />
