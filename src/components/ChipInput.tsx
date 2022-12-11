@@ -6,13 +6,14 @@ type ChipInputProps = UseFormRegisterReturn & {
   label: string;
   id: string;
   value: string | number;
+  warning?: boolean;
 };
 
 export const ChipInput = forwardRef(function ChipInput(
   props: Omit<ChipInputProps, "ref">,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const { label, id, disabled, ...rest } = props;
+  const { label, id, disabled, warning, ...rest } = props;
 
   return (
     <div className="inline-flex">
@@ -27,9 +28,14 @@ export const ChipInput = forwardRef(function ChipInput(
       <label
         htmlFor={id}
         className={clsx(
-          "max-w-[120px] cursor-pointer select-none overflow-hidden overflow-ellipsis whitespace-nowrap rounded-lg border-2 border-black px-1.5 text-sm outline-none transition-all hover:shadow-brutal peer-checked:bg-black peer-checked:text-white",
-          disabled &&
-            "pointer-events-none !cursor-auto !border-gray-300 !bg-gray-100 !text-gray-300 !shadow-none"
+          "max-w-[36rem] select-none overflow-hidden overflow-ellipsis whitespace-nowrap rounded-lg border-2 px-1.5 text-sm outline-none transition-all",
+          {
+            "cursor-pointer border-black bg-white hover:shadow-brutal peer-checked:bg-black peer-checked:text-white":
+              !disabled,
+            "pointer-events-none cursor-auto border-gray-300 bg-gray-100 text-gray-300":
+              disabled,
+            "text-orange-600": warning,
+          }
         )}
       >
         {label}

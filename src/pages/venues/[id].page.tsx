@@ -36,7 +36,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
   const { data: venueDetailData } = trpc.venue.getOne.useQuery({
-    venueId: id,
+    venueId: id ? +id : NaN,
   });
 
   const { mutate: createInvoice } = trpc.invoice.create.useMutation();

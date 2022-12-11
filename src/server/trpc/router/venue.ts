@@ -40,7 +40,7 @@ export const venueRouter = t.router({
   getOne: authedProcedure
     .input(
       z.object({
-        venueId: z.string().optional(),
+        venueId: z.number().optional(),
       })
     )
     .query(({ input, ctx }) => {
@@ -58,7 +58,7 @@ export const venueRouter = t.router({
             },
             {
               id: {
-                equals: +input.venueId,
+                equals: input.venueId,
               },
             },
           ],

@@ -60,4 +60,35 @@ export const venueTextRouter = t.router({
         },
       });
     }),
+  getVenueTextsByVenueId: authedProcedure
+    .input(
+      z.object({
+        venueId: z.number(),
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.venueText.findMany({
+        where: {
+          AND: [
+            {
+              userId: {
+                equals: ctx.session.user.id,
+              },
+            },
+            {
+              venueId: {
+                equals: input.venueId,
+              },
+            },
+          ],
+        },
+        select: {
+          Text: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      });
+    }),
 });
