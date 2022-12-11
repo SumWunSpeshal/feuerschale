@@ -49,8 +49,9 @@ const Shows: NextPage = () => {
 
   useEffect(() => {
     const { unsubscribe } = watch(({ venueId }, { name }) => {
-      if (name === "venueId" && venueId) {
-        getVenueTextsByVenueId({ venueId });
+      if (name === "venueId") {
+        getVenueTextsByVenueId({ venueId: venueId || 0 });
+
         resetForm((values) => ({
           ...values,
           textIds: Array(values.textIds.length).fill(false),
@@ -100,7 +101,7 @@ const Shows: NextPage = () => {
                 })}
               />
             </div>
-            <div>
+            <div className="mb-10">
               <div className="mb-4">
                 <h3 className="text-xl font-bold">Wähle aus Deinen Texten:</h3>
               </div>

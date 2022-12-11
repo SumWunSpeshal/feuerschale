@@ -30,11 +30,12 @@ export const ChipInput = forwardRef(function ChipInput(
         className={clsx(
           "max-w-[36rem] select-none overflow-hidden overflow-ellipsis whitespace-nowrap rounded-lg border-2 px-1.5 text-sm outline-none transition-all",
           {
-            "cursor-pointer border-black bg-white hover:shadow-brutal peer-checked:bg-black peer-checked:text-white":
+            "bg-yellow-300": !disabled && !warning,
+            "cursor-pointer border-black hover:shadow-brutal peer-checked:bg-black peer-checked:text-white":
               !disabled,
             "pointer-events-none cursor-auto border-gray-300 bg-gray-100 text-gray-300":
               disabled,
-            "text-orange-600": warning,
+            "bg-orange-400": warning,
           }
         )}
       >
