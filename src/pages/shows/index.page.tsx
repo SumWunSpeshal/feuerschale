@@ -107,6 +107,7 @@ const Shows: NextPage = () => {
                   isEmpty={!watch("date")}
                   required
                   label="Auftrittsdatum"
+                  error={errors.date?.message}
                   {...register("date", {
                     value: formatDate["yyyy-MM-dd"](new Date()),
                   })}
@@ -119,6 +120,7 @@ const Shows: NextPage = () => {
                     isEmpty={!watch("venueId")}
                     defaultOption={{ innerText: "Venue auswählen", value: 0 }}
                     required
+                    error={errors.venueId?.message}
                     options={venueData?.map(({ id, name }) => ({
                       value: id,
                       innerText: name,
@@ -128,7 +130,7 @@ const Shows: NextPage = () => {
                     })}
                   />
                 </div>
-                <button onClick={() => modalRef.current?.open()}>
+                <button onClick={() => modalRef.current?.open()} type="button">
                   <Icon icon={faPlusCircle} size={32}></Icon>
                 </button>
               </div>

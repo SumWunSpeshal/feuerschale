@@ -26,6 +26,7 @@ type FormData = {
 const Texts: NextPage = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
   const {
+    formState: { errors },
     register,
     handleSubmit,
     setValue,
@@ -59,13 +60,14 @@ const Texts: NextPage = () => {
             createText({ ...rest, slamTextFileName: fileName });
           })}
         >
-          <TextInput {...register("name")} />
+          <TextInput error={errors.name?.message} {...register("name")} />
           <br />
           <FileInput
             id="upload"
             isEmpty={!watch("files")?.length}
             reset={() => setValue("files", undefined)}
             label="Slamtext"
+            error={errors.files?.message}
             {...register("files")}
           />
           <button type="submit">Submit</button>

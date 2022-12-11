@@ -42,6 +42,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
   const { mutate: createInvoice } = trpc.invoice.create.useMutation();
 
   const {
+    formState: { errors },
     register,
     handleSubmit,
     reset: resetForm,
@@ -61,7 +62,10 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
             resetForm();
           })}
         >
-          <TextInput {...register("venueTextId")} />
+          <TextInput
+            error={errors.venueTextId?.message}
+            {...register("venueTextId")}
+          />
           <br />
           <label htmlFor="upload">
             <span>Upload</span>

@@ -6,11 +6,13 @@ import { SearchInput, SearchRef } from "./SearchInput";
 type CitySearchProps = {
   searchRef?: ForwardedRef<SearchRef>;
   onSelection?: (city: City) => void;
+  error?: string;
 };
 
 export function CitySearch(props: CitySearchProps) {
+  const { searchRef, onSelection, error } = props;
+
   const id = useId();
-  const { searchRef, onSelection } = props;
 
   const {
     data: cityData,
@@ -32,6 +34,7 @@ export function CitySearch(props: CitySearchProps) {
       label="Stadt"
       required
       searchRef={searchRef}
+      error={error}
     />
   );
 }

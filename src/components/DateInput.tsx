@@ -1,11 +1,13 @@
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { Error } from "./Error";
 
 type DateInputProps = {
   [key: string]: any;
   label?: string;
   isEmpty?: boolean;
+  error?: string;
 } & UseFormRegisterReturn;
 
 export const DateInput = forwardRef(function DateInput(
@@ -13,7 +15,7 @@ export const DateInput = forwardRef(function DateInput(
   ref: ForwardedRef<HTMLInputElement>
 ) {
   const { label, name, isEmpty, required } = props;
-  const { isEmpty: _isEmpty, ...rest } = props;
+  const { isEmpty: _isEmpty, error, ...rest } = props;
 
   return (
     <div className="relative">
@@ -29,6 +31,7 @@ export const DateInput = forwardRef(function DateInput(
       <label htmlFor={props.name} className="sr-only">
         {label || name}
       </label>
+      <Error>{error}</Error>
     </div>
   );
 });

@@ -1,6 +1,6 @@
 type AutoSuggestProps<T> = {
   data: T[];
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   renderItem: (e: T) => JSX.Element | string;
   onSuggestionSelect?: (e: T) => void;
 };

@@ -7,6 +7,7 @@ import {
 } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { AutoSuggest } from "./AutoSuggest";
+import { Error } from "./Error";
 import { HighlightMatch } from "./HighlightMatch";
 import { TextInput } from "./TextInput";
 
@@ -25,6 +26,7 @@ type SearchProps<TData> = {
   label?: string;
   required?: boolean;
   searchRef?: ForwardedRef<SearchRef>;
+  error?: string;
 };
 
 export function SearchInput<TData>(props: SearchProps<TData>) {
@@ -39,6 +41,7 @@ export function SearchInput<TData>(props: SearchProps<TData>) {
     searchRef,
     label,
     required,
+    error,
   } = props;
   const [value, setValue] = useState("");
 
@@ -80,6 +83,7 @@ export function SearchInput<TData>(props: SearchProps<TData>) {
         icon={faSearch}
         element={TextInput}
       />
+      <Error>{error}</Error>
     </AutoSuggest>
   );
 }

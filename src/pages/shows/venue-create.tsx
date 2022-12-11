@@ -13,7 +13,7 @@ type VenueCreateProps = {
 };
 
 const venueFormSchema = z.object({
-  cityId: z.number(),
+  cityId: z.number({ required_error: "Bitte aus der Liste wählen" }),
   name: z.string().min(1),
 });
 
@@ -54,10 +54,16 @@ export function VenueCreate(props: VenueCreateProps) {
         })}
         className="grid gap-y-6"
       >
-        <TextInput label="Name" {...register("name")} required />
+        <TextInput
+          label="Name"
+          required
+          error={errors.name?.message}
+          {...register("name")}
+        />
         <CitySearch
           searchRef={searchRef}
           onSelection={(city) => setValue("cityId", city.id)}
+          error={errors.cityId?.message}
         />
         <div className="flex justify-end">
           <Button type="submit">Erstellen</Button>

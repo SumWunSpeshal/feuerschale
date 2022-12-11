@@ -18,7 +18,7 @@ import { z } from "zod";
 import { groupVenues } from "./utils";
 
 const formSchema = z.object({
-  cityId: z.number(),
+  cityId: z.number({ required_error: "Bitte aus der Liste wählen" }),
   name: z.string().min(1),
   description: z.string().optional(),
 });
@@ -74,13 +74,23 @@ const Venues: NextPage = () => {
             })}
             className="grid grid-cols-2 gap-x-6 gap-y-6"
           >
-            <TextInput label="Name" {...register("name")} required />
+            <TextInput
+              label="Name"
+              required
+              error={errors.name?.message}
+              {...register("name")}
+            />
             <CitySearch
               searchRef={searchRef}
               onSelection={(city) => setValue("cityId", city.id)}
+              error={errors.cityId?.message}
             />
             <div className="col-span-full">
-              <TextInput label="Beschreibung" {...register("description")} />
+              <TextInput
+                label="Beschreibung"
+                error={errors.description?.message}
+                {...register("description")}
+              />
             </div>
             <div className="col-span-full flex justify-end">
               <Button type="submit">Erstellen</Button>
