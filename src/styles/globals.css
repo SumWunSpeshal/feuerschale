@@ -26,6 +26,12 @@ textarea::-moz-placeholder {
 
 input::placeholder,
 textarea::placeholder,
+input[type="date"]::before,
+input[type="date"]::after,
 input[type="file"]::after {
   color: theme("colors.neutral.400");
+}
+
+input::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
 }

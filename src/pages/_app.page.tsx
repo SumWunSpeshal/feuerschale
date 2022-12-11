@@ -23,6 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <style jsx global>{`
         html {
           font-family: ${ralewayFont.style.fontFamily};
+          --font-family: ${ralewayFont.style.fontFamily};
         }
       `}</style>
       <SessionProvider session={session}>

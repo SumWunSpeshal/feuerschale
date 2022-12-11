@@ -6,6 +6,9 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        project: "var(--font-family)",
+      },
       borderWidth: {
         3: "3px",
       },

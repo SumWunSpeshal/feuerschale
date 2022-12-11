@@ -7,7 +7,7 @@ export const showRouter = t.router({
       z.object({
         venueId: z.number(),
         textIds: z.string().array(),
-        date: z.date().optional(),
+        date: z.date(),
       })
     )
     .mutation(({ input, ctx }) => {
@@ -16,7 +16,7 @@ export const showRouter = t.router({
       return prisma.show.create({
         data: {
           userId: session.user.id,
-          date: input.date || new Date(),
+          date: input.date,
           VenueText: {
             create: input.textIds.map((textId) => ({
               userId: session.user.id,
@@ -27,7 +27,7 @@ export const showRouter = t.router({
         },
       });
     }),
-  addTexts: authedProcedure
+  update: authedProcedure
     .input(
       z.object({
         showId: z.string(),
@@ -71,6 +71,14 @@ export const showRouter = t.router({
       where: {
         userId: {
           equals: ctx.session?.user?.id,
+        },
+      },
+      include: {
+        VenueText: {
+          select: {
+            Venue: true,
+            Text: true,
+          },
         },
       },
     });
