@@ -221,14 +221,7 @@ function VenueCreate(props: VenueCreateProps) {
   return (
     <>
       <Button onClick={() => modalRef.current?.open()}>Klick</Button>
-      <Modal
-        modalRef={modalRef}
-        heading={
-          <>
-            Neue <Highlight>Venue</Highlight> erstellen
-          </>
-        }
-      >
+      <Modal modalRef={modalRef} heading="Neue Venue erstellen">
         <form
           onSubmit={handleSubmit(async (data) => {
             const { cityId, name } = data;

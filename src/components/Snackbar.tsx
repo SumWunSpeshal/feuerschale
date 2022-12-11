@@ -20,9 +20,9 @@ type SnackbarProps = {
 };
 
 const stateMap: Record<State, string> = {
-  success: "bg-lime-400",
-  error: "bg-red-600",
-  info: "bg-blue-400",
+  success: "bg-lime-300",
+  error: "bg-red-500",
+  info: "bg-blue-300",
 };
 
 export function Snackbar(props: SnackbarProps) {
