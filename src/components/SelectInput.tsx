@@ -17,7 +17,7 @@ export const SelectInput = forwardRef(function SelectInput(
   props: Omit<SelectInputProps, "ref">,
   ref: ForwardedRef<HTMLSelectElement>
 ) {
-  const { id, defaultOption, options, isEmpty, ...rest } = props;
+  const { id, defaultOption, options, isEmpty, required, ...rest } = props;
 
   return (
     <div className="relative">
@@ -30,7 +30,9 @@ export const SelectInput = forwardRef(function SelectInput(
           isEmpty && "text-gray-400"
         )}
       >
-        <option value={defaultOption.value}>{defaultOption.innerText}</option>
+        <option value={defaultOption.value}>
+          {defaultOption.innerText + (required ? " *" : "")}
+        </option>
         {options?.map(({ innerText, value }) => (
           <option key={value} value={value}>
             {innerText}

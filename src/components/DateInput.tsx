@@ -12,7 +12,7 @@ export const DateInput = forwardRef(function DateInput(
   props: Omit<DateInputProps, "ref">,
   ref: ForwardedRef<HTMLInputElement>
 ) {
-  const { label, name, isEmpty } = props;
+  const { label, name, isEmpty, required } = props;
   const { isEmpty: _isEmpty, ...rest } = props;
 
   return (
@@ -21,9 +21,9 @@ export const DateInput = forwardRef(function DateInput(
         type="date"
         {...rest}
         ref={ref}
-        data-label={label || name}
+        data-label={`${label || name} ${required ? " *" : ""}`}
         className={clsx(
-          "w-full rounded-lg border-2 border-black py-3 px-4 font-project shadow-brutal outline-none transition-shadow before:mr-2 before:content-['('attr(data-label)')'] focus:shadow-brutal-lg"
+          "w-full rounded-lg border-2 border-black py-3 px-4 font-project shadow-brutal outline-none transition-shadow before:mr-2 before:content-[attr(data-label)] focus:shadow-brutal-lg"
         )}
       />
       <label htmlFor={props.name} className="sr-only">

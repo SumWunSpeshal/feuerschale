@@ -83,6 +83,7 @@ const Shows: NextPage = () => {
             <div className="mb-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
               <DateInput
                 isEmpty={!watch("date")}
+                required
                 label="Auftrittsdatum"
                 {...register("date", {
                   value: formatDate["yyyy-MM-dd"](new Date()),
@@ -92,6 +93,7 @@ const Shows: NextPage = () => {
                 id="venue"
                 isEmpty={!watch("venueId")}
                 defaultOption={{ innerText: "Venue auswählen", value: 0 }}
+                required
                 options={venueData?.map(({ id, name }) => ({
                   value: id,
                   innerText: name,
