@@ -1,3 +1,4 @@
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useEffect, useRef } from "react";
@@ -7,7 +8,9 @@ import { ChipInput } from "src/components/ChipInput";
 import { Container } from "src/components/Container";
 import { DateInput } from "src/components/DateInput";
 import { Highlight } from "src/components/Highlight";
+import { Icon } from "src/components/Icon";
 import { Layout } from "src/components/Layout";
+import { Modal, ModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
 import { Snackbar, SnackbarRef } from "src/components/Snackbar";
@@ -63,6 +66,7 @@ const Shows: NextPage = () => {
   });
 
   const snackbarRef = useRef<SnackbarRef>(null);
+  const modalRef = useRef<ModalRef>(null);
 
   useEffect(() => {
     const { unsubscribe } = watch(({ venueId }, { name }) => {
@@ -82,7 +86,6 @@ const Shows: NextPage = () => {
   return (
     <Layout authGuarded>
       <Section>
-        <VenueCreate refetch={venueRefetch} />
         <Container>
           <div className="mb-8">
             <h2 className="text-4xl font-bold">
@@ -99,27 +102,36 @@ const Shows: NextPage = () => {
             })}
           >
             <div className="mb-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <DateInput
-                isEmpty={!watch("date")}
-                required
-                label="Auftrittsdatum"
-                {...register("date", {
-                  value: formatDate["yyyy-MM-dd"](new Date()),
-                })}
-              />
-              <SelectInput
-                id="venue"
-                isEmpty={!watch("venueId")}
-                defaultOption={{ innerText: "Venue auswählen", value: 0 }}
-                required
-                options={venueData?.map(({ id, name }) => ({
-                  value: id,
-                  innerText: name,
-                }))}
-                {...register("venueId", {
-                  valueAsNumber: true,
-                })}
-              />
+              <div>
+                <DateInput
+                  isEmpty={!watch("date")}
+                  required
+                  label="Auftrittsdatum"
+                  {...register("date", {
+                    value: formatDate["yyyy-MM-dd"](new Date()),
+                  })}
+                />
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="grow">
+                  <SelectInput
+                    id="venue"
+                    isEmpty={!watch("venueId")}
+                    defaultOption={{ innerText: "Venue auswählen", value: 0 }}
+                    required
+                    options={venueData?.map(({ id, name }) => ({
+                      value: id,
+                      innerText: name,
+                    }))}
+                    {...register("venueId", {
+                      valueAsNumber: true,
+                    })}
+                  />
+                </div>
+                <button onClick={() => modalRef.current?.open()}>
+                  <Icon icon={faPlusCircle} size={32}></Icon>
+                </button>
+              </div>
             </div>
             <div className="mb-10">
               <div className="mb-4">
@@ -165,6 +177,18 @@ const Shows: NextPage = () => {
         <br />
         <pre>{JSON.stringify(venueTextData, null, 2)}</pre>
       </Container>
+      <Modal modalRef={modalRef} heading="Neue Venue erstellen">
+        <VenueCreate
+          onSuccess={() => {
+            venueRefetch();
+            modalRef.current?.close();
+            snackbarRef.current?.open({
+              message: "Die neue Venue wurde erfolgreich gespeichert.",
+              state: "success",
+            });
+          }}
+        />
+      </Modal>
       <Snackbar snackbarRef={snackbarRef} />
     </Layout>
   );
