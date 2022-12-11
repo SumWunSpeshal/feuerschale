@@ -27,7 +27,7 @@ type SearchProps<TData> = {
   searchRef?: ForwardedRef<SearchRef>;
 };
 
-export function Search<TData>(props: SearchProps<TData>) {
+export function SearchInput<TData>(props: SearchProps<TData>) {
   const {
     data,
     onChange,

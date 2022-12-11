@@ -10,7 +10,7 @@ import VenueImg from "public/img/venue.jpg";
 import { useState } from "react";
 import { Container } from "src/components/Container";
 import { Layout } from "src/components/Layout";
-import { Search } from "src/components/Search";
+import { SearchInput } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
 import { Tile } from "src/components/Tile";
 import { trpc } from "src/utils/trpc";
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className="hidden">
-            <Search
+            <SearchInput
               data={cityData}
               onChange={({ target }) => mutate({ value: target.value })}
               onSelection={(e) => {

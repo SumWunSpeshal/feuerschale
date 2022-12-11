@@ -2,7 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
-import { Search, SearchRef } from "src/components/Search";
+import { CitySearch } from "src/components/CitySearch";
+import { SearchRef } from "src/components/SearchInput";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -20,12 +21,6 @@ type VenueFormData = z.infer<typeof venueFormSchema>;
 
 export function VenueCreate(props: VenueCreateProps) {
   const { onSuccess } = props;
-
-  const {
-    data: cityData,
-    mutate,
-    reset: resetCities,
-  } = trpc.city.search.useMutation();
 
   const {
     formState: { errors },
@@ -60,19 +55,9 @@ export function VenueCreate(props: VenueCreateProps) {
         className="grid gap-y-6"
       >
         <TextInput label="Name" {...register("name")} required />
-        <Search
-          data={cityData}
-          suggestion={(city) => city.Stadt}
-          onChange={({ target }) => mutate({ value: target.value })}
-          onSelection={(city) => {
-            resetCities();
-            setValue("cityId", city.id);
-          }}
-          afterSelectionMode="apply"
-          id="city-search"
-          label="Stadt"
-          required
+        <CitySearch
           searchRef={searchRef}
+          onSelection={(city) => setValue("cityId", city.id)}
         />
         <div className="flex justify-end">
           <Button type="submit">Erstellen</Button>
