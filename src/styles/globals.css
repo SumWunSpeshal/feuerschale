@@ -25,6 +25,7 @@ textarea::-moz-placeholder {
 }
 
 input::placeholder,
-textarea::placeholder {
+textarea::placeholder,
+input[type="file"]::after {
   color: theme("colors.neutral.400");
 }

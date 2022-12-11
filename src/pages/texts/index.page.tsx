@@ -29,6 +29,7 @@ const Texts: NextPage = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     reset: resetForm,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -62,7 +63,9 @@ const Texts: NextPage = () => {
           <br />
           <FileInput
             id="upload"
+            isEmpty={!watch("files")?.length}
             reset={() => setValue("files", undefined)}
+            label="Slamtext"
             {...register("files")}
           />
           <button type="submit">Submit</button>
