@@ -13,7 +13,7 @@ export function PreviewList(props: PreviewListProps) {
   const { children, className } = props;
 
   return (
-    <ul className={clsx("divide-y-2 divide-black", className)}>{children}</ul>
+    <ul className={clsx("divide-y divide-black", className)}>{children}</ul>
   );
 }
 

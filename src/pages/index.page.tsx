@@ -63,7 +63,7 @@ const Home: NextPage = () => {
                 title={<Anchor href="/shows">Auftritte</Anchor>}
                 titleClassName="bg-amber-500"
               >
-                <PreviewList className="grid grid-cols-2 gap-4 space-y-0 divide-y-0">
+                <PreviewList className="grid grid-cols-2 gap-4 space-y-0 !divide-y-0">
                   {dashboardData?.Show.map(({ id, date, VenueText }) => (
                     <PreviewList.Item
                       key={id}
