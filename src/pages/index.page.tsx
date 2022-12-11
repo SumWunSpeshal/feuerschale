@@ -58,28 +58,30 @@ const Home: NextPage = () => {
                 </div>
               </DashboardTile>
             </div>
-            <div>
+            <div className="col-span-2">
               <DashboardTile
                 title={<Anchor href="/shows">Auftritte</Anchor>}
                 titleClassName="bg-amber-500"
               >
-                <PreviewList>
-                  {dashboardData?.VenueText.map(
-                    ({ created_at, id, Text, Venue }) => {
-                      return (
-                        <PreviewList.Item
-                          key={id}
-                          title={formatDate["dd.MM.yyyy"](created_at)}
-                          href={`/shows/${id}`}
-                          description={
-                            <>
-                              {Text.name} / {Venue.name}
-                            </>
-                          }
-                        />
-                      );
-                    }
-                  )}
+                <PreviewList className="grid grid-cols-2 gap-4 space-y-0 divide-y-0">
+                  {dashboardData?.Show.map(({ id, date, VenueText }) => (
+                    <PreviewList.Item
+                      key={id}
+                      className="py-0"
+                      title={formatDate["dd.MM.yyyy"](date)}
+                      href={`/shows/${id}`}
+                      description={
+                        <>
+                          <ul className="list-inside list-disc">
+                            {VenueText.map(({ Text }) => (
+                              <li key={Text.id}>{Text.name}</li>
+                            ))}
+                          </ul>
+                          <span>in {VenueText[0]?.Venue.City.Stadt}</span>
+                        </>
+                      }
+                    />
+                  ))}
                 </PreviewList>
               </DashboardTile>
             </div>
@@ -101,7 +103,24 @@ const Home: NextPage = () => {
               </DashboardTile>
             </div>
 
-            <div className="col-span-2">
+            <div>
+              <DashboardTile
+                title={<Anchor href="/texts">Texte</Anchor>}
+                titleClassName="bg-indigo-400"
+              >
+                <PreviewList>
+                  {dashboardData?.texts.map(({ id, name }) => (
+                    <PreviewList.Item
+                      key={id}
+                      title={name}
+                      href={`/texts/${id}`}
+                    />
+                  ))}
+                </PreviewList>
+              </DashboardTile>
+            </div>
+
+            <div>
               <DashboardTile title="Rechnungen" titleClassName="bg-fuchsia-500">
                 <PreviewList>
                   {dashboardData?.Invoice.map(({ id, Show }) => (
@@ -115,22 +134,6 @@ const Home: NextPage = () => {
                           {Show.VenueText[0]?.Text.name}
                         </>
                       }
-                    />
-                  ))}
-                </PreviewList>
-              </DashboardTile>
-            </div>
-            <div>
-              <DashboardTile
-                title={<Anchor href="/texts">Texte</Anchor>}
-                titleClassName="bg-indigo-400"
-              >
-                <PreviewList>
-                  {dashboardData?.texts.map(({ id, name }) => (
-                    <PreviewList.Item
-                      key={id}
-                      title={name}
-                      href={`/texts/${id}`}
                     />
                   ))}
                 </PreviewList>

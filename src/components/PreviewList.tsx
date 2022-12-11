@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Link from "next/link";
 import { ReactElement } from "react";
 
@@ -5,25 +6,29 @@ type PreviewListProps = {
   children?:
     | ReactElement<PreviewListItemProps>
     | ReactElement<PreviewListItemProps>[];
+  className?: string;
 };
 
 export function PreviewList(props: PreviewListProps) {
-  const { children } = props;
+  const { children, className } = props;
 
-  return <ul className="divide-y-2 divide-black">{children}</ul>;
+  return (
+    <ul className={clsx("divide-y-2 divide-black", className)}>{children}</ul>
+  );
 }
 
 type PreviewListItemProps = {
   title?: string | JSX.Element | null;
   description?: string | JSX.Element;
   href?: string;
+  className?: string;
 };
 
 const Item: React.FC<PreviewListItemProps> = (props) => {
-  const { title, description, href } = props;
+  const { title, description, href, className } = props;
 
   return (
-    <li className="py-2 first:pt-0 last:pb-0">
+    <li className={clsx("py-2 first:pt-0 last:pb-0", className)}>
       {href ? (
         <Link href={href} className="group block">
           <ItemInner title={title} description={description} />
