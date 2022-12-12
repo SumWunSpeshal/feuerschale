@@ -187,6 +187,7 @@ const Shows: NextPage = () => {
               Meine <Highlight>Auftritte</Highlight>
             </h1>
           </div>
+          <pre>{JSON.stringify(showData, null, 2)}</pre>
           <div className="space-y-8">
             {Object.entries(groupedShows || {}).map(([date, shows]) => (
               <div key={date}>
@@ -208,7 +209,7 @@ const Shows: NextPage = () => {
                         {VenueText[0]?.Venue.name},{" "}
                         {VenueText[0]?.Venue.City.Stadt}
                       </div>
-                      <ul className="mb-2 flex flex-wrap gap-2">
+                      <ul className="mb-4 flex flex-wrap gap-2">
                         {VenueText.map(({ Text }) => (
                           <li key={Text.id}>
                             <Chip>{Text.name}</Chip>
