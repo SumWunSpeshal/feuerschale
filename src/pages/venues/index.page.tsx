@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import clsx from "clsx";
 import { NextPage } from "next";
 import Link from "next/link";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { CitySearch } from "src/components/CitySearch";
@@ -51,7 +50,7 @@ const Venues: NextPage = () => {
   const snackbarRef = useRef<SnackbarRef>(null);
   const searchRef = useRef<SearchRef>(null);
 
-  const groupedVenues = groupVenues(venueData);
+  const groupedVenues = useMemo(() => groupVenues(venueData), [venueData]);
 
   return (
     <Layout authGuarded>
@@ -111,18 +110,10 @@ const Venues: NextPage = () => {
               <h2 className="text-xl">
                 <strong>{cityName}</strong>
               </h2>
-              {venues?.map(({ id, name, VenueText }) => (
+              {venues?.map(({ id, name }) => (
                 <div key={id}>
                   <Link href={"/venues/" + id} className="text-blue-700">
-                    <span className="flex items-center gap-2">
-                      <span
-                        className={clsx(
-                          "block aspect-square h-3 rounded-full border-2 border-gray-400",
-                          VenueText.length && "bg-gray-400"
-                        )}
-                      ></span>
-                      <span>{name}</span>
-                    </span>
+                    {name}
                   </Link>
                 </div>
               ))}

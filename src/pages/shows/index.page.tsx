@@ -1,7 +1,8 @@
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
-import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { ChipInput } from "src/components/ChipInput";
@@ -17,6 +18,7 @@ import { Snackbar, SnackbarRef } from "src/components/Snackbar";
 import { formatDate } from "src/utils/format-date";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
+import { groupShows } from "./utils";
 import { VenueCreate } from "./venue-create";
 
 const formSchema = z.object({
@@ -33,7 +35,7 @@ const Shows: NextPage = () => {
   const { data: venueData, refetch: venueRefetch } =
     trpc.venue.getAll.useQuery();
   const { data: textData } = trpc.text.getAll.useQuery();
-  const { data: venueTextData, refetch } = trpc.show.getAll.useQuery();
+  const { data: showData, refetch } = trpc.show.getAll.useQuery();
   const {
     mutate: getVenueTextsByVenueId,
     data: venueTextsByVenueId,
@@ -82,6 +84,8 @@ const Shows: NextPage = () => {
 
     return () => unsubscribe();
   }, [getVenueTextsByVenueId, resetForm, watch]);
+
+  const groupedShows = useMemo(() => groupShows(showData), [showData]);
 
   return (
     <Layout authGuarded>
@@ -164,20 +168,21 @@ const Shows: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-
-        <pre>{JSON.stringify(venueTextsByVenueId, null, 2)}</pre>
-
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <pre>{JSON.stringify(venueTextData, null, 2)}</pre>
+        <pre className="hidden">{JSON.stringify(showData, null, 2)}</pre>
+        {Object.entries(groupedShows || {}).map(([date, shows]) => (
+          <div key={date}>
+            <h2 className="text-xl">
+              <strong>{date}</strong>
+            </h2>
+            {shows?.map(({ id, VenueText }) => (
+              <div key={id}>
+                <Link href={"/shows/" + id} className="text-blue-400">
+                  {VenueText[0]?.Venue.name}
+                </Link>
+              </div>
+            ))}
+          </div>
+        ))}
       </Container>
       <Modal modalRef={modalRef} heading="Neue Venue erstellen">
         <VenueCreate

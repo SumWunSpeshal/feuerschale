@@ -94,7 +94,7 @@ export const showRouter = t.router({
         return null;
       }
 
-      return ctx.prisma.venueText.findFirst({
+      return ctx.prisma.show.findFirst({
         where: {
           id: input.showId,
         },

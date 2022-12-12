@@ -3,6 +3,7 @@ import { signOut } from "next-auth/react";
 import NextImage from "next/image";
 import { Anchor } from "src/components/Anchor";
 import { Button } from "src/components/Button";
+import { Chip } from "src/components/Chip";
 import { Container } from "src/components/Container";
 import { DashboardTile } from "src/components/DashboardTile";
 import { Highlight } from "src/components/Highlight";
@@ -68,16 +69,22 @@ const Home: NextPage = () => {
                     <PreviewList.Item
                       key={id}
                       className="py-0"
-                      title={formatDate["dd.MM.yyyy"](date)}
+                      title={
+                        <>
+                          {VenueText[0]?.Venue.name},{" "}
+                          {formatDate["dd.MM.yyyy"](date)}
+                        </>
+                      }
                       href={`/shows/${id}`}
                       description={
                         <>
-                          <ul className="list-inside list-disc">
+                          <ul className="flex flex-wrap gap-2">
                             {VenueText.map(({ Text }) => (
-                              <li key={Text.id}>{Text.name}</li>
+                              <li key={Text.id}>
+                                <Chip>{Text.name}</Chip>
+                              </li>
                             ))}
                           </ul>
-                          <span>in {VenueText[0]?.Venue.City.Stadt}</span>
                         </>
                       }
                     />
