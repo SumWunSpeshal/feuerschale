@@ -1,4 +1,4 @@
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
@@ -39,7 +39,7 @@ export const FileInput = forwardRef(function FileInput(
         {reset && (
           <div className="absolute top-1/2 right-0 -translate-y-1/2">
             <Fab
-              icon={faTrash}
+              icon={faTrashCan}
               size={16}
               onClick={reset}
               className="text-red-600"

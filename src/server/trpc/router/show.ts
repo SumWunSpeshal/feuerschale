@@ -68,6 +68,9 @@ export const showRouter = t.router({
     }),
   getAll: authedProcedure.query(({ ctx }) => {
     return ctx.prisma.show.findMany({
+      orderBy: {
+        date: "desc",
+      },
       where: {
         userId: {
           equals: ctx.session?.user?.id,
@@ -76,10 +79,15 @@ export const showRouter = t.router({
       include: {
         VenueText: {
           select: {
-            Venue: true,
+            Venue: {
+              include: {
+                City: true,
+              },
+            },
             Text: true,
           },
         },
+        Invoice: true,
       },
     });
   }),

@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import useKeyup from "src/hooks/useKeyup";
+import { Button } from "./Button";
 import { Fab } from "./Fab";
 
 export type ModalRef = {
@@ -67,3 +68,36 @@ export function Modal(props: ModalProps) {
     </div>
   );
 }
+
+type ConfirmModalProps = PropsWithChildren<{
+  modalRef: RefObject<ModalRef>;
+  onConfirm: () => void;
+}>;
+
+function Confirm(props: ConfirmModalProps) {
+  const { children, modalRef, onConfirm } = props;
+
+  return (
+    <Modal modalRef={modalRef} heading="Bist Du sicher?">
+      <div className="mb-6">{children}</div>
+      <div className="flex justify-end gap-4">
+        <Button
+          onClick={() => modalRef.current?.close()}
+          className="!bg-gray-200"
+        >
+          Abbrechen
+        </Button>
+        <Button
+          onClick={() => {
+            onConfirm();
+            modalRef.current?.close();
+          }}
+        >
+          Bestätigen
+        </Button>
+      </div>
+    </Modal>
+  );
+}
+
+Modal.Confirm = Confirm;

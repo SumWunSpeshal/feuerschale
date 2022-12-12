@@ -6,6 +6,7 @@ type DateHelper = {
   "yyyy-MM-dd": DateFun;
   "dd.MM.": DateFun;
   "dd.MM.yyyy": DateFun;
+  Month_yyyy: DateFun;
   full: DateFun;
 };
 
@@ -24,6 +25,13 @@ export const formatDate: DateHelper = {
       ? new Date(date).toLocaleDateString("de-DE", {
           day: "2-digit",
           month: "2-digit",
+          year: "numeric",
+        })
+      : undefined,
+  Month_yyyy: (date) =>
+    date
+      ? new Date(date).toLocaleDateString("de-DE", {
+          month: "long",
           year: "numeric",
         })
       : undefined,

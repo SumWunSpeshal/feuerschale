@@ -6,7 +6,7 @@ export function Chip(props: ChipProps) {
   const { children } = props;
 
   return (
-    <span className="inline-flex whitespace-nowrap rounded-full bg-amber-300 px-2 text-neutral-600">
+    <span className="inline-flex whitespace-nowrap rounded-full bg-amber-300 px-2 text-sm text-neutral-600">
       {children}
     </span>
   );

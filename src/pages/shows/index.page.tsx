@@ -1,10 +1,11 @@
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
-import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
+import { Card } from "src/components/Card";
+import { Chip } from "src/components/Chip";
 import { ChipInput } from "src/components/ChipInput";
 import { Container } from "src/components/Container";
 import { DateInput } from "src/components/DateInput";
@@ -51,7 +52,16 @@ const Shows: NextPage = () => {
       }));
       resetVenueTextsByVenueId();
       snackbarRef.current?.open({
-        message: "Der neue Auftritt wurde erfolgreich gespeichert.",
+        message: "Auftritt wurde erfolgreich gespeichert.",
+        state: "success",
+      });
+    },
+  });
+  const { mutate: deleteShow } = trpc.show.delete.useMutation({
+    onSuccess: () => {
+      refetch();
+      snackbarRef.current?.open({
+        message: "Auftritt wurde gelöscht.",
         state: "success",
       });
     },
@@ -168,21 +178,46 @@ const Shows: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <pre className="hidden">{JSON.stringify(showData, null, 2)}</pre>
-        {Object.entries(groupedShows || {}).map(([date, shows]) => (
-          <div key={date}>
-            <h2 className="text-xl">
-              <strong>{date}</strong>
-            </h2>
-            {shows?.map(({ id, VenueText }) => (
-              <div key={id}>
-                <Link href={"/shows/" + id} className="text-blue-400">
-                  {VenueText[0]?.Venue.name}
-                </Link>
+        <div className="pt-20">
+          <div className="mb-10">
+            <h1 className="text-6xl font-bold">
+              Meine <Highlight>Auftritte</Highlight>
+            </h1>
+          </div>
+          <div className="space-y-8">
+            {Object.entries(groupedShows || {}).map(([date, shows]) => (
+              <div key={date}>
+                <div className="mb-4 border-b-2 border-black">
+                  <h2 className="text-2xl">
+                    <span>{date}</span>
+                  </h2>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  {shows?.map(({ id, VenueText, date }) => (
+                    <Card
+                      key={id}
+                      hrefToDetailPage={"/shows/" + id}
+                      header={formatDate["full"](date)}
+                      onDelete={() => deleteShow({ showId: id })}
+                      deleteModalChildren="Dieser Auftritt wird unwiderruflich gelöscht!"
+                    >
+                      <div className="mb-2 text-sm">
+                        {VenueText[0]?.Venue.City.Stadt}
+                      </div>
+                      <ul className="flex flex-wrap gap-2">
+                        {VenueText.map(({ Text }) => (
+                          <li key={Text.id}>
+                            <Chip>{Text.name}</Chip>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
-        ))}
+        </div>
       </Container>
       <Modal modalRef={modalRef} heading="Neue Venue erstellen">
         <VenueCreate

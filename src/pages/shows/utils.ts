@@ -1,21 +1,24 @@
-import { Show, Text, Venue } from "@prisma/client";
+import { City, Invoice, Show, Text, Venue } from "@prisma/client";
 import { formatDate } from "src/utils/format-date";
 
 export type ShowData =
   | (Show & {
       VenueText: {
         Text: Text;
-        Venue: Venue;
+        Venue: Venue & {
+          City: City;
+        };
       }[];
+      Invoice: Invoice[];
     })[]
   | undefined;
 
 export function groupShows(venueData: ShowData) {
   return venueData?.reduce((acc, curr) => {
-    const yyyyMMdd = formatDate["yyyy-MM-dd"](curr.date) as string;
+    const Month_yyyy = formatDate["Month_yyyy"](curr.date) as string;
     return {
       ...acc,
-      [yyyyMMdd]: [...(acc[yyyyMMdd] || []), curr],
+      [Month_yyyy]: [...(acc[Month_yyyy] || []), curr],
     };
   }, {} as Record<string, ShowData>);
 }
