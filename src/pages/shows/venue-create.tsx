@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Venue } from "@prisma/client";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
@@ -9,7 +10,7 @@ import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 
 type VenueCreateProps = {
-  onSuccess: () => void;
+  onSuccess: (venue: Venue) => void;
 };
 
 const venueFormSchema = z.object({
@@ -33,8 +34,8 @@ export function VenueCreate(props: VenueCreateProps) {
   });
 
   const { mutate: createVenue } = trpc.venue.create.useMutation({
-    onSuccess: () => {
-      onSuccess();
+    onSuccess: (venue) => {
+      onSuccess(venue);
       resetForm();
     },
   });

@@ -4,7 +4,7 @@ import { formatDate } from "src/utils/format-date";
 export type ShowData =
   | (Show & {
       VenueText: {
-        Text: Text;
+        Text: Text | null;
         Venue: Venue & {
           City: City;
         };

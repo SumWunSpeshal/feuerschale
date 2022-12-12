@@ -73,6 +73,7 @@ const Shows: NextPage = () => {
     register,
     handleSubmit,
     reset: resetForm,
+    setValue,
     watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -164,7 +165,7 @@ const Shows: NextPage = () => {
                     label={name}
                     id={id}
                     warning={venueTextsByVenueId
-                      ?.map(({ Text }) => Text.id)
+                      ?.map(({ Text }) => Text?.id)
                       .includes(id)}
                     {...register(`textIds.${idx}`, {
                       disabled: false,
@@ -187,7 +188,6 @@ const Shows: NextPage = () => {
               Meine <Highlight>Auftritte</Highlight>
             </h1>
           </div>
-          <pre>{JSON.stringify(showData, null, 2)}</pre>
           <div className="space-y-8">
             {Object.entries(groupedShows || {}).map(([date, shows]) => (
               <div key={date}>
@@ -209,13 +209,20 @@ const Shows: NextPage = () => {
                         {VenueText[0]?.Venue.name},{" "}
                         {VenueText[0]?.Venue.City.Stadt}
                       </div>
-                      <ul className="mb-4 flex flex-wrap gap-2">
-                        {VenueText.map(({ Text }) => (
-                          <li key={Text.id}>
-                            <Chip>{Text.name}</Chip>
-                          </li>
-                        ))}
-                      </ul>
+                      {VenueText.some(({ Text }) => !!Text) && (
+                        <ul className="mb-4 flex flex-wrap gap-2">
+                          {VenueText.map(({ Text }) => {
+                            return (
+                              Text && (
+                                <li key={Text.id}>
+                                  <Chip>{Text.name}</Chip>
+                                </li>
+                              )
+                            );
+                          })}
+                        </ul>
+                      )}
+
                       <div className="flex flex-wrap gap-x-2 gap-y-1 font-normal text-gray-600">
                         <div className="flex items-center gap-1">
                           <small>Rechnung gestellt:</small>
@@ -240,8 +247,9 @@ const Shows: NextPage = () => {
       </Container>
       <Modal modalRef={modalRef} heading="Neue Venue erstellen">
         <VenueCreate
-          onSuccess={() => {
-            venueRefetch();
+          onSuccess={async (venue) => {
+            await venueRefetch();
+            setValue("venueId", venue.id);
             modalRef.current?.close();
             snackbarRef.current?.open({
               message: "Die neue Venue wurde erfolgreich gespeichert.",

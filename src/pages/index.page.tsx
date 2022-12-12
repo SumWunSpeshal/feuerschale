@@ -79,11 +79,14 @@ const Home: NextPage = () => {
                       description={
                         <>
                           <ul className="flex flex-wrap gap-2">
-                            {VenueText.map(({ Text }) => (
-                              <li key={Text.id}>
-                                <Chip>{Text.name}</Chip>
-                              </li>
-                            ))}
+                            {VenueText.map(
+                              ({ Text }) =>
+                                Text && (
+                                  <li key={Text.id}>
+                                    <Chip>{Text.name}</Chip>
+                                  </li>
+                                )
+                            )}
                           </ul>
                         </>
                       }
@@ -127,6 +130,7 @@ const Home: NextPage = () => {
               </DashboardTile>
             </div>
 
+            {/* todo review this whole Tile */}
             <div>
               <DashboardTile title="Rechnungen" titleClassName="bg-fuchsia-500">
                 <PreviewList>
@@ -138,7 +142,7 @@ const Home: NextPage = () => {
                         <>
                           {formatDate["dd.MM.yyyy"](Show.date)} /{" "}
                           {Show.VenueText[0]?.Venue.name} /{" "}
-                          {Show.VenueText[0]?.Text.name}
+                          {Show.VenueText[0]?.Text?.name}
                         </>
                       }
                     />

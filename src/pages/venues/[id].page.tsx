@@ -76,9 +76,9 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
         </form>
         <pre>{JSON.stringify(venueDetailData, null, 2)}</pre>
 
-        {venueDetailData?.VenueText.map(({ Text: { id: textId } }) => (
-          <div key={textId}>asd</div>
-        ))}
+        {venueDetailData?.VenueText.map(({ Text }) => {
+          return Text && <div key={Text.id}>asd</div>;
+        })}
       </Container>
     </Layout>
   );

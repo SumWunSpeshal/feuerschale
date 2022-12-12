@@ -1,11 +1,11 @@
-import { City, Text, Venue } from "@prisma/client";
+import { City, Text, Venue, VenueText } from "@prisma/client";
 
 export type VenueData =
   | (Venue & {
       City: City;
-      VenueText: {
-        Text: Text;
-      }[];
+      VenueText: (VenueText & {
+        Text: Text | null;
+      })[];
     })[]
   | undefined;
 

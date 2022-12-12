@@ -18,11 +18,16 @@ export const showRouter = t.router({
           userId: session.user.id,
           date: input.date,
           VenueText: {
-            create: input.textIds.map((textId) => ({
-              userId: session.user.id,
-              venueId: input.venueId,
-              textId,
-            })),
+            create: input.textIds.length
+              ? input.textIds.map((textId) => ({
+                  userId: session.user.id,
+                  venueId: input.venueId,
+                  textId,
+                }))
+              : {
+                  userId: session.user.id,
+                  venueId: input.venueId,
+                },
           },
         },
       });
