@@ -30,7 +30,10 @@ const Item: React.FC<PreviewListItemProps> = (props) => {
   return (
     <li className={clsx("py-2 first:pt-0 last:pb-0", className)}>
       {href ? (
-        <Link href={href} className="group block">
+        <Link
+          href={href}
+          className="group block rounded-md ring-amber-200 transition-all duration-75 hover:bg-amber-200 hover:ring-8"
+        >
           <ItemInner title={title} description={description} />
         </Link>
       ) : (
