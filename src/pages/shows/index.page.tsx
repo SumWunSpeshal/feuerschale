@@ -1,4 +1,4 @@
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useEffect, useMemo, useRef } from "react";
@@ -146,7 +146,14 @@ const Shows: NextPage = () => {
                   />
                 </div>
                 <button onClick={() => modalRef.current?.open()} type="button">
-                  <Icon icon={faPlusCircle} size={32}></Icon>
+                  <div className="square-12 flex items-center justify-center rounded-md bg-orange-200">
+                    <Icon
+                      icon={faPlus}
+                      size={32}
+                      className="text-orange-600"
+                    ></Icon>
+                    <span className="sr-only">Venue hinzufügen</span>
+                  </div>
                 </button>
               </div>
             </div>
