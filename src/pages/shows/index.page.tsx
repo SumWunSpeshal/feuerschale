@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useEffect, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { BoxedIcon } from "src/components/BoxedIcon";
 import { Button } from "src/components/Button";
 import { Card } from "src/components/Card";
 import { Chip } from "src/components/Chip";
@@ -187,13 +188,13 @@ const Shows: NextPage = () => {
           <div className="space-y-8">
             {Object.entries(groupedShows || {}).map(([date, shows]) => (
               <div key={date}>
-                <div className="mb-4 border-b-2 border-black">
+                <div className="mb-4">
                   <h2 className="text-2xl">
                     <span>{date}</span>
                   </h2>
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  {shows?.map(({ id, VenueText, date }) => (
+                  {shows?.map(({ id, VenueText, date, Invoice }) => (
                     <Card
                       key={id}
                       hrefToDetailPage={"/shows/" + id}
@@ -204,13 +205,27 @@ const Shows: NextPage = () => {
                       <div className="mb-2 text-sm">
                         {VenueText[0]?.Venue.City.Stadt}
                       </div>
-                      <ul className="flex flex-wrap gap-2">
+                      <ul className="mb-2 flex flex-wrap gap-2">
                         {VenueText.map(({ Text }) => (
                           <li key={Text.id}>
                             <Chip>{Text.name}</Chip>
                           </li>
                         ))}
                       </ul>
+                      <div className="flex flex-wrap gap-x-2 gap-y-1 font-normal text-gray-500">
+                        <div className="flex items-center gap-1">
+                          <small>Rechnung gestellt:</small>
+                          <BoxedIcon
+                            state={!!Invoice[0]?.issued ? "check" : "close"}
+                          />
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <small>Rechnung beglichen:</small>
+                          <BoxedIcon
+                            state={!!Invoice[0]?.settled ? "check" : "close"}
+                          />
+                        </div>
+                      </div>
                     </Card>
                   ))}
                 </div>
