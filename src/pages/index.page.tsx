@@ -79,14 +79,15 @@ const Home: NextPage = () => {
                       description={
                         <>
                           <ul className="flex flex-wrap gap-2">
-                            {VenueText.map(
-                              ({ Text }) =>
+                            {VenueText.map(({ Text }) => {
+                              return (
                                 Text && (
                                   <li key={Text.id}>
                                     <Chip>{Text.name}</Chip>
                                   </li>
                                 )
-                            )}
+                              );
+                            })}
                           </ul>
                         </>
                       }
