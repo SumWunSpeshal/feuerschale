@@ -19,7 +19,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout authGuarded noFloatingNav>
-      <Section>
+      <Section className="h-full">
         <Container>
           <div className="mb-16">
             <h1 className="text-5xl font-extrabold md:text-[5rem]">
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
             </h1>
           </div>
 
-          <div className="grid auto-rows-fr grid-cols-3 gap-8">
+          <div className="grid gap-8 md:auto-rows-fr md:grid-cols-3">
             <div>
               <DashboardTile title="Profil" titleClassName="bg-teal-500">
                 {sessionData?.user?.image && (
@@ -59,12 +59,12 @@ const Home: NextPage = () => {
                 </div>
               </DashboardTile>
             </div>
-            <div className="col-span-2">
+            <div className="md:col-span-2">
               <DashboardTile
                 title={<Anchor href="/shows">Auftritte</Anchor>}
                 titleClassName="bg-amber-500"
               >
-                <PreviewList className="grid grid-cols-2 gap-4 space-y-0 !divide-y-0">
+                <PreviewList className="grid gap-4 space-y-0 !divide-y-0 sm:grid-cols-2">
                   {dashboardData?.Show.map(({ id, date, VenueText }) => (
                     <PreviewList.Item
                       key={id}

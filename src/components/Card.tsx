@@ -20,7 +20,7 @@ export function Card(props: CardProps) {
   const modalRef = useRef<ModalRef>(null);
 
   return (
-    <div className="rounded-md border-2 border-gray-500 bg-neutral-100 even:bg-neutral-200">
+    <div className="rounded-md border-2 border-gray-500 bg-indigo-50">
       <div className="flex flex-col items-start justify-between gap-4 py-2 px-3 sm:flex-row">
         <div>
           <header className="mb-0">

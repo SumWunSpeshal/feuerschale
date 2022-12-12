@@ -145,16 +145,10 @@ const Shows: NextPage = () => {
                     })}
                   />
                 </div>
-                <button onClick={() => modalRef.current?.open()} type="button">
-                  <div className="square-12 flex items-center justify-center rounded-md bg-orange-200">
-                    <Icon
-                      icon={faPlus}
-                      size={32}
-                      className="text-orange-600"
-                    ></Icon>
-                    <span className="sr-only">Venue hinzufügen</span>
-                  </div>
-                </button>
+                <Button onClick={() => modalRef.current?.open()} type="button">
+                  <Icon icon={faPlus} size={20}></Icon>
+                  <span className="sr-only">Venue hinzufügen</span>
+                </Button>
               </div>
             </div>
             <div className="mb-10">
@@ -210,6 +204,7 @@ const Shows: NextPage = () => {
                       deleteModalChildren="Dieser Auftritt wird unwiderruflich gelöscht!"
                     >
                       <div className="mb-2 text-sm">
+                        {VenueText[0]?.Venue.name},{" "}
                         {VenueText[0]?.Venue.City.Stadt}
                       </div>
                       <ul className="mb-2 flex flex-wrap gap-2">

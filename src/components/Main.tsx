@@ -5,5 +5,5 @@ type MainProps = PropsWithChildren;
 export function Main(props: MainProps) {
   const { children } = props;
 
-  return <main>{children}</main>;
+  return <main className="grow">{children}</main>;
 }
