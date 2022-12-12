@@ -74,6 +74,7 @@ const Venues: NextPage = () => {
             className="grid grid-cols-2 gap-x-6 gap-y-6"
           >
             <TextInput
+              id="name"
               label="Name"
               required
               error={errors.name?.message}
@@ -86,6 +87,7 @@ const Venues: NextPage = () => {
             />
             <div className="col-span-full">
               <TextInput
+                id="description"
                 label="Beschreibung"
                 error={errors.description?.message}
                 {...register("description")}

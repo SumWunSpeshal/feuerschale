@@ -7,6 +7,7 @@ import { Icon } from "./Icon";
 
 type TextInputProps = {
   [key: string]: any;
+  id: string;
   label?: string;
   icon?: IconDefinition;
   error?: string;
@@ -37,7 +38,7 @@ export const TextInput = forwardRef(function TextInput(
           icon && "pl-10"
         )}
       />
-      <label htmlFor={props.name} className="sr-only">
+      <label htmlFor={props.id} className="sr-only">
         {label || name}
       </label>
       <Error>{error}</Error>

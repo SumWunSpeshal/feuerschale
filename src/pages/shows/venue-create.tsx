@@ -55,6 +55,7 @@ export function VenueCreate(props: VenueCreateProps) {
         className="grid gap-y-6"
       >
         <TextInput
+          id="name"
           label="Name"
           required
           error={errors.name?.message}

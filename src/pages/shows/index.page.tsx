@@ -119,6 +119,7 @@ const Shows: NextPage = () => {
             <div className="mb-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div>
                 <DateInput
+                  id="date"
                   isEmpty={!watch("date")}
                   required
                   label="Auftrittsdatum"
@@ -136,9 +137,9 @@ const Shows: NextPage = () => {
                     defaultOption={{ innerText: "Venue auswählen", value: 0 }}
                     required
                     error={errors.venueId?.message}
-                    options={venueData?.map(({ id, name }) => ({
+                    options={venueData?.map(({ id, name, City }) => ({
                       value: id,
-                      innerText: name,
+                      innerText: `${name}, ${City.Stadt}`,
                     }))}
                     {...register("venueId", {
                       valueAsNumber: true,
@@ -214,7 +215,7 @@ const Shows: NextPage = () => {
                           </li>
                         ))}
                       </ul>
-                      <div className="flex flex-wrap gap-x-2 gap-y-1 font-normal text-gray-500">
+                      <div className="flex flex-wrap gap-x-2 gap-y-1 font-normal text-gray-600">
                         <div className="flex items-center gap-1">
                           <small>Rechnung gestellt:</small>
                           <BoxedIcon

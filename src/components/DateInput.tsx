@@ -5,6 +5,7 @@ import { Error } from "./Error";
 
 type DateInputProps = {
   [key: string]: any;
+  id: string;
   label?: string;
   isEmpty?: boolean;
   error?: string;
@@ -28,7 +29,7 @@ export const DateInput = forwardRef(function DateInput(
           "w-full rounded-lg border-2 border-black py-3 px-4 font-project shadow-brutal outline-none transition-shadow before:mr-2 before:content-[attr(data-label)] focus:shadow-brutal-lg"
         )}
       />
-      <label htmlFor={props.name} className="sr-only">
+      <label htmlFor={props.id} className="sr-only">
         {label || name}
       </label>
       <Error>{error}</Error>

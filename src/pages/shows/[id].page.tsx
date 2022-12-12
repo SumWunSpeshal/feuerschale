@@ -1,5 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { Button } from "src/components/Button";
+import { CheckInput } from "src/components/CheckInput";
 import { Container } from "src/components/Container";
 import { Layout } from "src/components/Layout";
 import { trpc } from "src/utils/trpc";
@@ -30,6 +31,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
         <div>Show Detail</div>
         <Button onClick={() => deleteShow({ showId: id })}>Delete</Button>
         <br />
+        <CheckInput id="test" label="My checkbox" />
         <pre>{JSON.stringify(showDetailsData, null, 2)}</pre>
       </Container>
     </Layout>

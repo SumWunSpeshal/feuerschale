@@ -60,10 +60,14 @@ const Texts: NextPage = () => {
             createText({ ...rest, slamTextFileName: fileName });
           })}
         >
-          <TextInput error={errors.name?.message} {...register("name")} />
+          <TextInput
+            id="name"
+            error={errors.name?.message}
+            {...register("name")}
+          />
           <br />
           <FileInput
-            id="upload"
+            id="slamtext-upload"
             isEmpty={!watch("files")?.length}
             reset={() => setValue("files", undefined)}
             label="Slamtext"

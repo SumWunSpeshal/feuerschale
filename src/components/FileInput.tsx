@@ -7,6 +7,7 @@ import { Fab } from "./Fab";
 
 type FileInputProps = {
   [key: string]: any;
+  id: string;
   label?: string;
   reset?: () => void;
   isEmpty?: boolean;
@@ -33,7 +34,7 @@ export const FileInput = forwardRef(function FileInput(
           )}
           data-label={label || name}
         />
-        <label htmlFor={props.name} className="sr-only">
+        <label htmlFor={props.id} className="sr-only">
           {label || name}
         </label>
         {reset && (

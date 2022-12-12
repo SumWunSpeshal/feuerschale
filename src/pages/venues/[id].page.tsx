@@ -63,6 +63,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ id }) => {
           })}
         >
           <TextInput
+            id="name"
             error={errors.venueTextId?.message}
             {...register("venueTextId")}
           />
