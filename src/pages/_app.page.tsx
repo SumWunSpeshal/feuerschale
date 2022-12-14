@@ -7,6 +7,7 @@ import Head from "next/head";
 import "src/styles/globals.css";
 import { trpc } from "src/utils/trpc";
 
+// 1
 const ralewayFont = Raleway({ subsets: ["latin"] });
 
 const MyApp: AppType<{ session: Session | null }> = ({
