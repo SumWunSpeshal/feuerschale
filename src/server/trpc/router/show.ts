@@ -38,25 +38,41 @@ export const showRouter = t.router({
         showId: z.string(),
         venueId: z.number(),
         textIds: z.string().array(),
+        date: z.date(),
       })
     )
     .mutation(({ input, ctx }) => {
       const { prisma, session } = ctx;
 
-      return prisma.show.update({
-        where: {
-          id: input.showId,
-        },
-        data: {
-          VenueText: {
-            create: input.textIds.map((textId) => ({
-              userId: session.user.id,
-              venueId: input.venueId,
-              textId,
-            })),
+      return prisma.$transaction([
+        // delete all associated VenueTexts and start over
+        prisma.venueText.deleteMany({
+          where: {
+            showId: input.showId,
           },
-        },
-      });
+        }),
+        prisma.show.update({
+          where: {
+            id: input.showId,
+          },
+          data: {
+            userId: session.user.id,
+            date: input.date,
+            VenueText: {
+              create: input.textIds.length
+                ? input.textIds.map((textId) => ({
+                    userId: session.user.id,
+                    venueId: input.venueId,
+                    textId,
+                  }))
+                : {
+                    userId: session.user.id,
+                    venueId: input.venueId,
+                  },
+            },
+          },
+        }),
+      ]);
     }),
   delete: authedProcedure
     .input(
@@ -110,6 +126,14 @@ export const showRouter = t.router({
       return ctx.prisma.show.findFirst({
         where: {
           id: input.showId,
+        },
+        include: {
+          VenueText: {
+            select: {
+              venueId: true,
+              textId: true,
+            },
+          },
         },
       });
     }),
