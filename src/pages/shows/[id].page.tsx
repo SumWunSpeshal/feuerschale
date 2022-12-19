@@ -39,32 +39,34 @@ type ShowDetailPageProps = {
 };
 
 const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
-  const { data: sessionData } = trpc.auth.getSession.useQuery();
-
-  const { data: showDetailsData } = trpc.show.getOne.useQuery({
-    showId: id,
-  });
+  const { data: showDetailsData, refetch: refetchShow } =
+    trpc.show.getOne.useQuery({
+      showId: id,
+    });
   const { mutate: deleteShow } = trpc.show.delete.useMutation();
-  const { mutate: updateShow } = trpc.show.update.useMutation();
+  const { mutate: updateShow } = trpc.show.update.useMutation({
+    onSuccess: () => {
+      refetchShow();
+    },
+  });
   const { data: textData } = trpc.text.getAll.useQuery();
   const { data: venueData } = trpc.venue.getAll.useQuery();
-  const {
-    mutate: getVenueTextsByVenueId,
-    data: venueTextsByVenueId,
-    reset: resetVenueTextsByVenueId,
-  } = trpc.venueText.getVenueTextsByVenueId.useMutation();
+  const { mutate: getVenueTextsByVenueId, data: venueTextsByVenueId } =
+    trpc.venueText.getVenueTextsByVenueId.useMutation();
 
   const {
     formState: { errors },
     register,
     handleSubmit,
     reset: resetForm,
-    setValue,
     watch,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
+  /**
+   * @description Populate the form with existing texts and check the corresponding checkboxes
+   */
   useEffect(() => {
     if (!showDetailsData || !showDetailsData.VenueText[0]) {
       return;
@@ -85,7 +87,16 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
     });
   }, [showDetailsData, resetForm]);
 
-  console.log(watch());
+  /**
+   * @description Get all texts for a given Venue to indicate used Texts
+   */
+  useEffect(() => {
+    const venueId = showDetailsData?.VenueText[0]?.venueId;
+
+    if (venueId) {
+      getVenueTextsByVenueId({ venueId });
+    }
+  }, [getVenueTextsByVenueId, showDetailsData]);
 
   return (
     <Layout authGuarded>
