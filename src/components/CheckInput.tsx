@@ -28,7 +28,7 @@ export const CheckInput = forwardRef(function CheckInput(
         <input type="checkbox" {...rest} ref={ref} className="peer sr-only" />
         <div
           className={clsx(
-            "square-8 flex items-center justify-center rounded-lg border-2 border-black shadow-brutal outline-none transition-shadow",
+            "square-8 flex items-center justify-center rounded-lg border-2 border-black bg-white shadow-brutal outline-none transition-shadow",
             "peer-checked:[--icon-display:block] peer-hover:shadow-brutal-lg peer-focus:shadow-brutal-lg"
           )}
         >

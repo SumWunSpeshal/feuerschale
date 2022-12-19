@@ -39,6 +39,8 @@ export const showRouter = t.router({
         venueId: z.number(),
         textIds: z.string().array(),
         date: z.date(),
+        issued: z.boolean().optional(),
+        settled: z.boolean().optional(),
       })
     )
     .mutation(({ input, ctx }) => {
@@ -69,6 +71,23 @@ export const showRouter = t.router({
                     userId: session.user.id,
                     venueId: input.venueId,
                   },
+            },
+            Invoice: {
+              upsert: {
+                where: {
+                  showId: input.showId,
+                },
+                create: {
+                  userId: session.user.id,
+                  issued: input.issued ?? false,
+                  settled: input.settled ?? false,
+                },
+                update: {
+                  userId: session.user.id,
+                  issued: input.issued ?? false,
+                  settled: input.settled ?? false,
+                },
+              },
             },
           },
         }),
@@ -134,6 +153,7 @@ export const showRouter = t.router({
               textId: true,
             },
           },
+          Invoice: true,
         },
       });
     }),

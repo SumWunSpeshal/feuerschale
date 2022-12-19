@@ -30,6 +30,8 @@ const formSchema = z.object({
   venueId: z.number().min(1, { message: "Bitte Venue auswählen" }),
   textIds: z.record(z.union([z.string(), z.boolean()])),
   invoiceFileName: z.string().optional(),
+  issued: z.boolean().optional(),
+  settled: z.boolean().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -108,14 +110,18 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
             </h2>
           </div>
           <form
-            onSubmit={handleSubmit(async ({ date, textIds, venueId }) => {
-              updateShow({
-                showId: id,
-                textIds: Object.values(textIds).filter(Boolean) as string[],
-                venueId,
-                date: new Date(date),
-              });
-            })}
+            onSubmit={handleSubmit(
+              async ({ date, textIds, venueId, issued, settled }) => {
+                updateShow({
+                  showId: id,
+                  textIds: Object.values(textIds).filter(Boolean) as string[],
+                  venueId,
+                  date: new Date(date),
+                  issued,
+                  settled,
+                });
+              }
+            )}
           >
             <div className="mb-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div>
@@ -171,6 +177,31 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
               </div>
             </div>
 
+            <div className="mb-10">
+              <div className="mb-4">
+                <h3 className="text-xl font-bold">
+                  Details zu Deiner Rechnung:
+                </h3>
+              </div>
+
+              <div className="flex gap-4 sm:gap-6">
+                <CheckInput
+                  id="issued"
+                  label="Rechnung ausgestellt"
+                  {...register("issued", {
+                    value: showDetailsData?.Invoice[0]?.issued ?? false,
+                  })}
+                />
+                <CheckInput
+                  id="settled"
+                  label="Rechnung beglichen"
+                  {...register("settled", {
+                    value: showDetailsData?.Invoice[0]?.settled ?? false,
+                  })}
+                />
+              </div>
+            </div>
+
             <div className="flex justify-end">
               <Button type="submit">Erstellen</Button>
             </div>
@@ -180,8 +211,6 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
       <Container>
         <div>Show Detail</div>
         <Button onClick={() => deleteShow({ showId: id })}>Delete</Button>
-        <br />
-        <CheckInput id="test" label="My checkbox" />
         <pre>{JSON.stringify(showDetailsData, null, 2)}</pre>
       </Container>
     </Layout>

@@ -115,7 +115,7 @@ model Invoice {
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   issued     Boolean?
   settled    Boolean?
-  showId     String
+  showId     String    @unique
   userId     String
   Show       Show      @relation(fields: [showId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
