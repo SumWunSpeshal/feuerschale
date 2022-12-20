@@ -1,17 +1,30 @@
 import { Session } from "next-auth";
 import { downloadFromBlob } from "src/utils/download-from-blob";
+import { pipe } from "src/utils/pipe";
+import {
+  removeAccents,
+  removeSpaces,
+  replaceUmlauts,
+  trim,
+} from "src/utils/string-helpers";
 import { assertUserBucketExists, supabase } from "src/utils/supabase";
 
-export async function maybeUploadInvoice(
-  userId?: string | null,
-  showId?: string | null,
-  file?: File | undefined
-) {
+export async function maybeUploadInvoice({
+  userId,
+  showId,
+  file,
+  fileName,
+}: {
+  userId?: string | null;
+  showId?: string | null;
+  file?: File | undefined;
+  fileName?: string | null;
+}) {
   if (userId && file && showId) {
     await assertUserBucketExists(userId);
     await supabase.storage
       .from(userId)
-      .upload(`invoices/${showId}/${file.name}`, file, {
+      .upload(`invoices/${showId}/${fileName}`, file, {
         contentType: "application/pdf",
       })
       .then(console.log)
@@ -59,4 +72,14 @@ export async function maybeGetInvoiceFileNames(sessionData?: Session | null) {
       .then(console.log)
       .catch(console.warn);
   }
+}
+
+export function formatFileName(fileName: string) {
+  return pipe(
+    fileName,
+    (str) => replaceUmlauts(str),
+    (str) => removeAccents(str),
+    (str) => trim(str),
+    (str) => removeSpaces(str)
+  );
 }

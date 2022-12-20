@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
-import { MouseEventHandler, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Anchor } from "src/components/Anchor";
 import { Button } from "src/components/Button";
 import { CheckInput } from "src/components/CheckInput";
 import { ChipInput } from "src/components/ChipInput";
 import { Container } from "src/components/Container";
 import { DateInput } from "src/components/DateInput";
+import { DownloadPreview } from "src/components/DownloadPreview";
 import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
@@ -17,7 +17,12 @@ import { formatDate } from "src/utils/format-date";
 import { isBrowser } from "src/utils/is-browser";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
-import { deleteInvoice, downloadInvoice, maybeUploadInvoice } from "./supabase";
+import {
+  deleteInvoice,
+  downloadInvoice,
+  formatFileName,
+  maybeUploadInvoice,
+} from "./supabase";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
@@ -109,9 +114,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     }
   }, [getVenueTextsByVenueId, showDetailsData]);
 
-  const downloadFile: MouseEventHandler<HTMLAnchorElement> = async (event) => {
-    event.preventDefault();
-
+  const downloadFile = async () => {
     if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
       return;
     }
@@ -165,10 +168,19 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                   date: new Date(date),
                   issued,
                   settled,
-                  ...(file ? { invoiceFileName: file.name } : {}),
+                  ...(file
+                    ? { invoiceFileName: formatFileName(file.name) }
+                    : {}),
                 });
 
-                await maybeUploadInvoice(sessionData?.user?.id, showId, file);
+                if (file) {
+                  await maybeUploadInvoice({
+                    file,
+                    showId,
+                    userId: sessionData?.user?.id,
+                    fileName: formatFileName(file.name),
+                  });
+                }
               }
             )}
           >
@@ -250,13 +262,13 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                 />
                 <div className="w-full">
                   {showDetailsData?.invoiceFileName ? (
-                    <>
-                      Rechnung:{" "}
-                      <Anchor href="#" onClick={downloadFile}>
-                        {showDetailsData.invoiceFileName}
-                      </Anchor>
-                      <Button onClick={deleteFile}>Löschen</Button>
-                    </>
+                    <DownloadPreview
+                      title="Anhang"
+                      onDownload={downloadFile}
+                      onDelete={deleteFile}
+                    >
+                      {showDetailsData.invoiceFileName}
+                    </DownloadPreview>
                   ) : (
                     <FileInput
                       id="invoice-upload"

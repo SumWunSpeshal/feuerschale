@@ -1,4 +1,4 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
@@ -33,7 +33,7 @@ export const CheckInput = forwardRef(function CheckInput(
           )}
         >
           <div style={{ display: "var(--icon-display, none)" }}>
-            <Icon icon={faXmark} />
+            <Icon icon={faCheck} />
           </div>
         </div>
         <span>

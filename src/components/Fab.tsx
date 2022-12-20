@@ -1,11 +1,11 @@
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { ButtonHTMLAttributes } from "react";
 
-import { Icon } from "./Icon";
+import { Icon, IconSizes } from "./Icon";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon: IconDefinition;
-  size?: 16 | 32;
+  size?: IconSizes;
 };
 
 export function Fab(props: ButtonProps) {
