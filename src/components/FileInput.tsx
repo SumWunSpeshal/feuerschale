@@ -29,7 +29,7 @@ export const FileInput = forwardRef(function FileInput(
           {...rest}
           ref={ref}
           className={clsx(
-            "w-full pr-12 outline-none file:mr-3 file:cursor-pointer file:border-0 file:border-r-2 file:border-black file:bg-yellow-300 file:p-0 file:py-3 file:px-4",
+            "w-full bg-white pr-12 outline-none file:mr-3 file:cursor-pointer file:border-0 file:border-r-2 file:border-black file:bg-yellow-300 file:p-0 file:py-3 file:px-4",
             isEmpty && "after:ml-2 after:content-['('attr(data-label)')']"
           )}
           data-label={label || name}
@@ -38,7 +38,7 @@ export const FileInput = forwardRef(function FileInput(
           {label || name}
         </label>
         {reset && (
-          <div className="absolute top-1/2 right-0 -translate-y-1/2">
+          <div className="absolute top-1/2 right-0 -translate-y-1/2 bg-white">
             <Fab
               icon={faTrashCan}
               size={16}

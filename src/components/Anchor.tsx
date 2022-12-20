@@ -8,10 +8,10 @@ type AnchorProps = PropsWithChildren<
 };
 
 export function Anchor(props: AnchorProps) {
-  const { href, children } = props;
+  const { href, onClick, children } = props;
 
   return (
-    <Link href={href} className="underline">
+    <Link href={href} onClick={onClick} className="underline">
       {children}
     </Link>
   );

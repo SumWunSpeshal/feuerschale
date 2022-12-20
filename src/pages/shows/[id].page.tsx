@@ -1,24 +1,28 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect } from "react";
+import { MouseEventHandler, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Anchor } from "src/components/Anchor";
 import { Button } from "src/components/Button";
 import { CheckInput } from "src/components/CheckInput";
 import { ChipInput } from "src/components/ChipInput";
 import { Container } from "src/components/Container";
 import { DateInput } from "src/components/DateInput";
+import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
 import { formatDate } from "src/utils/format-date";
+import { isBrowser } from "src/utils/is-browser";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
+import { deleteInvoice, downloadInvoice, maybeUploadInvoice } from "./supabase";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
     props: {
-      id: query.id,
+      showId: query.id,
     },
   };
 };
@@ -29,7 +33,7 @@ const formSchema = z.object({
   }),
   venueId: z.number().min(1, { message: "Bitte Venue auswählen" }),
   textIds: z.record(z.union([z.string(), z.boolean()])),
-  invoiceFileName: z.string().optional(),
+  invoiceFiles: isBrowser() ? z.instanceof(FileList).optional() : z.any(),
   issued: z.boolean().optional(),
   settled: z.boolean().optional(),
 });
@@ -37,14 +41,13 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 type ShowDetailPageProps = {
-  id: string;
+  showId: string;
 };
 
-const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
+const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
+  const { data: sessionData } = trpc.auth.getSession.useQuery();
   const { data: showDetailsData, refetch: refetchShow } =
-    trpc.show.getOne.useQuery({
-      showId: id,
-    });
+    trpc.show.getOne.useQuery({ showId });
   const { mutate: deleteShow } = trpc.show.delete.useMutation();
   const { mutate: updateShow } = trpc.show.update.useMutation({
     onSuccess: () => {
@@ -55,11 +58,17 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
   const { data: venueData } = trpc.venue.getAll.useQuery();
   const { mutate: getVenueTextsByVenueId, data: venueTextsByVenueId } =
     trpc.venueText.getVenueTextsByVenueId.useMutation();
+  const { mutate: resetInvoiceFile } = trpc.show.resetInvoiceFile.useMutation({
+    onSuccess: () => {
+      refetchShow();
+    },
+  });
 
   const {
     formState: { errors },
     register,
     handleSubmit,
+    setValue,
     reset: resetForm,
     watch,
   } = useForm<FormData>({
@@ -100,6 +109,34 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
     }
   }, [getVenueTextsByVenueId, showDetailsData]);
 
+  const downloadFile: MouseEventHandler<HTMLAnchorElement> = async (event) => {
+    event.preventDefault();
+
+    if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
+      return;
+    }
+
+    await downloadInvoice(
+      sessionData?.user?.id,
+      showId,
+      showDetailsData.invoiceFileName
+    );
+  };
+
+  const deleteFile = () => {
+    if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
+      return;
+    }
+
+    deleteInvoice(
+      sessionData?.user?.id,
+      showId,
+      showDetailsData.invoiceFileName
+    );
+
+    resetInvoiceFile({ showId });
+  };
+
   return (
     <Layout authGuarded>
       <Section>
@@ -111,19 +148,31 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
           </div>
           <form
             onSubmit={handleSubmit(
-              async ({ date, textIds, venueId, issued, settled }) => {
+              async ({
+                date,
+                textIds,
+                venueId,
+                issued,
+                settled,
+                invoiceFiles,
+              }) => {
+                const [file] = Array.from((invoiceFiles as FileList) || []);
+
                 updateShow({
-                  showId: id,
+                  showId: showId,
                   textIds: Object.values(textIds).filter(Boolean) as string[],
                   venueId,
                   date: new Date(date),
                   issued,
                   settled,
+                  ...(file ? { invoiceFileName: file.name } : {}),
                 });
+
+                await maybeUploadInvoice(sessionData?.user?.id, showId, file);
               }
             )}
           >
-            <div className="mb-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="mb-14 grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div>
                 <DateInput
                   id="date"
@@ -155,7 +204,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
                 </div>
               </div>
             </div>
-            <div className="mb-10">
+            <div className="mb-14">
               <div className="mb-4">
                 <h3 className="text-xl font-bold">Wähle aus Deinen Texten:</h3>
               </div>
@@ -177,14 +226,14 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
               </div>
             </div>
 
-            <div className="mb-10">
+            <div className="mb-14">
               <div className="mb-4">
                 <h3 className="text-xl font-bold">
                   Details zu Deiner Rechnung:
                 </h3>
               </div>
 
-              <div className="flex gap-4 sm:gap-6">
+              <div className="flex flex-wrap gap-4 sm:gap-6">
                 <CheckInput
                   id="issued"
                   label="Rechnung ausgestellt"
@@ -199,18 +248,38 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ id }) => {
                     value: showDetailsData?.Invoice[0]?.settled ?? false,
                   })}
                 />
+                <div className="w-full">
+                  {showDetailsData?.invoiceFileName ? (
+                    <>
+                      Rechnung:{" "}
+                      <Anchor href="#" onClick={downloadFile}>
+                        {showDetailsData.invoiceFileName}
+                      </Anchor>
+                      <Button onClick={deleteFile}>Löschen</Button>
+                    </>
+                  ) : (
+                    <FileInput
+                      id="invoice-upload"
+                      isEmpty={!watch("invoiceFiles")?.length}
+                      reset={() => setValue("invoiceFiles", undefined)}
+                      label="Rechnung"
+                      error={errors.invoiceFiles?.message}
+                      {...register("invoiceFiles")}
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
             <div className="flex justify-end">
-              <Button type="submit">Erstellen</Button>
+              <Button type="submit">Aktualisieren</Button>
             </div>
           </form>
         </Container>
       </Section>
       <Container>
         <div>Show Detail</div>
-        <Button onClick={() => deleteShow({ showId: id })}>Delete</Button>
+        <Button onClick={() => deleteShow({ showId: showId })}>Delete</Button>
         <pre>{JSON.stringify(showDetailsData, null, 2)}</pre>
       </Container>
     </Layout>

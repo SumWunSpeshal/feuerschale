@@ -41,6 +41,7 @@ export const showRouter = t.router({
         date: z.date(),
         issued: z.boolean().optional(),
         settled: z.boolean().optional(),
+        invoiceFileName: z.string().optional(),
       })
     )
     .mutation(({ input, ctx }) => {
@@ -60,6 +61,7 @@ export const showRouter = t.router({
           data: {
             userId: session.user.id,
             date: input.date,
+            invoiceFileName: input.invoiceFileName,
             VenueText: {
               create: input.textIds.length
                 ? input.textIds.map((textId) => ({
@@ -92,6 +94,18 @@ export const showRouter = t.router({
           },
         }),
       ]);
+    }),
+  resetInvoiceFile: authedProcedure
+    .input(z.object({ showId: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.show.update({
+        where: {
+          id: input.showId,
+        },
+        data: {
+          invoiceFileName: "",
+        },
+      });
     }),
   delete: authedProcedure
     .input(
