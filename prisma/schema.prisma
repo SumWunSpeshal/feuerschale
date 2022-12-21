@@ -117,7 +117,7 @@ model Invoice {
   settled    Boolean?
   showId     String    @unique
   userId     String
-  Show       Show      @relation(fields: [showId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Show       Show      @relation(fields: [showId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   User       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

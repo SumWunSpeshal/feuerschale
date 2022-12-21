@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
@@ -81,6 +82,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     resolver: zodResolver(formSchema),
   });
 
+  const router = useRouter();
   const modalRef = useModalRef();
 
   /**
@@ -298,7 +300,10 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       </Section>
       <Modal.Confirm
         modalRef={modalRef}
-        onConfirm={() => deleteShow({ showId: showId })}
+        onConfirm={() => {
+          deleteShow({ showId: showId });
+          router.push("/shows");
+        }}
       >
         Dieser Auftritt wird unwiderruflich gelöscht!
       </Modal.Confirm>
