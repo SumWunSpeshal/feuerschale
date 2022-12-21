@@ -1,16 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import Link from "next/link";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { CitySearch } from "src/components/CitySearch";
 import { Container } from "src/components/Container";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
-import { SearchRef } from "src/components/SearchInput";
+import { useSearchRef } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
-import { Snackbar, SnackbarRef } from "src/components/Snackbar";
+import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -47,8 +47,8 @@ const Venues: NextPage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const snackbarRef = useRef<SnackbarRef>(null);
-  const searchRef = useRef<SearchRef>(null);
+  const snackbarRef = useSnackbarRef();
+  const searchRef = useSearchRef();
 
   const groupedVenues = useMemo(() => groupVenues(venueData), [venueData]);
 

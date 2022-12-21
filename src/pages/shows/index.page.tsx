@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { BoxedIcon } from "src/components/BoxedIcon";
 import { Button } from "src/components/Button";
@@ -13,10 +13,10 @@ import { DateInput } from "src/components/DateInput";
 import { Highlight } from "src/components/Highlight";
 import { Icon } from "src/components/Icon";
 import { Layout } from "src/components/Layout";
-import { Modal, ModalRef } from "src/components/Modal";
+import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
-import { Snackbar, SnackbarRef } from "src/components/Snackbar";
+import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { formatDate } from "src/utils/format-date";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
@@ -79,8 +79,8 @@ const Shows: NextPage = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const snackbarRef = useRef<SnackbarRef>(null);
-  const modalRef = useRef<ModalRef>(null);
+  const snackbarRef = useSnackbarRef();
+  const modalRef = useModalRef();
 
   useEffect(() => {
     const { unsubscribe } = watch(({ venueId }, { name }) => {

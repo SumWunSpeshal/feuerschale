@@ -4,6 +4,7 @@ import {
   PropsWithChildren,
   RefObject,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 import useKeyup from "src/hooks/useKeyup";
@@ -14,6 +15,8 @@ export type ModalRef = {
   open: () => void;
   close: () => void;
 };
+
+export const useModalRef = () => useRef<ModalRef>(null);
 
 type ModalProps = PropsWithChildren<{
   modalRef: RefObject<ModalRef>;

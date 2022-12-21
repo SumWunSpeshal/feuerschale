@@ -3,6 +3,7 @@ import {
   ChangeEvent,
   ForwardedRef,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 import { DebounceInput } from "react-debounce-input";
@@ -14,6 +15,8 @@ import { TextInput } from "./TextInput";
 export type SearchRef = {
   reset: () => void;
 };
+
+export const useSearchRef = () => useRef<SearchRef>(null);
 
 type SearchProps<TData> = {
   data: TData[] | undefined;

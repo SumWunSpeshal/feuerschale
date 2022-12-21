@@ -11,6 +11,7 @@ import { DownloadPreview } from "src/components/DownloadPreview";
 import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
+import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
 import { formatDate } from "src/utils/format-date";
@@ -79,6 +80,8 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  const modalRef = useModalRef();
 
   /**
    * @description Populate the form with existing texts and check the corresponding checkboxes
@@ -283,17 +286,22 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
               </div>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-4 sm:gap-6">
+              <Button onClick={modalRef.current?.open} className="bg-red-400">
+                Auftritt löschen
+              </Button>
+
               <Button type="submit">Aktualisieren</Button>
             </div>
           </form>
         </Container>
       </Section>
-      <Container>
-        <div>Show Detail</div>
-        <Button onClick={() => deleteShow({ showId: showId })}>Delete</Button>
-        <pre>{JSON.stringify(showDetailsData, null, 2)}</pre>
-      </Container>
+      <Modal.Confirm
+        modalRef={modalRef}
+        onConfirm={() => deleteShow({ showId: showId })}
+      >
+        Dieser Auftritt wird unwiderruflich gelöscht!
+      </Modal.Confirm>
     </Layout>
   );
 };

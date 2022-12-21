@@ -1,5 +1,11 @@
 import clsx from "clsx";
-import { ForwardedRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  ForwardedRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { Container } from "./Container";
 
 type State = "success" | "error" | "info";
@@ -13,6 +19,8 @@ export type SnackbarRef = {
   open: (args: SnackbarOpenArgs) => void;
   close: () => void;
 };
+
+export const useSnackbarRef = () => useRef<SnackbarRef>(null);
 
 type SnackbarProps = {
   snackbarRef?: ForwardedRef<SnackbarRef>;

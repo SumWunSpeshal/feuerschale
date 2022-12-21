@@ -1,10 +1,10 @@
 import { faEdit, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { PropsWithChildren, useRef } from "react";
+import { PropsWithChildren } from "react";
 import { noop } from "src/utils/noop";
 import { Url } from "url";
 import { Button } from "./Button";
 import { Icon } from "./Icon";
-import { Modal, ModalRef } from "./Modal";
+import { Modal, useModalRef } from "./Modal";
 
 type CardProps = PropsWithChildren<{
   header?: string | JSX.Element | JSX.Element[];
@@ -17,7 +17,7 @@ export function Card(props: CardProps) {
   const { children, header, onDelete, hrefToDetailPage, deleteModalChildren } =
     props;
 
-  const modalRef = useRef<ModalRef>(null);
+  const modalRef = useModalRef();
 
   return (
     <div className="rounded-md border-2 border-gray-500 bg-gray-100">
