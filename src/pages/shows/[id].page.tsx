@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
@@ -82,7 +81,6 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     resolver: zodResolver(formSchema),
   });
 
-  const router = useRouter();
   const modalRef = useModalRef();
 
   /**
@@ -302,7 +300,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
         modalRef={modalRef}
         onConfirm={() => {
           deleteShow({ showId: showId });
-          router.push("/shows");
+          window.location.href = "/shows"; // don't use nextjs router. This triggers refetching.
         }}
       >
         Dieser Auftritt wird unwiderruflich gelöscht!
