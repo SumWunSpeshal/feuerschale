@@ -255,14 +255,14 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                   id="issued"
                   label="Rechnung ausgestellt"
                   {...register("issued", {
-                    value: showDetailsData?.Invoice[0]?.issued ?? false,
+                    value: showDetailsData?.Invoice?.issued ?? false,
                   })}
                 />
                 <CheckInput
                   id="settled"
                   label="Rechnung beglichen"
                   {...register("settled", {
-                    value: showDetailsData?.Invoice[0]?.settled ?? false,
+                    value: showDetailsData?.Invoice?.settled ?? false,
                   })}
                 />
                 <div className="w-full">

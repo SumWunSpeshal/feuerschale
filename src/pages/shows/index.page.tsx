@@ -227,13 +227,13 @@ const Shows: NextPage = () => {
                         <div className="flex items-center gap-1">
                           <small>Rechnung gestellt:</small>
                           <BoxedIcon
-                            state={!!Invoice[0]?.issued ? "check" : "close"}
+                            state={!!Invoice?.issued ? "check" : "close"}
                           />
                         </div>
                         <div className="flex items-center gap-1">
                           <small>Rechnung beglichen:</small>
                           <BoxedIcon
-                            state={!!Invoice[0]?.settled ? "check" : "close"}
+                            state={!!Invoice?.settled ? "check" : "close"}
                           />
                         </div>
                       </div>

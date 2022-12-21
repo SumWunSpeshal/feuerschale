@@ -9,7 +9,7 @@ export type ShowData =
           City: City;
         };
       }[];
-      Invoice: Invoice[];
+      Invoice: Invoice | null;
     })[]
   | undefined;
 

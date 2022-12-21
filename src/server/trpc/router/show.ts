@@ -76,9 +76,6 @@ export const showRouter = t.router({
             },
             Invoice: {
               upsert: {
-                where: {
-                  showId: input.showId,
-                },
                 create: {
                   userId: session.user.id,
                   issued: input.issued ?? false,
