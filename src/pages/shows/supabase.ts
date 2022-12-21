@@ -32,11 +32,15 @@ export async function maybeUploadInvoice({
   }
 }
 
-export async function downloadInvoice(
-  userId: string,
-  showId: string,
-  fileName: string
-) {
+export async function downloadInvoice({
+  userId,
+  showId,
+  fileName,
+}: {
+  userId: string;
+  showId: string;
+  fileName: string;
+}) {
   await supabase.storage
     .from(userId)
     .download(`invoices/${showId}/${fileName}`)
@@ -52,11 +56,15 @@ export async function downloadInvoice(
     .catch(console.warn);
 }
 
-export async function deleteInvoice(
-  userId: string,
-  showId: string,
-  fileName: string
-) {
+export async function deleteInvoice({
+  userId,
+  showId,
+  fileName,
+}: {
+  userId: string;
+  showId: string;
+  fileName: string;
+}) {
   await supabase.storage
     .from(userId)
     .remove([`invoices/${showId}/${fileName}`])
@@ -77,9 +85,9 @@ export async function maybeGetInvoiceFileNames(sessionData?: Session | null) {
 export function formatFileName(fileName: string) {
   return pipe(
     fileName,
-    (str) => replaceUmlauts(str),
-    (str) => removeAccents(str),
-    (str) => trim(str),
-    (str) => removeSpaces(str)
+    (fileName) => replaceUmlauts(fileName),
+    (fileName) => removeAccents(fileName),
+    (fileName) => trim(fileName),
+    (fileName) => removeSpaces(fileName)
   );
 }

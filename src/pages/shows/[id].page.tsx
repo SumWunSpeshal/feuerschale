@@ -122,23 +122,23 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       return;
     }
 
-    await downloadInvoice(
-      sessionData?.user?.id,
+    await downloadInvoice({
+      userId: sessionData?.user?.id,
       showId,
-      showDetailsData.invoiceFileName
-    );
+      fileName: showDetailsData.invoiceFileName,
+    });
   };
 
-  const deleteFile = () => {
+  const deleteFile = async () => {
     if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
       return;
     }
 
-    deleteInvoice(
-      sessionData?.user?.id,
+    await deleteInvoice({
+      userId: sessionData?.user?.id,
       showId,
-      showDetailsData.invoiceFileName
-    );
+      fileName: showDetailsData.invoiceFileName,
+    });
 
     resetInvoiceFile({ showId });
   };
@@ -268,7 +268,9 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                     <DownloadPreview
                       title="Anhang"
                       onDownload={downloadFile}
-                      onDelete={deleteFile}
+                      onDelete={async () => {
+                        await deleteFile();
+                      }}
                     >
                       {showDetailsData.invoiceFileName}
                     </DownloadPreview>
@@ -298,8 +300,9 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       </Section>
       <Modal.Confirm
         modalRef={modalRef}
-        onConfirm={() => {
+        onConfirm={async () => {
           deleteShow({ showId: showId });
+          await deleteFile();
           window.location.href = "/shows"; // don't use nextjs router. This triggers refetching.
         }}
       >
