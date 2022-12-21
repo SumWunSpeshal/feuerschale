@@ -50,5 +50,33 @@ module.exports = {
 
       addComponents(classCollection);
     }),
+    plugin(({ theme, e, addComponents }) => {
+      const classCollection = Object.entries(theme("colors")).map(
+        ([name, value]) => {
+          if (typeof value === "object") {
+            return Object.entries(value).map(([k, v]) => {
+              return {
+                [`.shadow-brutal-${e(`${name}-${k}`)}`]: {
+                  boxShadow: `3px 3px 0px 0px ${v}`,
+                },
+                [`.shadow-brutal-lg-${e(`${name}-${k}`)}`]: {
+                  boxShadow: `6px 6px 0px 0px ${v}`,
+                },
+              };
+            });
+          }
+          return {
+            [`.shadow-brutal-${e(name)}`]: {
+              boxShadow: `3px 3px 0px 0px ${value}`,
+            },
+            [`.shadow-brutal-lg-${e(name)}`]: {
+              boxShadow: `6px 6px 0px 0px ${value}`,
+            },
+          };
+        }
+      );
+
+      addComponents(classCollection.flat());
+    }),
   ],
 };
