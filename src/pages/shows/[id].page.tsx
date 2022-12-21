@@ -144,7 +144,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
   };
 
   return (
-    <Layout authGuarded>
+    <Layout authGuarded hrefToListView="/shows">
       <Section>
         <Container>
           <div className="mb-8">
