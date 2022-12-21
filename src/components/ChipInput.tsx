@@ -1,6 +1,8 @@
+import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { Icon } from "./Icon";
 
 type ChipInputProps = UseFormRegisterReturn & {
   label: string;
@@ -28,18 +30,17 @@ export const ChipInput = forwardRef(function ChipInput(
       <label
         htmlFor={id}
         className={clsx(
-          "max-w-[36rem] select-none overflow-hidden overflow-ellipsis whitespace-nowrap rounded-lg border-2 px-1.5 text-sm outline-none transition-all",
+          "flex max-w-[36rem] select-none gap-2 overflow-hidden overflow-ellipsis whitespace-nowrap rounded-lg border-2 px-1.5 text-sm outline-none transition-all",
           {
-            "bg-white": !disabled && !warning,
-            "cursor-pointer border-black hover:shadow-brutal peer-checked:bg-black peer-checked:text-white":
+            "cursor-pointer border-black bg-white hover:shadow-brutal peer-checked:bg-black peer-checked:text-white":
               !disabled,
             "pointer-events-none cursor-auto border-gray-300 bg-gray-100 text-gray-300":
               disabled,
-            "bg-orange-300": warning,
           }
         )}
       >
-        {label}
+        {warning && <Icon icon={faWarning} className="text-orange-700" />}
+        <span>{label}</span>
       </label>
     </div>
   );
