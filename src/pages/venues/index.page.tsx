@@ -13,7 +13,6 @@ import { useSearchRef } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
-import { noop } from "src/utils/noop";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 import { groupVenues } from "./utils";
@@ -29,11 +28,20 @@ type FormData = z.infer<typeof formSchema>;
 const Venues: NextPage = () => {
   const { data: venueData, refetch } = trpc.venue.getAll.useQuery();
   const { mutate: createVenue } = trpc.venue.create.useMutation({
-    onSuccess: () => {
-      refetch();
+    onSuccess: async () => {
+      await refetch();
       resetForm();
       snackbarRef.current?.open({
         message: "Die neue Venue wurde erfolgreich gespeichert.",
+        state: "success",
+      });
+    },
+  });
+  const { mutate: deleteVenue } = trpc.venue.delete.useMutation({
+    onSuccess: async () => {
+      await refetch();
+      snackbarRef.current?.open({
+        message: "Die Venue wurde erfolgreich gelöscht.",
         state: "success",
       });
     },
@@ -122,7 +130,7 @@ const Venues: NextPage = () => {
                       key={id}
                       hrefToDetailPage={"/venues/" + id}
                       header={name}
-                      onDelete={noop}
+                      onDelete={() => deleteVenue({ venueId: id })}
                       deleteModalChildren="Diese Venue wird unwiderruflich gelöscht!"
                     >
                       {(() => {
