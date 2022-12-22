@@ -1,14 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Text } from "@prisma/client";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
+import { Card } from "src/components/Card";
 import { Container } from "src/components/Container";
 import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
-import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
@@ -17,6 +16,7 @@ import { formatFileName } from "src/utils/string-helpers";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 import { deleteSlamText, maybeUploadSlamText } from "./supabase";
+import { groupTexts } from "./utils";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -40,7 +40,7 @@ const Texts: NextPage = () => {
     resolver: zodResolver(formSchema),
   });
   const { data: textData, refetch } = trpc.text.getAll.useQuery();
-  const { mutate: createText, isLoading } = trpc.text.create.useMutation({
+  const { mutate: createText } = trpc.text.create.useMutation({
     onSuccess: async ({ slamTextFileName, id }) => {
       const [file] = await getValues("slamTextFiles");
 
@@ -79,10 +79,9 @@ const Texts: NextPage = () => {
     },
   });
 
-  const [textToDelete, setTextToDelete] = useState<Partial<Text>>({});
-
   const snackbarRef = useSnackbarRef();
-  const modalRef = useModalRef();
+
+  const groupedTexts = useMemo(() => groupTexts(textData), [textData]);
 
   return (
     <Layout authGuarded>
@@ -94,6 +93,7 @@ const Texts: NextPage = () => {
             </h2>
           </div>
           <form
+            className="grid grid-cols-2 gap-x-6 gap-y-6"
             onSubmit={handleSubmit(async (data) => {
               const { name, description, slamTextFiles } = data;
               const [file] = Array.from((slamTextFiles as FileList) || []);
@@ -106,7 +106,6 @@ const Texts: NextPage = () => {
                   : {}),
               });
             })}
-            className="grid grid-cols-2 gap-x-6 gap-y-6"
           >
             <TextInput
               id="name"
@@ -139,47 +138,60 @@ const Texts: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <h1>
-          <strong>Texts</strong>
-        </h1>
-        {isLoading && <div>Loading...</div>}
-        <ul>
-          {textData?.map((text) => (
-            <li key={text.id} className="mb-4">
-              <div>
-                <span>{text.name}</span>
+        <div className="pt-20">
+          <div className="mb-10">
+            <h1 className="text-6xl font-bold">
+              Meine <Highlight>Texte</Highlight>
+            </h1>
+          </div>
+          <div className="space-y-8">
+            {Object.entries(groupedTexts || {}).map(([category, texts]) => (
+              <div key={category}>
+                <div className="mb-4">
+                  <h2 className="text-2xl">
+                    <span>{category}</span>
+                  </h2>
+                </div>
+                <div className="flex flex-col gap-y-2">
+                  {texts?.map((text) => {
+                    const {
+                      id,
+                      VenueText,
+                      name,
+                      description,
+                      slamTextFileName,
+                    } = text;
+
+                    return (
+                      <Card
+                        key={id}
+                        hrefToDetailPage={"/texts/" + id}
+                        header={name}
+                        onDelete={
+                          !VenueText?.length
+                            ? () => deleteText({ id })
+                            : undefined
+                        }
+                        deleteModalChildren="Dieser Text wird unwiderruflich gelöscht!"
+                      >
+                        {description && (
+                          <div className="text-sm">{description}</div>
+                        )}
+                        {slamTextFileName && (
+                          <div className="text-sm text-gray-500">
+                            {slamTextFileName}
+                          </div>
+                        )}
+                      </Card>
+                    );
+                  })}
+                </div>
               </div>
-              {text?.slamTextFileName && (
-                <div>Dateiname: {text.slamTextFileName}</div>
-              )}
-              <button
-                type="button"
-                onClick={() => {
-                  setTextToDelete(text);
-                  modalRef.current?.open();
-                }}
-                style={{ border: "1px solid red" }}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </div>
       </Container>
       <Snackbar snackbarRef={snackbarRef} />
-      <Modal.Confirm
-        modalRef={modalRef}
-        onConfirm={async () => {
-          const { id } = textToDelete;
-
-          if (id) {
-            deleteText({ id });
-            setTextToDelete({});
-          }
-        }}
-      >
-        Dieser Text wird unwiderruflich gelöscht!
-      </Modal.Confirm>
     </Layout>
   );
 };

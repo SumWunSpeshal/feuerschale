@@ -53,6 +53,9 @@ export const textRouter = t.router({
           equals: session?.user?.id,
         },
       },
+      orderBy: {
+        created_at: "desc",
+      },
       include: {
         VenueText: {
           select: {
