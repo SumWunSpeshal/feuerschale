@@ -53,6 +53,13 @@ export const textRouter = t.router({
           equals: session?.user?.id,
         },
       },
+      include: {
+        VenueText: {
+          select: {
+            id: true,
+          },
+        },
+      },
     });
   }),
   getOne: authedProcedure
