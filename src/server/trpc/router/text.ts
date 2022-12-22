@@ -24,19 +24,23 @@ export const textRouter = t.router({
       });
     }),
   delete: authedProcedure
-    .input(z.object({ id: z.string(), slamTextFileName: z.string() }))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      const { session, prisma, supabase } = ctx;
-
-      await supabase.storage
-        .from(session.user.id)
-        .remove([`slam-texts/${input.slamTextFileName}`])
-        .then(console.log)
-        .catch(console.warn);
-
-      return prisma.text.delete({
+      return ctx.prisma.text.delete({
         where: {
           id: input.id,
+        },
+      });
+    }),
+  resetSlamTextFileName: authedProcedure
+    .input(z.object({ textId: z.string() }))
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.text.update({
+        where: {
+          id: input.textId,
+        },
+        data: {
+          slamTextFileName: "",
         },
       });
     }),

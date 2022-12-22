@@ -1,3 +1,5 @@
+import { pipe } from "./pipe";
+
 export function replaceUmlauts(str: string) {
   return str
     .replace(/\u00df/g, "ss")
@@ -19,4 +21,14 @@ export function trim(str: string) {
 
 export function removeSpaces(str: string) {
   return str.replaceAll(" ", "_");
+}
+
+export function formatFileName(fileName: string) {
+  return pipe(
+    fileName,
+    (fileName) => replaceUmlauts(fileName),
+    (fileName) => removeAccents(fileName),
+    (fileName) => trim(fileName),
+    (fileName) => removeSpaces(fileName)
+  );
 }

@@ -17,14 +17,10 @@ import { SelectInput } from "src/components/SelectInput";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { formatDate } from "src/utils/format-date";
 import { isBrowser } from "src/utils/is-browser";
+import { formatFileName } from "src/utils/string-helpers";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
-import {
-  deleteInvoice,
-  downloadInvoice,
-  formatFileName,
-  maybeUploadInvoice,
-} from "./supabase";
+import { deleteInvoice, downloadInvoice, maybeUploadInvoice } from "./supabase";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
@@ -69,11 +65,12 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
   const { data: venueData } = trpc.venue.getAll.useQuery();
   const { mutate: getVenueTextsByVenueId, data: venueTextsByVenueId } =
     trpc.venueText.getVenueTextsByVenueId.useMutation();
-  const { mutate: resetInvoiceFile } = trpc.show.resetInvoiceFile.useMutation({
-    onSuccess: () => {
-      refetchShow();
-    },
-  });
+  const { mutate: resetInvoiceFile } =
+    trpc.show.resetInvoiceFileName.useMutation({
+      onSuccess: () => {
+        refetchShow();
+      },
+    });
 
   const {
     formState: { errors },
@@ -307,8 +304,8 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       <Modal.Confirm
         modalRef={modalRef}
         onConfirm={async () => {
-          deleteShow({ showId: showId });
           await deleteFile();
+          deleteShow({ showId });
           window.location.href = "/shows"; // don't use nextjs router. This triggers refetching.
         }}
       >

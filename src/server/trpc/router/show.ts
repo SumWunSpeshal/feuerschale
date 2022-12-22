@@ -92,7 +92,7 @@ export const showRouter = t.router({
         }),
       ]);
     }),
-  resetInvoiceFile: authedProcedure
+  resetInvoiceFileName: authedProcedure
     .input(z.object({ showId: z.string() }))
     .mutation(({ input, ctx }) => {
       return ctx.prisma.show.update({

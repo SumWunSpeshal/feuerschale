@@ -1,12 +1,5 @@
 import { Session } from "next-auth";
 import { downloadFromBlob } from "src/utils/download-from-blob";
-import { pipe } from "src/utils/pipe";
-import {
-  removeAccents,
-  removeSpaces,
-  replaceUmlauts,
-  trim,
-} from "src/utils/string-helpers";
 import { assertUserBucketExists, supabase } from "src/utils/supabase";
 
 export async function maybeUploadInvoice({
@@ -80,14 +73,4 @@ export async function maybeGetInvoiceFileNames(sessionData?: Session | null) {
       .then(console.log)
       .catch(console.warn);
   }
-}
-
-export function formatFileName(fileName: string) {
-  return pipe(
-    fileName,
-    (fileName) => replaceUmlauts(fileName),
-    (fileName) => removeAccents(fileName),
-    (fileName) => trim(fileName),
-    (fileName) => removeSpaces(fileName)
-  );
 }
