@@ -8,6 +8,7 @@ import { CitySearch } from "src/components/CitySearch";
 import { Container } from "src/components/Container";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
+import { Modal, useModalRef } from "src/components/Modal";
 import { useSearchRef } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
@@ -51,6 +52,14 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
       });
     },
   });
+  const { mutate: deleteVenue } = trpc.venue.delete.useMutation({
+    onSuccess: async () => {
+      snackbarRef.current?.open({
+        message: "Die Venue wurde erfolgreich gelöscht.",
+        state: "success",
+      });
+    },
+  });
 
   const {
     formState: { errors },
@@ -64,6 +73,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
 
   const searchRef = useSearchRef();
   const snackbarRef = useSnackbarRef();
+  const modalRef = useModalRef();
 
   /**
    * @description Populate the form with existing texts and check the corresponding checkboxes
@@ -124,7 +134,16 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
                 {...register("description")}
               />
             </div>
-            <div className="col-span-full flex justify-end">
+
+            <div className="col-span-full flex justify-end gap-4 sm:gap-6">
+              <Button
+                onClick={modalRef.current?.open}
+                className="bg-red-400"
+                disabled={!!venueDetailData?.VenueText.length}
+              >
+                Venue löschen
+              </Button>
+
               <Button type="submit">Aktualisieren</Button>
             </div>
           </form>
@@ -140,16 +159,31 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
                       <Chip>{Text.name}</Chip>
                     </li>
                   ) : (
-                    <>Keine verbrannten Texte bisher :)</>
+                    <>
+                      Keine verbrannten Texte bisher :) Das Löschen der Venue
+                      ist dadurch möglich.
+                    </>
                   );
                 })}
               </ul>
             ) : (
-              <>Keine verbrannten Texte bisher :)</>
+              <>
+                Keine verbrannten Texte bisher :) Das Löschen der Venue ist
+                dadurch möglich.
+              </>
             )}
           </div>
         </Container>
       </Section>
+      <Modal.Confirm
+        modalRef={modalRef}
+        onConfirm={async () => {
+          deleteVenue({ venueId: +venueId });
+          window.location.href = "/venues"; // don't use nextjs router. This triggers refetching.
+        }}
+      >
+        Diese Venue wird unwiderruflich gelöscht!
+      </Modal.Confirm>
       <Snackbar snackbarRef={snackbarRef} />
     </Layout>
   );

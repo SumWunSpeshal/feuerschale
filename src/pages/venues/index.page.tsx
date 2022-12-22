@@ -130,7 +130,11 @@ const Venues: NextPage = () => {
                       key={id}
                       hrefToDetailPage={"/venues/" + id}
                       header={name}
-                      onDelete={() => deleteVenue({ venueId: id })}
+                      onDelete={
+                        !VenueText?.length
+                          ? () => deleteVenue({ venueId: id })
+                          : undefined
+                      }
                       deleteModalChildren="Diese Venue wird unwiderruflich gelöscht!"
                     >
                       {(() => {

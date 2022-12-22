@@ -13,10 +13,19 @@ const baseButtonStyles =
 type ButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>;
 
 export function Button(props: ButtonProps) {
-  const { children, className, ...rest } = props;
+  const { children, disabled, className, ...rest } = props;
 
   return (
-    <button {...rest} className={clsx(baseButtonStyles, className)}>
+    <button
+      {...rest}
+      disabled={disabled}
+      className={clsx(
+        baseButtonStyles,
+        className,
+        disabled &&
+          "!shadow-brutal-gray-400 !cursor-auto !border-gray-400 !bg-gray-100 !text-gray-400 hover:!shadow-brutal-gray-400"
+      )}
+    >
       {children}
     </button>
   );
