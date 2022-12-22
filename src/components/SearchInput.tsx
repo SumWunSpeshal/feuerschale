@@ -14,6 +14,7 @@ import { TextInput } from "./TextInput";
 
 export type SearchRef = {
   reset: () => void;
+  set: (val: string) => void;
 };
 
 export const useSearchRef = () => useRef<SearchRef>(null);
@@ -50,6 +51,7 @@ export function SearchInput<TData>(props: SearchProps<TData>) {
 
   useImperativeHandle(searchRef, () => ({
     reset: () => setValue(""),
+    set: (val) => setValue(val),
   }));
 
   const selectionModeActions = {

@@ -22,6 +22,27 @@ export const venueRouter = t.router({
         },
       });
     }),
+  update: authedProcedure
+    .input(
+      z.object({
+        venueId: z.number(),
+        cityId: z.number(),
+        name: z.string(),
+        description: z.string().optional(),
+      })
+    )
+    .mutation(({ input, ctx }) => {
+      return ctx.prisma.venue.update({
+        where: {
+          id: input.venueId,
+        },
+        data: {
+          cityId: input.cityId,
+          name: input.name,
+          description: input.description,
+        },
+      });
+    }),
   delete: authedProcedure
     .input(
       z.object({
@@ -40,11 +61,11 @@ export const venueRouter = t.router({
   getOne: authedProcedure
     .input(
       z.object({
-        venueId: z.number().optional(),
+        venueId: z.union([z.number(), z.string(), z.nan()]).optional(),
       })
     )
     .query(({ input, ctx }) => {
-      if (!input.venueId) {
+      if (!input.venueId || !+input.venueId) {
         return null;
       }
 
@@ -58,7 +79,7 @@ export const venueRouter = t.router({
             },
             {
               id: {
-                equals: input.venueId,
+                equals: +input.venueId,
               },
             },
           ],
@@ -90,6 +111,7 @@ export const venueRouter = t.router({
           include: {
             Text: true,
           },
+          distinct: ["textId"],
         },
         City: true,
       },

@@ -48,14 +48,11 @@ const ItemInner: React.FC<Omit<PreviewListItemProps, "href">> = (props) => {
 
   return (
     <>
-      <span className="text-lg leading-tight transition-all duration-100 group-hover:font-bold">
+      <div className="overflow-hidden overflow-ellipsis text-lg leading-tight transition-all duration-100 group-hover:font-bold">
         {title}
-      </span>
+      </div>
       {description && (
-        <>
-          <br />
-          <span className="text-sm text-neutral-500">{description}</span>
-        </>
+        <div className="mt-1 text-sm text-neutral-500">{description}</div>
       )}
     </>
   );

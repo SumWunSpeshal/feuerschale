@@ -32,7 +32,7 @@ export const dashboardRouter = t.router({
           orderBy: {
             date: "desc",
           },
-          take: 4,
+          take: 6,
           include: {
             VenueText: {
               select: {

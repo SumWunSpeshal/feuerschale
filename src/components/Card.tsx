@@ -1,4 +1,5 @@
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import clsx from "clsx";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { noop } from "src/utils/noop";
@@ -22,7 +23,12 @@ export function Card(props: CardProps) {
 
   return (
     <div className="rounded-md border-2 border-gray-500 bg-gray-100 transition-shadow [&:has(.child:hover)]:shadow-brutal-gray-500">
-      <div className="flex flex-col items-start gap-4 py-2 px-3 sm:flex-row">
+      <div
+        className={clsx(
+          "flex flex-col gap-4 py-2 px-3 sm:flex-row",
+          !!children && "items-start"
+        )}
+      >
         <Link href={hrefToDetailPage} className="child grow select-none">
           <header>
             <strong>{header}</strong>

@@ -1,9 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
-import Link from "next/link";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
+import { Card } from "src/components/Card";
+import { Chip } from "src/components/Chip";
 import { CitySearch } from "src/components/CitySearch";
 import { Container } from "src/components/Container";
 import { Highlight } from "src/components/Highlight";
@@ -12,6 +13,7 @@ import { useSearchRef } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
+import { noop } from "src/utils/noop";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 import { groupVenues } from "./utils";
@@ -99,28 +101,66 @@ const Venues: NextPage = () => {
           </form>
         </Container>
       </Section>
-      <pre className="hidden">{JSON.stringify(venueData, null, 2)}</pre>
       <Container>
-        <div className="space-y-4 pt-20">
-          <div className="mb-8">
-            <h2 className="text-6xl font-bold">
+        <div className="pt-20">
+          <div className="mb-10">
+            <h1 className="text-6xl font-bold">
               Meine <Highlight>Venues</Highlight>
-            </h2>
+            </h1>
           </div>
-          {Object.entries(groupedVenues || {}).map(([cityName, venues]) => (
-            <div key={cityName}>
-              <h2 className="text-xl">
-                <strong>{cityName}</strong>
-              </h2>
-              {venues?.map(({ id, name }) => (
-                <div key={id}>
-                  <Link href={"/venues/" + id} className="text-blue-700">
-                    {name}
-                  </Link>
+          <div className="space-y-8">
+            {Object.entries(groupedVenues || {}).map(([cityName, venues]) => (
+              <div key={cityName}>
+                <div className="mb-4">
+                  <h2 className="text-2xl">
+                    <span>{cityName}</span>
+                  </h2>
                 </div>
-              ))}
-            </div>
-          ))}
+                <div className="flex flex-col gap-y-2">
+                  {venues?.map(({ id, VenueText, name, description }) => (
+                    <Card
+                      key={id}
+                      hrefToDetailPage={"/venues/" + id}
+                      header={name}
+                      onDelete={noop}
+                      deleteModalChildren="Diese Venue wird unwiderruflich gelöscht!"
+                    >
+                      {(() => {
+                        if (
+                          description ||
+                          VenueText.some(({ Text }) => !!Text)
+                        ) {
+                          return (
+                            <>
+                              {description && (
+                                <div className="mb-2 text-sm">
+                                  {description}
+                                </div>
+                              )}
+
+                              {VenueText.some(({ Text }) => !!Text) && (
+                                <ul className="mt-1 flex flex-wrap gap-2">
+                                  {VenueText.map(({ Text }) => {
+                                    return (
+                                      Text && (
+                                        <li key={Text.id}>
+                                          <Chip>{Text.name}</Chip>
+                                        </li>
+                                      )
+                                    );
+                                  })}
+                                </ul>
+                              )}
+                            </>
+                          );
+                        }
+                      })()}
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </Container>
       <Snackbar snackbarRef={snackbarRef} />

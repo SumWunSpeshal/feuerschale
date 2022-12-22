@@ -14,6 +14,7 @@ import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
+import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { formatDate } from "src/utils/format-date";
 import { isBrowser } from "src/utils/is-browser";
 import { trpc } from "src/utils/trpc";
@@ -56,8 +57,12 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     trpc.show.getOne.useQuery({ showId });
   const { mutate: deleteShow } = trpc.show.delete.useMutation();
   const { mutate: updateShow } = trpc.show.update.useMutation({
-    onSuccess: () => {
-      refetchShow();
+    onSuccess: async () => {
+      await refetchShow();
+      snackbarRef.current?.open({
+        message: "Dein Auftritt wurde erfolgreich aktualisiert",
+        state: "success",
+      });
     },
   });
   const { data: textData } = trpc.text.getAll.useQuery();
@@ -82,6 +87,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
   });
 
   const modalRef = useModalRef();
+  const snackbarRef = useSnackbarRef();
 
   /**
    * @description Populate the form with existing texts and check the corresponding checkboxes
@@ -308,6 +314,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       >
         Dieser Auftritt wird unwiderruflich gelöscht!
       </Modal.Confirm>
+      <Snackbar snackbarRef={snackbarRef} />
     </Layout>
   );
 };
