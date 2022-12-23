@@ -12,7 +12,6 @@ import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
-import { Pre } from "src/components/Pre";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
@@ -158,12 +157,6 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
 
   return (
     <Layout authGuarded hrefToListView="/shows">
-      <Pre data={venueTextsByVenueId}></Pre>
-      <br />
-      <br />
-      <br />
-      <br />
-      <Pre data={showDetailsData}></Pre>
       <Section>
         <Container>
           <div className="mb-8">
