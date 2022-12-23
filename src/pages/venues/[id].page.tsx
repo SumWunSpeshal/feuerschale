@@ -39,27 +39,32 @@ type VenueDetailPageProps = {
 const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
-  const { data: venueDetailData, refetch: refetchVenue } =
-    trpc.venue.getOne.useQuery({
-      venueId: +venueId,
+  const {
+    data: venueDetailData,
+    refetch: refetchVenue,
+    isLoading,
+  } = trpc.venue.getOne.useQuery({
+    venueId: +venueId,
+  });
+  const { mutate: updateVenue, isLoading: updateIsLoading } =
+    trpc.venue.update.useMutation({
+      onSuccess: async () => {
+        await refetchVenue();
+        snackbarRef.current?.open({
+          message: "Deine Venue wurde erfolgreich aktualisiert",
+          state: "success",
+        });
+      },
     });
-  const { mutate: updateVenue } = trpc.venue.update.useMutation({
-    onSuccess: async () => {
-      await refetchVenue();
-      snackbarRef.current?.open({
-        message: "Deine Venue wurde erfolgreich aktualisiert",
-        state: "success",
-      });
-    },
-  });
-  const { mutate: deleteVenue } = trpc.venue.delete.useMutation({
-    onSuccess: async () => {
-      snackbarRef.current?.open({
-        message: "Die Venue wurde erfolgreich gelöscht.",
-        state: "success",
-      });
-    },
-  });
+  const { mutate: deleteVenue, isLoading: deleteIsLoading } =
+    trpc.venue.delete.useMutation({
+      onSuccess: async () => {
+        snackbarRef.current?.open({
+          message: "Die Venue wurde erfolgreich gelöscht.",
+          state: "success",
+        });
+      },
+    });
 
   const {
     formState: { errors },
@@ -93,7 +98,11 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
   }, [resetForm, searchRef, venueDetailData]);
 
   return (
-    <Layout authGuarded hrefToListView="/venues">
+    <Layout
+      authGuarded
+      hrefToListView="/venues"
+      loadings={[isLoading, updateIsLoading, deleteIsLoading]}
+    >
       <Section>
         <Container>
           <div className="mb-8">

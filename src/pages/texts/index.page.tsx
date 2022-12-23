@@ -41,52 +41,57 @@ const Texts: NextPage = () => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
-  const { data: textData, refetch } = trpc.text.getAll.useQuery();
-  const { mutate: createText } = trpc.text.create.useMutation({
-    onSuccess: async ({ slamTextFileName, id }) => {
-      const [file] = await getValues("slamTextFiles");
+  const { data: textData, refetch, isLoading } = trpc.text.getAll.useQuery();
+  const { mutate: createText, isLoading: createIsLoading } =
+    trpc.text.create.useMutation({
+      onSuccess: async ({ slamTextFileName, id }) => {
+        const [file] = await getValues("slamTextFiles");
 
-      if (file) {
-        await maybeUploadSlamText({
-          file,
-          textId: id,
-          fileName: slamTextFileName,
-          userId: sessionData?.user?.id,
+        if (file) {
+          await maybeUploadSlamText({
+            file,
+            textId: id,
+            fileName: slamTextFileName,
+            userId: sessionData?.user?.id,
+          });
+        }
+
+        await refetch();
+        snackbarRef.current?.open({
+          message: "Dein Text wurde erfolgreich erstellt",
+          state: "success",
         });
-      }
+        resetForm();
+      },
+    });
+  const { mutate: deleteText, isLoading: deleteIsLoading } =
+    trpc.text.delete.useMutation({
+      onSuccess: async ({ id, slamTextFileName, userId }) => {
+        if (slamTextFileName) {
+          await deleteSlamText({
+            userId,
+            slamTextId: id,
+            fileName: slamTextFileName,
+          });
+        }
 
-      await refetch();
-      snackbarRef.current?.open({
-        message: "Dein Text wurde erfolgreich erstellt",
-        state: "success",
-      });
-      resetForm();
-    },
-  });
-  const { mutate: deleteText } = trpc.text.delete.useMutation({
-    onSuccess: async ({ id, slamTextFileName, userId }) => {
-      if (slamTextFileName) {
-        await deleteSlamText({
-          userId,
-          slamTextId: id,
-          fileName: slamTextFileName,
+        snackbarRef.current?.open({
+          message: "Der Text wurde erfolgreich gelöscht",
+          state: "success",
         });
-      }
-
-      snackbarRef.current?.open({
-        message: "Der Text wurde erfolgreich gelöscht",
-        state: "success",
-      });
-      await refetch();
-    },
-  });
+        await refetch();
+      },
+    });
 
   const snackbarRef = useSnackbarRef();
 
   const groupedTexts = useMemo(() => groupTexts(textData), [textData]);
 
   return (
-    <Layout authGuarded>
+    <Layout
+      authGuarded
+      loadings={[isLoading, deleteIsLoading, createIsLoading]}
+    >
       <Section>
         <Container>
           <div className="mb-8">

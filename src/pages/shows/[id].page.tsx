@@ -49,23 +49,33 @@ type ShowDetailPageProps = {
 
 const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
-  const { data: showDetailsData, refetch: refetchShow } =
-    trpc.show.getOne.useQuery({ showId });
-  const { mutate: deleteShow } = trpc.show.delete.useMutation();
-  const { mutate: updateShow } = trpc.show.update.useMutation({
-    onSuccess: async () => {
-      await refetchShow();
-      snackbarRef.current?.open({
-        message: "Dein Auftritt wurde erfolgreich aktualisiert",
-        state: "success",
-      });
-    },
-  });
-  const { data: textData } = trpc.text.getAll.useQuery();
-  const { data: venueData } = trpc.venue.getAll.useQuery();
-  const { mutate: getVenueTextsByVenueId, data: venueTextsByVenueId } =
-    trpc.venueText.getVenueTextsByVenueId.useMutation();
-  const { mutate: resetInvoiceFile } =
+  const {
+    data: showDetailsData,
+    refetch: refetchShow,
+    isLoading,
+  } = trpc.show.getOne.useQuery({ showId });
+  const { mutate: deleteShow, isLoading: deleteIsLoading } =
+    trpc.show.delete.useMutation();
+  const { mutate: updateShow, isLoading: updateIsLoading } =
+    trpc.show.update.useMutation({
+      onSuccess: async () => {
+        await refetchShow();
+        snackbarRef.current?.open({
+          message: "Dein Auftritt wurde erfolgreich aktualisiert",
+          state: "success",
+        });
+      },
+    });
+  const { data: textData, isLoading: textIsLoading } =
+    trpc.text.getAll.useQuery();
+  const { data: venueData, isLoading: venueIsLoading } =
+    trpc.venue.getAll.useQuery();
+  const {
+    mutate: getVenueTextsByVenueId,
+    data: venueTextsByVenueId,
+    isLoading: venueTextsByVenueIdIsLoading,
+  } = trpc.venueText.getVenueTextsByVenueId.useMutation();
+  const { mutate: resetInvoiceFile, isLoading: resetInvoiceFileIsLoading } =
     trpc.show.resetInvoiceFileName.useMutation({
       onSuccess: () => {
         refetchShow();
@@ -156,7 +166,19 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
   };
 
   return (
-    <Layout authGuarded hrefToListView="/shows">
+    <Layout
+      authGuarded
+      hrefToListView="/shows"
+      loadings={[
+        isLoading,
+        deleteIsLoading,
+        updateIsLoading,
+        textIsLoading,
+        venueIsLoading,
+        venueTextsByVenueIdIsLoading,
+        resetInvoiceFileIsLoading,
+      ]}
+    >
       <Section>
         <Container>
           <div className="mb-8">

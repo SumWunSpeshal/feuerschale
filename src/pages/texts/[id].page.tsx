@@ -45,33 +45,40 @@ type TextDetailPageProps = {
 const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
 
-  const { data: textDetailsData, refetch: refetchText } =
-    trpc.text.getOne.useQuery({
-      textId,
-    });
-  const { mutate: updateText } = trpc.text.update.useMutation({
-    onSuccess: async () => {
-      await refetchText();
-      snackbarRef.current?.open({
-        message: "Dein Slamtext wurde erfolgreich aktualisiert",
-        state: "success",
-      });
-    },
+  const {
+    data: textDetailsData,
+    refetch: refetchText,
+    isLoading,
+  } = trpc.text.getOne.useQuery({
+    textId,
   });
-  const { mutate: deleteText } = trpc.text.delete.useMutation({
-    onSuccess: async () => {
-      snackbarRef.current?.open({
-        message: "Der Slamtext wurde erfolgreich gelöscht.",
-        state: "success",
-      });
-    },
-  });
-  const { mutate: resetSlamTextFileName } =
-    trpc.text.resetSlamTextFileName.useMutation({
-      onSuccess: () => {
-        refetchText();
+  const { mutate: updateText, isLoading: updateIsLoading } =
+    trpc.text.update.useMutation({
+      onSuccess: async () => {
+        await refetchText();
+        snackbarRef.current?.open({
+          message: "Dein Slamtext wurde erfolgreich aktualisiert",
+          state: "success",
+        });
       },
     });
+  const { mutate: deleteText, isLoading: deleteIsLoading } =
+    trpc.text.delete.useMutation({
+      onSuccess: async () => {
+        snackbarRef.current?.open({
+          message: "Der Slamtext wurde erfolgreich gelöscht.",
+          state: "success",
+        });
+      },
+    });
+  const {
+    mutate: resetSlamTextFileName,
+    isLoading: resetSlamTextFileNameIsLoading,
+  } = trpc.text.resetSlamTextFileName.useMutation({
+    onSuccess: () => {
+      refetchText();
+    },
+  });
 
   const {
     formState: { errors },
@@ -127,7 +134,16 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
   const modalRef = useModalRef();
 
   return (
-    <Layout authGuarded hrefToListView="/texts">
+    <Layout
+      authGuarded
+      hrefToListView="/texts"
+      loadings={[
+        isLoading,
+        updateIsLoading,
+        deleteIsLoading,
+        resetSlamTextFileNameIsLoading,
+      ]}
+    >
       <Section>
         <Container>
           <div className="mb-8">

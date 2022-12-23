@@ -3,12 +3,14 @@ import { PropsWithChildren } from "react";
 import { trpc } from "src/utils/trpc";
 import { FloatingNav } from "./FloatingNav";
 import { Global } from "./Global";
+import { Loader, LoaderProps } from "./Loader";
 import { Main } from "./Main";
 
 type LayoutProps = PropsWithChildren<{
   authGuarded?: boolean;
   noFloatingNav?: boolean;
   hrefToListView?: string;
+  loadings?: LoaderProps["loadings"];
 }>;
 
 export function Layout({
@@ -16,6 +18,7 @@ export function Layout({
   authGuarded = false,
   noFloatingNav,
   hrefToListView,
+  loadings,
 }: LayoutProps) {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
   const router = useRouter();
@@ -34,6 +37,7 @@ export function Layout({
       <Main>{children}</Main>
       {/* <Footer /> */}
       {!noFloatingNav && <FloatingNav hrefToListView={hrefToListView} />}
+      <Loader loadings={loadings} />
     </Global>
   );
 }

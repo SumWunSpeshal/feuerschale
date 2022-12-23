@@ -26,26 +26,28 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const Venues: NextPage = () => {
-  const { data: venueData, refetch } = trpc.venue.getAll.useQuery();
-  const { mutate: createVenue } = trpc.venue.create.useMutation({
-    onSuccess: async () => {
-      await refetch();
-      resetForm();
-      snackbarRef.current?.open({
-        message: "Die neue Venue wurde erfolgreich gespeichert.",
-        state: "success",
-      });
-    },
-  });
-  const { mutate: deleteVenue } = trpc.venue.delete.useMutation({
-    onSuccess: async () => {
-      await refetch();
-      snackbarRef.current?.open({
-        message: "Die Venue wurde erfolgreich gelöscht.",
-        state: "success",
-      });
-    },
-  });
+  const { data: venueData, refetch, isLoading } = trpc.venue.getAll.useQuery();
+  const { mutate: createVenue, isLoading: createIsLoading } =
+    trpc.venue.create.useMutation({
+      onSuccess: async () => {
+        await refetch();
+        resetForm();
+        snackbarRef.current?.open({
+          message: "Die neue Venue wurde erfolgreich gespeichert.",
+          state: "success",
+        });
+      },
+    });
+  const { mutate: deleteVenue, isLoading: deleteIsLoading } =
+    trpc.venue.delete.useMutation({
+      onSuccess: async () => {
+        await refetch();
+        snackbarRef.current?.open({
+          message: "Die Venue wurde erfolgreich gelöscht.",
+          state: "success",
+        });
+      },
+    });
 
   const {
     formState: { errors },
@@ -63,7 +65,10 @@ const Venues: NextPage = () => {
   const groupedVenues = useMemo(() => groupVenues(venueData), [venueData]);
 
   return (
-    <Layout authGuarded>
+    <Layout
+      authGuarded
+      loadings={[isLoading, createIsLoading, deleteIsLoading]}
+    >
       <Section>
         <Container>
           <div className="mb-8">

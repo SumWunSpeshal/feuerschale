@@ -34,39 +34,46 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const Shows: NextPage = () => {
-  const { data: venueData, refetch: venueRefetch } =
-    trpc.venue.getAll.useQuery();
-  const { data: textData } = trpc.text.getAll.useQuery();
-  const { data: showData, refetch } = trpc.show.getAll.useQuery();
+  const {
+    data: venueData,
+    refetch: venueRefetch,
+    isLoading: venueIsLoading,
+  } = trpc.venue.getAll.useQuery();
+  const { data: textData, isLoading: textIsLoading } =
+    trpc.text.getAll.useQuery();
+  const { data: showData, refetch, isLoading } = trpc.show.getAll.useQuery();
   const {
     mutate: getVenueTextsByVenueId,
     data: venueTextsByVenueId,
     reset: resetVenueTextsByVenueId,
+    isLoading: venueTextsByVenueIdIsLoading,
   } = trpc.venueText.getVenueTextsByVenueId.useMutation();
-  const { mutate: createShow } = trpc.show.create.useMutation({
-    onSuccess: () => {
-      refetch();
-      resetForm((values) => ({
-        date: formatDate["yyyy-MM-dd"](new Date()) as string,
-        venueId: 0,
-        textIds: Array(values.textIds.length).fill(false),
-      }));
-      resetVenueTextsByVenueId();
-      snackbarRef.current?.open({
-        message: "Auftritt wurde erfolgreich gespeichert.",
-        state: "success",
-      });
-    },
-  });
-  const { mutate: deleteShow } = trpc.show.delete.useMutation({
-    onSuccess: () => {
-      refetch();
-      snackbarRef.current?.open({
-        message: "Auftritt wurde gelöscht.",
-        state: "success",
-      });
-    },
-  });
+  const { mutate: createShow, isLoading: createIsLoading } =
+    trpc.show.create.useMutation({
+      onSuccess: () => {
+        refetch();
+        resetForm((values) => ({
+          date: formatDate["yyyy-MM-dd"](new Date()) as string,
+          venueId: 0,
+          textIds: Array(values.textIds.length).fill(false),
+        }));
+        resetVenueTextsByVenueId();
+        snackbarRef.current?.open({
+          message: "Auftritt wurde erfolgreich gespeichert.",
+          state: "success",
+        });
+      },
+    });
+  const { mutate: deleteShow, isLoading: deleteIsLoading } =
+    trpc.show.delete.useMutation({
+      onSuccess: () => {
+        refetch();
+        snackbarRef.current?.open({
+          message: "Auftritt wurde gelöscht.",
+          state: "success",
+        });
+      },
+    });
 
   const {
     formState: { errors },
@@ -100,7 +107,17 @@ const Shows: NextPage = () => {
   const groupedShows = useMemo(() => groupShows(showData), [showData]);
 
   return (
-    <Layout authGuarded>
+    <Layout
+      authGuarded
+      loadings={[
+        venueIsLoading,
+        textIsLoading,
+        isLoading,
+        venueTextsByVenueIdIsLoading,
+        createIsLoading,
+        deleteIsLoading,
+      ]}
+    >
       <Section>
         <Container>
           <div className="mb-8">
