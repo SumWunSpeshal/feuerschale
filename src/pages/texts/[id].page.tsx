@@ -196,7 +196,15 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
               )}
             </div>
 
-            <div className="col-span-full flex justify-end">
+            <div className="col-span-full flex justify-end gap-4 sm:gap-6">
+              <Button
+                type="button"
+                onClick={modalRef.current?.open}
+                className="bg-red-400"
+                disabled={!!textDetailsData?.VenueText?.length}
+              >
+                Text löschen
+              </Button>
               <Button type="submit">Aktualisieren</Button>
             </div>
           </form>
@@ -205,6 +213,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
       <Modal.Confirm
         modalRef={modalRef}
         onConfirm={async () => {
+          await deleteFile();
           deleteText({ id: textId });
           window.location.href = "/texts"; // don't use nextjs router. This triggers refetching.
         }}

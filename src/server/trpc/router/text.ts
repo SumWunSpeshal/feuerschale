@@ -105,6 +105,13 @@ export const textRouter = t.router({
         where: {
           id: input.textId,
         },
+        include: {
+          VenueText: {
+            select: {
+              id: true,
+            },
+          },
+        },
       });
     }),
 });

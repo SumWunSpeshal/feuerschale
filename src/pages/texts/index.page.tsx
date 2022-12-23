@@ -1,3 +1,4 @@
+import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useMemo } from "react";
@@ -7,6 +8,7 @@ import { Card } from "src/components/Card";
 import { Container } from "src/components/Container";
 import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
+import { Icon } from "src/components/Icon";
 import { Layout } from "src/components/Layout";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
@@ -178,8 +180,9 @@ const Texts: NextPage = () => {
                           <div className="text-sm">{description}</div>
                         )}
                         {slamTextFileName && (
-                          <div className="text-sm text-gray-500">
-                            {slamTextFileName}
+                          <div className="mt-1 flex gap-2 text-sm text-gray-500">
+                            <Icon icon={faFile} />
+                            <span>{slamTextFileName}</span>
                           </div>
                         )}
                       </Card>

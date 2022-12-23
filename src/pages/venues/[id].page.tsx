@@ -159,18 +159,12 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
                       <Chip>{Text.name}</Chip>
                     </li>
                   ) : (
-                    <>
-                      Keine verbrannten Texte bisher :) Das Löschen der Venue
-                      ist dadurch möglich.
-                    </>
+                    <EmptyTexts />
                   );
                 })}
               </ul>
             ) : (
-              <>
-                Keine verbrannten Texte bisher :) Das Löschen der Venue ist
-                dadurch möglich.
-              </>
+              <EmptyTexts />
             )}
           </div>
         </Container>
@@ -188,5 +182,14 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
     </Layout>
   );
 };
+
+function EmptyTexts() {
+  return (
+    <div>
+      Keine verbrannten Texte bisher 🥳 Das Löschen der Venue ist dadurch
+      möglich.
+    </div>
+  );
+}
 
 export default VenueDetail;

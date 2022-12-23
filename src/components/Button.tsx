@@ -13,11 +13,12 @@ const baseButtonStyles =
 type ButtonProps = PropsWithChildren<ButtonHTMLAttributes<HTMLButtonElement>>;
 
 export function Button(props: ButtonProps) {
-  const { children, disabled, className, ...rest } = props;
+  const { children, disabled, type = "button", className, ...rest } = props;
 
   return (
     <button
       {...rest}
+      type={type}
       disabled={disabled}
       className={clsx(
         baseButtonStyles,
