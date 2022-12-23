@@ -83,6 +83,7 @@ export const venueTextRouter = t.router({
           ],
         },
         select: {
+          id: true,
           Text: true,
         },
       });

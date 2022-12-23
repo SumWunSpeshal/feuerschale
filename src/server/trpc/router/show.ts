@@ -160,6 +160,7 @@ export const showRouter = t.router({
         include: {
           VenueText: {
             select: {
+              id: true,
               venueId: true,
               textId: true,
             },

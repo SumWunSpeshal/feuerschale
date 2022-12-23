@@ -12,6 +12,7 @@ import { FileInput } from "src/components/FileInput";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
+import { Pre } from "src/components/Pre";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
@@ -146,8 +147,23 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     resetInvoiceFile({ showId });
   };
 
+  const getAlreadyUsedTexts = (id: string) => {
+    return venueTextsByVenueId
+      ?.filter(
+        ({ id }) => !showDetailsData?.VenueText.find((item) => item.id === id)
+      )
+      .map(({ Text }) => Text?.id)
+      .includes(id);
+  };
+
   return (
     <Layout authGuarded hrefToListView="/shows">
+      <Pre data={venueTextsByVenueId}></Pre>
+      <br />
+      <br />
+      <br />
+      <br />
+      <Pre data={showDetailsData}></Pre>
       <Section>
         <Container>
           <div className="mb-8">
@@ -233,9 +249,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                     value={id}
                     label={name}
                     id={id}
-                    warning={venueTextsByVenueId
-                      ?.map(({ Text }) => Text?.id)
-                      .includes(id)}
+                    warning={getAlreadyUsedTexts(id)}
                     {...register(`textIds.${id}`, {
                       disabled: false,
                     })}
