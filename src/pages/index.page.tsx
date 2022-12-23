@@ -65,15 +65,23 @@ const Home: NextPage = () => {
                 title={<Anchor href="/texts">Texte</Anchor>}
                 titleClassName="bg-indigo-400"
               >
-                <PreviewList>
-                  {dashboardData?.texts.map(({ id, name }) => (
-                    <PreviewList.Item
-                      key={id}
-                      title={name}
-                      href={`/texts/${id}`}
-                    />
-                  ))}
-                </PreviewList>
+                {dashboardData?.texts.length ? (
+                  <PreviewList>
+                    {dashboardData.texts.map(({ id, name }) => (
+                      <PreviewList.Item
+                        key={id}
+                        title={name}
+                        href={`/texts/${id}`}
+                      />
+                    ))}
+                  </PreviewList>
+                ) : (
+                  <div className="text-sm text-gray-600">
+                    Du besitzt noch keine Slamtexte ☹️{" "}
+                    <Anchor href="/texts">Erstelle</Anchor> Deinen ersten
+                    Slamtext! ✨
+                  </div>
+                )}
               </DashboardTile>
             </div>
 
@@ -82,16 +90,24 @@ const Home: NextPage = () => {
                 title={<Anchor href="/venues">Venues</Anchor>}
                 titleClassName="bg-sky-500"
               >
-                <PreviewList>
-                  {dashboardData?.Venue.map(({ id, name, City }) => (
-                    <PreviewList.Item
-                      key={id}
-                      href={`/venues/${id}`}
-                      title={name}
-                      description={City.Stadt}
-                    />
-                  ))}
-                </PreviewList>
+                {dashboardData?.Venue?.length ? (
+                  <PreviewList>
+                    {dashboardData.Venue.map(({ id, name, City }) => (
+                      <PreviewList.Item
+                        key={id}
+                        href={`/venues/${id}`}
+                        title={name}
+                        description={City.Stadt}
+                      />
+                    ))}
+                  </PreviewList>
+                ) : (
+                  <div className="text-sm text-gray-600">
+                    Du besitzt noch keine Venues ☹️{" "}
+                    <Anchor href="/venues">Erstelle</Anchor> Deine erste Venue!
+                    ✨
+                  </div>
+                )}
               </DashboardTile>
             </div>
 
@@ -100,36 +116,44 @@ const Home: NextPage = () => {
                 title={<Anchor href="/shows">Auftritte</Anchor>}
                 titleClassName="bg-amber-500"
               >
-                <PreviewList className="grid gap-4 space-y-0 !divide-y-0 sm:grid-cols-3 sm:gap-6">
-                  {dashboardData?.Show.map(({ id, date, VenueText }) => (
-                    <PreviewList.Item
-                      key={id}
-                      className="pt-0"
-                      title={
-                        <>
-                          {VenueText[0]?.Venue.name},{" "}
-                          {formatDate["dd.MM.yyyy"](date)}
-                        </>
-                      }
-                      href={`/shows/${id}`}
-                      description={
-                        <>
-                          <ul className="flex flex-wrap gap-2">
-                            {VenueText.map(({ Text }) => {
-                              return (
-                                Text && (
-                                  <li key={Text.id}>
-                                    <Chip>{Text.name}</Chip>
-                                  </li>
-                                )
-                              );
-                            })}
-                          </ul>
-                        </>
-                      }
-                    />
-                  ))}
-                </PreviewList>
+                {dashboardData?.Show?.length ? (
+                  <PreviewList className="grid gap-4 space-y-0 !divide-y-0 sm:grid-cols-3 sm:gap-6">
+                    {dashboardData.Show.map(({ id, date, VenueText }) => (
+                      <PreviewList.Item
+                        key={id}
+                        className="pt-0"
+                        title={
+                          <>
+                            {VenueText[0]?.Venue.name},{" "}
+                            {formatDate["dd.MM.yyyy"](date)}
+                          </>
+                        }
+                        href={`/shows/${id}`}
+                        description={
+                          <>
+                            <ul className="flex flex-wrap gap-2">
+                              {VenueText.map(({ Text }) => {
+                                return (
+                                  Text && (
+                                    <li key={Text.id}>
+                                      <Chip>{Text.name}</Chip>
+                                    </li>
+                                  )
+                                );
+                              })}
+                            </ul>
+                          </>
+                        }
+                      />
+                    ))}
+                  </PreviewList>
+                ) : (
+                  <div className="text-sm text-gray-600">
+                    Du hast noch keine Auftritte eingerichtet ☹️{" "}
+                    <Anchor href="/shows">Erstelle</Anchor> Deinen ersten
+                    Auftritt! ✨
+                  </div>
+                )}
               </DashboardTile>
             </div>
 
