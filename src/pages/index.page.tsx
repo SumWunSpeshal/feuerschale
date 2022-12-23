@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     <Layout authGuarded noFloatingNav>
       <Section className="h-full">
         <Container>
-          <div className="mb-16">
+          <div className="mb-12 sm:mb-16">
             <h1 className="text-5xl font-extrabold md:text-[5rem]">
               Hallo <Highlight>{sessionData?.user?.name}</Highlight>
             </h1>
@@ -120,11 +120,11 @@ const Home: NextPage = () => {
                 titleClassName="bg-amber-500"
               >
                 {dashboardData?.Show?.length ? (
-                  <PreviewList className="grid gap-4 space-y-0 !divide-y-0 sm:grid-cols-3 sm:gap-6">
+                  <PreviewList className="grid gap-4 sm:grid-cols-3 sm:gap-6">
                     {dashboardData.Show.map(({ id, date, VenueText }) => (
                       <PreviewList.Item
                         key={id}
-                        className="pt-0"
+                        className="pt-0 last:border-b last:pb-3"
                         title={
                           <>
                             {VenueText[0]?.Venue.name},{" "}

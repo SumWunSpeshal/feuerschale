@@ -12,9 +12,7 @@ type PreviewListProps = {
 export function PreviewList(props: PreviewListProps) {
   const { children, className } = props;
 
-  return (
-    <ul className={clsx("divide-y divide-black", className)}>{children}</ul>
-  );
+  return <ul className={className}>{children}</ul>;
 }
 
 type PreviewListItemProps = {
@@ -28,11 +26,16 @@ const Item: React.FC<PreviewListItemProps> = (props) => {
   const { title, description, href, className } = props;
 
   return (
-    <li className={clsx("py-3 first:pt-0 last:pb-0", className)}>
+    <li
+      className={clsx(
+        "border-b border-gray-400 py-3 first:pt-0 last:border-0 last:pb-0",
+        className
+      )}
+    >
       {href ? (
         <Link
           href={href}
-          className="group block rounded-md ring-amber-200 transition-all duration-75 hover:bg-amber-200 hover:ring-8"
+          className="group block rounded-md ring-stone-100 transition-all duration-75 hover:bg-stone-100 hover:ring-8"
         >
           <ItemInner title={title} description={description} />
         </Link>
