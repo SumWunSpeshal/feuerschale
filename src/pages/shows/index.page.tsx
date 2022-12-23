@@ -228,7 +228,7 @@ const Shows: NextPage = () => {
                           {VenueText[0]?.Venue.City.Stadt}
                         </div>
                         {VenueText.some(({ Text }) => !!Text) && (
-                          <ul className="mb-4 flex flex-wrap gap-2">
+                          <ul className="mb-2 flex flex-wrap gap-2">
                             {VenueText.map(({ Text }) => {
                               return (
                                 Text && (
