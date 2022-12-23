@@ -1,4 +1,4 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFile, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NextPage } from "next";
 import { useEffect, useMemo } from "react";
@@ -197,48 +197,56 @@ const Shows: NextPage = () => {
                   </h2>
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  {shows?.map(({ id, VenueText, date, Invoice }) => (
-                    <Card
-                      key={id}
-                      hrefToDetailPage={"/shows/" + id}
-                      header={formatDate["full"](date)}
-                      onDelete={() => deleteShow({ showId: id })}
-                      deleteModalChildren="Dieser Auftritt wird unwiderruflich gelöscht!"
-                    >
-                      <div className="mb-2 text-sm">
-                        {VenueText[0]?.Venue.name},{" "}
-                        {VenueText[0]?.Venue.City.Stadt}
-                      </div>
-                      {VenueText.some(({ Text }) => !!Text) && (
-                        <ul className="mb-4 flex flex-wrap gap-2">
-                          {VenueText.map(({ Text }) => {
-                            return (
-                              Text && (
-                                <li key={Text.id}>
-                                  <Chip>{Text.name}</Chip>
-                                </li>
-                              )
-                            );
-                          })}
-                        </ul>
-                      )}
+                  {shows?.map(
+                    ({ id, VenueText, date, Invoice, invoiceFileName }) => (
+                      <Card
+                        key={id}
+                        hrefToDetailPage={"/shows/" + id}
+                        header={formatDate["full"](date)}
+                        onDelete={() => deleteShow({ showId: id })}
+                        deleteModalChildren="Dieser Auftritt wird unwiderruflich gelöscht!"
+                      >
+                        <div className="mb-2 text-sm">
+                          {VenueText[0]?.Venue.name},{" "}
+                          {VenueText[0]?.Venue.City.Stadt}
+                        </div>
+                        {VenueText.some(({ Text }) => !!Text) && (
+                          <ul className="mb-4 flex flex-wrap gap-2">
+                            {VenueText.map(({ Text }) => {
+                              return (
+                                Text && (
+                                  <li key={Text.id}>
+                                    <Chip>{Text.name}</Chip>
+                                  </li>
+                                )
+                              );
+                            })}
+                          </ul>
+                        )}
 
-                      <div className="flex flex-wrap gap-x-2 gap-y-1 font-normal text-gray-600">
-                        <div className="flex items-center gap-1">
-                          <small>Rechnung gestellt:</small>
-                          <BoxedIcon
-                            state={!!Invoice?.issued ? "check" : "close"}
-                          />
+                        <div className="flex flex-wrap gap-x-2 gap-y-1 font-normal text-gray-600">
+                          <div className="flex items-center gap-1">
+                            <small>Rechnung gestellt:</small>
+                            <BoxedIcon
+                              state={!!Invoice?.issued ? "check" : "close"}
+                            />
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <small>Rechnung beglichen:</small>
+                            <BoxedIcon
+                              state={!!Invoice?.settled ? "check" : "close"}
+                            />
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <small>Rechnung beglichen:</small>
-                          <BoxedIcon
-                            state={!!Invoice?.settled ? "check" : "close"}
-                          />
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
+                        {invoiceFileName && (
+                          <div className="mt-1 flex gap-2 text-sm text-gray-500">
+                            <Icon icon={faFile} />
+                            <span>{invoiceFileName}</span>
+                          </div>
+                        )}
+                      </Card>
+                    )
+                  )}
                 </div>
               </div>
             ))}
