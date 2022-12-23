@@ -7,7 +7,6 @@ import Head from "next/head";
 import "src/styles/globals.css";
 import { trpc } from "src/utils/trpc";
 
-// 1
 const ralewayFont = Raleway({ subsets: ["latin"] });
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -22,7 +21,25 @@ const MyApp: AppType<{ session: Session | null }> = ({
           name="description"
           content="Deine App um Deine Slam-Auftritte zu verwalten."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="favicon/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest"></link>
       </Head>
       <style jsx global>{`
         html {
