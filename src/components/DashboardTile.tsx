@@ -23,7 +23,9 @@ export function DashboardTile(props: DashboardTileProps) {
             >
               <strong className="text-2xl">{title}</strong>
             </div>
-            <div className="grow bg-amber-100 px-6 py-6">{children}</div>
+            <div className="flex grow flex-col bg-amber-100 px-6 py-6">
+              {children}
+            </div>
           </div>
         </div>
       </BrutalElevation>

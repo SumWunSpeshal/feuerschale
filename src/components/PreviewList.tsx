@@ -28,7 +28,7 @@ const Item: React.FC<PreviewListItemProps> = (props) => {
   const { title, description, href, className } = props;
 
   return (
-    <li className={clsx("py-2 first:pt-0 last:pb-0", className)}>
+    <li className={clsx("py-3 first:pt-0 last:pb-0", className)}>
       {href ? (
         <Link
           href={href}

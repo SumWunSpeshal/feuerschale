@@ -6,6 +6,7 @@ import { Button } from "src/components/Button";
 import { Chip } from "src/components/Chip";
 import { Container } from "src/components/Container";
 import { DashboardTile } from "src/components/DashboardTile";
+import { Ellipsis } from "src/components/Ellipsis";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { PreviewList } from "src/components/PreviewList";
@@ -27,11 +28,11 @@ const Home: NextPage = () => {
             </h1>
           </div>
 
-          <div className="grid gap-8 md:auto-rows-fr md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:auto-rows-fr md:grid-cols-3">
             <div>
               <DashboardTile title="Profil" titleClassName="bg-teal-500">
-                {sessionData?.user?.image && (
-                  <div className="mb-4">
+                <div className="mb-6 flex flex-wrap items-center gap-4">
+                  {sessionData?.user?.image && (
                     <div className="inline-flex overflow-hidden rounded-full border-2 border-black shadow-brutal">
                       <NextImage
                         src={sessionData.user.image}
@@ -40,19 +41,25 @@ const Home: NextPage = () => {
                         alt={`Profilbild ${sessionData?.user?.name}`}
                       />
                     </div>
-                  </div>
-                )}
-                <div className="mb-4">
-                  <span className="text-xl">{sessionData?.user?.name}</span>
-                  {sessionData?.user?.email && (
-                    <div>
-                      <span className="text-gray-600">
-                        {sessionData?.user?.email}
-                      </span>
-                    </div>
                   )}
+                  <div className="max-w-full">
+                    <Ellipsis>
+                      <span className="text-xl">
+                        {sessionData?.user?.name}
+                        AjdvbjdkahdabdkjasbhbdkadbkasjkbDKDJS
+                      </span>
+                    </Ellipsis>
+                    {sessionData?.user?.email && (
+                      <Ellipsis>
+                        <span className="text-gray-600">
+                          {sessionData?.user?.email}
+                          AjdvbjdkahdabdkjasbhbdkadbkasjkbDKDJS
+                        </span>
+                      </Ellipsis>
+                    )}
+                  </div>
                 </div>
-                <div>
+                <div className="mt-auto">
                   <Button onClick={() => signOut()} className="bg-red-400">
                     Abmelden
                   </Button>
