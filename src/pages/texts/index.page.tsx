@@ -138,7 +138,7 @@ const Texts: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <div className="pt-20">
+        <div className="py-20">
           <div className="mb-10">
             <h1 className="text-6xl font-bold">
               Meine <Highlight>Texte</Highlight>

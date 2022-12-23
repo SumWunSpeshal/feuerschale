@@ -23,6 +23,31 @@ export const textRouter = t.router({
         },
       });
     }),
+  update: authedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1),
+        description: z.string().optional(),
+        slamTextFileName: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { prisma, session } = ctx;
+      const { name, description, slamTextFileName, id } = input;
+
+      return prisma.text.update({
+        where: {
+          id,
+        },
+        data: {
+          userId: session.user.id,
+          name,
+          description: description ?? "",
+          slamTextFileName,
+        },
+      });
+    }),
   delete: authedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {

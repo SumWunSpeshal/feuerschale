@@ -30,7 +30,7 @@ export function DownloadPreview(props: DownloadPreviewProps) {
             </div>
             <div className="flex gap-2">
               {onDownload && (
-                <Button onClick={onDownload}>
+                <Button onClick={onDownload} type="button">
                   <Icon
                     icon={faDownload}
                     aria-label="Herunterladen"
@@ -39,7 +39,7 @@ export function DownloadPreview(props: DownloadPreviewProps) {
                 </Button>
               )}
               {onDelete && (
-                <Button onClick={onDelete} className="bg-red-400">
+                <Button onClick={onDelete} type="button" className="bg-red-400">
                   <Icon icon={faTrashCan} aria-label="Löschen" size={16} />
                 </Button>
               )}
