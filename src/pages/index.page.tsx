@@ -44,16 +44,12 @@ const Home: NextPage = () => {
                   )}
                   <div className="max-w-full">
                     <Ellipsis>
-                      <span className="text-xl">
-                        {sessionData?.user?.name}
-                        AjdvbjdkahdabdkjasbhbdkadbkasjkbDKDJS
-                      </span>
+                      <span className="text-xl">{sessionData?.user?.name}</span>
                     </Ellipsis>
                     {sessionData?.user?.email && (
                       <Ellipsis>
                         <span className="text-gray-600">
                           {sessionData?.user?.email}
-                          AjdvbjdkahdabdkjasbhbdkadbkasjkbDKDJS
                         </span>
                       </Ellipsis>
                     )}
