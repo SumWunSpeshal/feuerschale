@@ -35,3 +35,14 @@ input[type="file"]::after {
 input::-webkit-datetime-edit-fields-wrapper {
   padding: 0;
 }
+
+input[type="file"],
+input[type="date"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input::-webkit-date-and-time-value {
+  width: auto;
+  text-align: left;
+}
