@@ -64,9 +64,9 @@ const Home: NextPage = () => {
               </div>
               <div className="relative col-span-2">
                 <Tile
-                  title="Meine Texte"
+                  title="Meine Slam-Texte"
                   src={TextImg}
-                  imgAlt="Meine Texte"
+                  imgAlt="Meine Slam-Texte"
                   href="/texts"
                 />
               </div>

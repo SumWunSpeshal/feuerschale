@@ -59,7 +59,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
       onSuccess: async () => {
         await refetchText();
         snackbarRef.current?.open({
-          message: "Dein Slamtext wurde erfolgreich aktualisiert",
+          message: "Dein Slam-Text wurde erfolgreich aktualisiert",
           state: "success",
         });
       },
@@ -68,7 +68,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
     trpc.text.delete.useMutation({
       onSuccess: async () => {
         snackbarRef.current?.open({
-          message: "Der Slamtext wurde erfolgreich gelöscht.",
+          message: "Der Slam-Text wurde erfolgreich gelöscht.",
           state: "success",
         });
       },
@@ -150,7 +150,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
         <Container>
           <div className="mb-8">
             <H2>
-              <Highlight>Text</Highlight> bearbeiten
+              <Highlight>Slam-Text</Highlight> bearbeiten
             </H2>
           </div>
           <form
@@ -207,14 +207,14 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
                   id="slamtext-upload"
                   isEmpty={!watch("slamTextFiles")?.length}
                   reset={() => setValue("slamTextFiles", undefined)}
-                  label="Slamtext"
+                  label="Slam-Text"
                   error={errors.slamTextFiles?.message}
                   {...register("slamTextFiles")}
                 />
               )}
             </div>
 
-            <div className="col-span-full flex justify-end gap-4 sm:gap-6">
+            <div className="col-span-full mt-2 flex justify-end gap-4 sm:gap-6">
               <div className="relative">
                 <Button
                   type="button"
@@ -222,13 +222,13 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
                   className="bg-red-400"
                   disabled={!!textDetailsData?.VenueText?.length}
                 >
-                  Text löschen
+                  Slam-Text löschen
                 </Button>
 
                 {!!textDetailsData?.VenueText?.length && (
                   <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
                     <Tooltip>
-                      ⚠️ Der Slamtext kann nicht gelöscht werden solange er in
+                      ⚠️ Der Slam-Text kann nicht gelöscht werden solange er in
                       mindestens einem Auftritt verwendet wird.
                     </Tooltip>
                   </div>
@@ -247,7 +247,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
           window.location.href = "/texts"; // don't use nextjs router. This triggers refetching.
         }}
       >
-        Dieser Slamtext wird unwiderruflich gelöscht!
+        Dieser Slam-Text wird unwiderruflich gelöscht!
       </Modal.Confirm>
       <Snackbar snackbarRef={snackbarRef} />
     </Layout>

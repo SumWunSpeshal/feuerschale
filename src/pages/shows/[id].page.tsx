@@ -257,7 +257,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
             </div>
             <div className="mb-14">
               <div className="mb-4">
-                <H4>Wähle aus Deinen Texten:</H4>
+                <H4>Wähle aus Deinen Slam-Texten:</H4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {textData?.map(({ id, name }) => (

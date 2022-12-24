@@ -177,7 +177,7 @@ const Shows: NextPage = () => {
             </div>
             <div className="mb-10">
               <div className="mb-4">
-                <H4>Wähle aus Deinen Texten:</H4>
+                <H4>Wähle aus Deinen Slam-Texten:</H4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {textData?.map(({ id, name }, idx) => (

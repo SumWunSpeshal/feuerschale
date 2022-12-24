@@ -147,7 +147,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
               />
             </div>
 
-            <div className="col-span-full flex justify-end gap-4 sm:gap-6">
+            <div className="col-span-full mt-2 flex justify-end gap-4 sm:gap-6">
               <div className="relative">
                 <Button
                   onClick={modalRef.current?.open}
@@ -172,7 +172,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
           </form>
           <div>
             <div className="mb-2">
-              <H4>🔥 Verbrannte Texte: </H4>
+              <H4>🔥 Verbrannte Slam-Texte: </H4>
             </div>
             {venueDetailData?.VenueText.length ? (
               <ul className="flex flex-wrap gap-2">
@@ -209,7 +209,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
 function EmptyTexts() {
   return (
     <div className="text-gray-600">
-      Keine verbrannten Texte bisher 🥳 Das Löschen der Venue ist dadurch
+      Keine verbrannten Slam-Texte bisher 🥳 Das Löschen der Venue ist dadurch
       möglich.
     </div>
   );

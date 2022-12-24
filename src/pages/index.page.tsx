@@ -68,7 +68,7 @@ const Home: NextPage = () => {
 
             <div>
               <DashboardTile
-                title={<Anchor href="/texts">Texte</Anchor>}
+                title={<Anchor href="/texts">Slam-Texte</Anchor>}
                 titleClassName="bg-indigo-400"
               >
                 {dashboardData?.texts.length ? (
@@ -83,9 +83,9 @@ const Home: NextPage = () => {
                   </PreviewList>
                 ) : (
                   <div className="text-sm text-gray-600">
-                    Du besitzt noch keine Slamtexte ☹️{" "}
+                    Du besitzt noch keine Slam-Texte ☹️{" "}
                     <Anchor href="/texts">Erstelle</Anchor> Deinen ersten
-                    Slamtext! ✨
+                    Slam-Text! ✨
                   </div>
                 )}
               </DashboardTile>

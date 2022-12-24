@@ -100,7 +100,7 @@ const Texts: NextPage = () => {
         <Container>
           <div className="mb-8">
             <H2>
-              Neuen <Highlight>Text</Highlight> erstellen
+              Neuen <Highlight>Slam-Text</Highlight> erstellen
             </H2>
           </div>
           <form
@@ -136,7 +136,7 @@ const Texts: NextPage = () => {
                 id="slamtext-upload"
                 isEmpty={!watch("slamTextFiles")?.length}
                 reset={() => setValue("slamTextFiles", undefined)}
-                label="Slamtext"
+                label="Slam-Text"
                 error={errors.slamTextFiles?.message}
                 {...register("slamTextFiles")}
               />
@@ -152,7 +152,7 @@ const Texts: NextPage = () => {
         <ListView>
           <div className="mb-6 sm:mb-10">
             <H1>
-              Meine <Highlight>Texte</Highlight>
+              Meine <Highlight>Slam-Texte</Highlight>
             </H1>
           </div>
           <div className="space-y-8">
