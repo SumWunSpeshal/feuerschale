@@ -10,6 +10,7 @@ import {
 import useKeyup from "src/hooks/useKeyup";
 import { Button } from "./Button";
 import { Fab } from "./Fab";
+import { H4 } from "./H4";
 
 export type ModalRef = {
   open: () => void;
@@ -55,7 +56,7 @@ export function Modal(props: ModalProps) {
         >
           <div className="rounded-t-3xl border-b-2 border-black bg-yellow-300 pl-6 pr-2">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold">{heading}</h3>
+              <H4>{heading}</H4>
               <Fab
                 icon={faClose}
                 className="text-red-600"

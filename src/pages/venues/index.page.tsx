@@ -7,8 +7,12 @@ import { Card } from "src/components/Card";
 import { Chip } from "src/components/Chip";
 import { CitySearch } from "src/components/CitySearch";
 import { Container } from "src/components/Container";
+import { H1 } from "src/components/H1";
+import { H2 } from "src/components/H2";
+import { H3 } from "src/components/H3";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
+import { ListView } from "src/components/ListView";
 import { useSearchRef } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
@@ -72,9 +76,9 @@ const Venues: NextPage = () => {
       <Section>
         <Container>
           <div className="mb-8">
-            <h2 className="text-4xl font-bold">
+            <H2>
               Neue <Highlight>Venue</Highlight> erstellen
-            </h2>
+            </H2>
           </div>
           <form
             onSubmit={handleSubmit(async (data) => {
@@ -86,7 +90,7 @@ const Venues: NextPage = () => {
               });
               searchRef.current?.reset();
             })}
-            className="grid grid-cols-2 gap-x-6 gap-y-6"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6"
           >
             <TextInput
               id="name"
@@ -115,19 +119,19 @@ const Venues: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <div className="py-20">
-          <div className="mb-10">
-            <h1 className="text-6xl font-bold">
+        <ListView>
+          <div className="mb-6 sm:mb-10">
+            <H1>
               Meine <Highlight>Venues</Highlight>
-            </h1>
+            </H1>
           </div>
           <div className="space-y-8">
             {Object.entries(groupedVenues || {}).map(([cityName, venues]) => (
               <div key={cityName}>
                 <div className="mb-4">
-                  <h2 className="text-2xl">
+                  <H3>
                     <span>{cityName}</span>
-                  </h2>
+                  </H3>
                 </div>
                 <div className="flex flex-col gap-y-2">
                   {venues?.map(({ id, VenueText, name, description }) => (
@@ -178,7 +182,7 @@ const Venues: NextPage = () => {
               </div>
             ))}
           </div>
-        </div>
+        </ListView>
       </Container>
       <Snackbar snackbarRef={snackbarRef} />
     </Layout>

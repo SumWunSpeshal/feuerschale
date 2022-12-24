@@ -9,6 +9,8 @@ import { Container } from "src/components/Container";
 import { DateInput } from "src/components/DateInput";
 import { DownloadPreview } from "src/components/DownloadPreview";
 import { FileInput } from "src/components/FileInput";
+import { H2 } from "src/components/H2";
+import { H4 } from "src/components/H4";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
@@ -182,9 +184,9 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       <Section>
         <Container>
           <div className="mb-8">
-            <h2 className="text-4xl font-bold">
+            <H2>
               <Highlight>Auftritt</Highlight> bearbeiten
-            </h2>
+            </H2>
           </div>
           <form
             onSubmit={handleSubmit(
@@ -255,7 +257,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
             </div>
             <div className="mb-14">
               <div className="mb-4">
-                <h3 className="text-xl font-bold">Wähle aus Deinen Texten:</h3>
+                <H4>Wähle aus Deinen Texten:</H4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {textData?.map(({ id, name }) => (
@@ -275,9 +277,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
 
             <div className="mb-14">
               <div className="mb-4">
-                <h3 className="text-xl font-bold">
-                  Details zu Deiner Rechnung:
-                </h3>
+                <H4>Details zu Deiner Rechnung:</H4>
               </div>
 
               <div className="flex flex-wrap gap-4 sm:gap-6">

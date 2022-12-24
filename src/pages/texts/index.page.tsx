@@ -7,9 +7,13 @@ import { Button } from "src/components/Button";
 import { Card } from "src/components/Card";
 import { Container } from "src/components/Container";
 import { FileInput } from "src/components/FileInput";
+import { H1 } from "src/components/H1";
+import { H2 } from "src/components/H2";
+import { H3 } from "src/components/H3";
 import { Highlight } from "src/components/Highlight";
 import { Icon } from "src/components/Icon";
 import { Layout } from "src/components/Layout";
+import { ListView } from "src/components/ListView";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
@@ -95,12 +99,12 @@ const Texts: NextPage = () => {
       <Section>
         <Container>
           <div className="mb-8">
-            <h2 className="text-4xl font-bold">
+            <H2>
               Neuen <Highlight>Text</Highlight> erstellen
-            </h2>
+            </H2>
           </div>
           <form
-            className="grid grid-cols-2 gap-x-6 gap-y-6"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6"
             onSubmit={handleSubmit(async (data) => {
               const { name, description, slamTextFiles } = data;
               const [file] = Array.from((slamTextFiles as FileList) || []);
@@ -145,19 +149,19 @@ const Texts: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <div className="py-20">
-          <div className="mb-10">
-            <h1 className="text-6xl font-bold">
+        <ListView>
+          <div className="mb-6 sm:mb-10">
+            <H1>
               Meine <Highlight>Texte</Highlight>
-            </h1>
+            </H1>
           </div>
           <div className="space-y-8">
             {Object.entries(groupedTexts || {}).map(([category, texts]) => (
               <div key={category}>
                 <div className="mb-4">
-                  <h2 className="text-2xl">
+                  <H3>
                     <span>{category}</span>
-                  </h2>
+                  </H3>
                 </div>
                 <div className="flex flex-col gap-y-2">
                   {texts?.map((text) => {
@@ -197,7 +201,7 @@ const Texts: NextPage = () => {
               </div>
             ))}
           </div>
-        </div>
+        </ListView>
       </Container>
       <Snackbar snackbarRef={snackbarRef} />
     </Layout>

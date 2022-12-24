@@ -6,6 +6,7 @@ import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
 import { DownloadPreview } from "src/components/DownloadPreview";
 import { FileInput } from "src/components/FileInput";
+import { H2 } from "src/components/H2";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
@@ -147,12 +148,12 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
       <Section>
         <Container>
           <div className="mb-8">
-            <h2 className="text-4xl font-bold">
+            <H2>
               <Highlight>Text</Highlight> bearbeiten
-            </h2>
+            </H2>
           </div>
           <form
-            className="grid grid-cols-2 gap-x-6 gap-y-6"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6"
             onSubmit={handleSubmit(async (data) => {
               const { name, description, slamTextFiles } = data;
               const [file] = Array.from((slamTextFiles as FileList) || []);

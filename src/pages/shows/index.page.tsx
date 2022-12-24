@@ -10,9 +10,14 @@ import { Chip } from "src/components/Chip";
 import { ChipInput } from "src/components/ChipInput";
 import { Container } from "src/components/Container";
 import { DateInput } from "src/components/DateInput";
+import { H1 } from "src/components/H1";
+import { H2 } from "src/components/H2";
+import { H3 } from "src/components/H3";
+import { H4 } from "src/components/H4";
 import { Highlight } from "src/components/Highlight";
 import { Icon } from "src/components/Icon";
 import { Layout } from "src/components/Layout";
+import { ListView } from "src/components/ListView";
 import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { SelectInput } from "src/components/SelectInput";
@@ -121,9 +126,9 @@ const Shows: NextPage = () => {
       <Section>
         <Container>
           <div className="mb-8">
-            <h2 className="text-4xl font-bold">
+            <H2>
               Neuen <Highlight>Auftritt</Highlight> erstellen
-            </h2>
+            </H2>
           </div>
           <form
             onSubmit={handleSubmit(async ({ date, textIds, venueId }) => {
@@ -172,7 +177,7 @@ const Shows: NextPage = () => {
             </div>
             <div className="mb-10">
               <div className="mb-4">
-                <h3 className="text-xl font-bold">Wähle aus Deinen Texten:</h3>
+                <H4>Wähle aus Deinen Texten:</H4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {textData?.map(({ id, name }, idx) => (
@@ -199,19 +204,19 @@ const Shows: NextPage = () => {
         </Container>
       </Section>
       <Container>
-        <div className="py-20">
-          <div className="mb-10">
-            <h1 className="text-6xl font-bold">
+        <ListView>
+          <div className="mb-6 sm:mb-10">
+            <H1>
               Meine <Highlight>Auftritte</Highlight>
-            </h1>
+            </H1>
           </div>
           <div className="space-y-8">
             {Object.entries(groupedShows || {}).map(([date, shows]) => (
               <div key={date}>
                 <div className="mb-4">
-                  <h2 className="text-2xl">
+                  <H3>
                     <span>{date}</span>
-                  </h2>
+                  </H3>
                 </div>
                 <div className="flex flex-col gap-y-2">
                   {shows?.map(
@@ -268,7 +273,7 @@ const Shows: NextPage = () => {
               </div>
             ))}
           </div>
-        </div>
+        </ListView>
       </Container>
       <Modal modalRef={modalRef} heading="Neue Venue erstellen">
         <VenueCreate

@@ -6,6 +6,8 @@ import { Button } from "src/components/Button";
 import { Chip } from "src/components/Chip";
 import { CitySearch } from "src/components/CitySearch";
 import { Container } from "src/components/Container";
+import { H2 } from "src/components/H2";
+import { H4 } from "src/components/H4";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
@@ -106,9 +108,9 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
       <Section>
         <Container>
           <div className="mb-8">
-            <h2 className="text-4xl font-bold">
+            <H2>
               <Highlight>Venue</Highlight> bearbeiten
-            </h2>
+            </H2>
           </div>
           <form
             onSubmit={handleSubmit(async (data) => {
@@ -121,7 +123,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
                 description,
               });
             })}
-            className="mb-12 grid grid-cols-2 gap-x-6 gap-y-6"
+            className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6"
           >
             <TextInput
               id="name"
@@ -158,7 +160,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
           </form>
           <div>
             <div className="mb-2">
-              <h3 className="text-xl font-bold">🔥 Verbrannte Texte: </h3>
+              <H4>🔥 Verbrannte Texte: </H4>
             </div>
             {venueDetailData?.VenueText.length ? (
               <ul className="flex flex-wrap gap-2">
@@ -194,7 +196,7 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
 
 function EmptyTexts() {
   return (
-    <div>
+    <div className="text-gray-600">
       Keine verbrannten Texte bisher 🥳 Das Löschen der Venue ist dadurch
       möglich.
     </div>
