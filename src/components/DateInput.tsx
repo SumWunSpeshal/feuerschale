@@ -19,14 +19,14 @@ export const DateInput = forwardRef(function DateInput(
   const { isEmpty: _isEmpty, error, ...rest } = props;
 
   return (
-    <div className="relative">
+    <div className="relative flex">
       <input
         type="date"
         {...rest}
         ref={ref}
         data-label={`${label || name} ${required ? " *" : ""}`}
         className={clsx(
-          "w-full rounded-lg border-2 border-black py-3 px-4 font-project shadow-brutal outline-none transition-shadow before:mr-2 before:content-[attr(data-label)] focus:shadow-brutal-lg"
+          "box-border h-[3.25rem] grow rounded-lg border-2 border-black py-3 px-4 text-left font-project shadow-brutal outline-none transition-shadow before:mr-2 before:whitespace-nowrap before:content-[attr(data-label)] focus:shadow-brutal-lg"
         )}
       />
       <label htmlFor={props.id} className="sr-only">

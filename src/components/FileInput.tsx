@@ -30,7 +30,7 @@ export const FileInput = forwardRef(function FileInput(
           ref={ref}
           className={clsx(
             "w-full bg-white pr-12 outline-none",
-            "file:mr-3 file:w-[4.25rem] file:cursor-pointer file:overflow-hidden file:overflow-ellipsis file:border-0 file:border-r-2 file:border-black file:bg-yellow-300 file:p-0 file:px-2 file:py-3 file:sm:w-auto file:sm:px-4",
+            "file:mr-3 file:w-[4.25rem] file:cursor-pointer file:overflow-hidden file:overflow-ellipsis file:border-0 file:border-r-2 file:border-black file:bg-yellow-300 file:p-0 file:px-2 file:py-3 file:text-black file:sm:w-auto file:sm:px-4",
             isEmpty && "after:ml-2 after:content-['('attr(data-label)')']"
           )}
           data-label={label || name}

@@ -17,13 +17,13 @@ export function DashboardTile(props: DashboardTileProps) {
           <div className="relative z-10 flex h-full flex-col">
             <div
               className={clsx(
-                "border-b-2 border-black px-6 py-3",
+                "rounded-t-3xl border-b-2 border-black px-6 py-3",
                 titleClassName
               )}
             >
               <strong className="text-2xl">{title}</strong>
             </div>
-            <div className="flex grow flex-col bg-white px-6 py-6">
+            <div className="flex grow flex-col rounded-b-3xl bg-white px-6 py-6">
               {children}
             </div>
           </div>

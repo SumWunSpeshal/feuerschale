@@ -7,6 +7,7 @@ import { Chip } from "src/components/Chip";
 import { Container } from "src/components/Container";
 import { DashboardTile } from "src/components/DashboardTile";
 import { Ellipsis } from "src/components/Ellipsis";
+import { H1 } from "src/components/H1";
 import { Highlight } from "src/components/Highlight";
 import { Layout } from "src/components/Layout";
 import { PreviewList } from "src/components/PreviewList";
@@ -23,9 +24,11 @@ const Home: NextPage = () => {
       <Section className="h-full">
         <Container>
           <div className="mb-12 sm:mb-16">
-            <h1 className="text-5xl font-extrabold md:text-[5rem]">
-              Hallo <Highlight>{sessionData?.user?.name}</Highlight>
-            </h1>
+            <H1>
+              <span className="font-extrabold">
+                Hallo <Highlight>{sessionData?.user?.name}</Highlight>
+              </span>
+            </H1>
           </div>
 
           <div className="grid grid-cols-1 gap-8 md:auto-rows-fr md:grid-cols-3">
