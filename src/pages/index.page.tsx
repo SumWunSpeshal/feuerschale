@@ -127,7 +127,7 @@ const Home: NextPage = () => {
                     {dashboardData.Show.map(({ id, date, VenueText }) => (
                       <PreviewList.Item
                         key={id}
-                        className="pt-0 last:border-b last:pb-3"
+                        className="pt-0 sm:last:border-b sm:last:pb-3"
                         title={
                           <>
                             {VenueText[0]?.Venue.name},{" "}
