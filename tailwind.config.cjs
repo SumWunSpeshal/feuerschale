@@ -13,6 +13,7 @@ module.exports = {
         3: "3px",
       },
       boxShadow: (theme) => ({
+        "brutal-sm": `1px 1px 0px 0px ${theme("colors.black")}`,
         brutal: `3px 3px 0px 0px ${theme("colors.black")}`,
         "brutal-lg": `6px 6px 0px 0px ${theme("colors.black")}`,
       }),
@@ -56,6 +57,9 @@ module.exports = {
           if (typeof value === "object") {
             return Object.entries(value).map(([k, v]) => {
               return {
+                [`.shadow-brutal-sm-${e(`${name}-${k}`)}`]: {
+                  boxShadow: `1px 1px 0px 0px ${v}`,
+                },
                 [`.shadow-brutal-${e(`${name}-${k}`)}`]: {
                   boxShadow: `3px 3px 0px 0px ${v}`,
                 },
@@ -66,6 +70,9 @@ module.exports = {
             });
           }
           return {
+            [`.shadow-brutal-sm-${e(name)}`]: {
+              boxShadow: `1px 1px 0px 0px ${value}`,
+            },
             [`.shadow-brutal-${e(name)}`]: {
               boxShadow: `3px 3px 0px 0px ${value}`,
             },

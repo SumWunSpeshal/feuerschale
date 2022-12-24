@@ -13,6 +13,7 @@ import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
+import { Tooltip } from "src/components/Tooltip";
 import { isBrowser } from "src/utils/is-browser";
 import { formatFileName } from "src/utils/string-helpers";
 import { trpc } from "src/utils/trpc";
@@ -214,14 +215,25 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
             </div>
 
             <div className="col-span-full flex justify-end gap-4 sm:gap-6">
-              <Button
-                type="button"
-                onClick={modalRef.current?.open}
-                className="bg-red-400"
-                disabled={!!textDetailsData?.VenueText?.length}
-              >
-                Text löschen
-              </Button>
+              <div className="relative">
+                <Button
+                  type="button"
+                  onClick={modalRef.current?.open}
+                  className="bg-red-400"
+                  disabled={!!textDetailsData?.VenueText?.length}
+                >
+                  Text löschen
+                </Button>
+
+                {!!textDetailsData?.VenueText?.length && (
+                  <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+                    <Tooltip>
+                      ⚠️ Der Slamtext kann nicht gelöscht werden solange er in
+                      mindestens einem Auftritt verwendet wird.
+                    </Tooltip>
+                  </div>
+                )}
+              </div>
               <Button type="submit">Aktualisieren</Button>
             </div>
           </form>

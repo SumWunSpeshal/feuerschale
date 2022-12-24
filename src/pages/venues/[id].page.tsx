@@ -15,6 +15,7 @@ import { useSearchRef } from "src/components/SearchInput";
 import { Section } from "src/components/Section";
 import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
+import { Tooltip } from "src/components/Tooltip";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 
@@ -147,13 +148,24 @@ const VenueDetail: NextPage<VenueDetailPageProps> = ({ venueId }) => {
             </div>
 
             <div className="col-span-full flex justify-end gap-4 sm:gap-6">
-              <Button
-                onClick={modalRef.current?.open}
-                className="bg-red-400"
-                disabled={!!venueDetailData?.VenueText.length}
-              >
-                Venue löschen
-              </Button>
+              <div className="relative">
+                <Button
+                  onClick={modalRef.current?.open}
+                  className="bg-red-400"
+                  disabled={!!venueDetailData?.VenueText.length}
+                >
+                  Venue löschen
+                </Button>
+
+                {!!venueDetailData?.VenueText?.length && (
+                  <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+                    <Tooltip>
+                      ⚠️ Die Venue kann nicht gelöscht werden solange sie in
+                      mindestens einem Auftritt verwendet wird.
+                    </Tooltip>
+                  </div>
+                )}
+              </div>
 
               <Button type="submit">Aktualisieren</Button>
             </div>
