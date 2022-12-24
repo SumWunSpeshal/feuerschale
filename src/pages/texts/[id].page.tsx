@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
@@ -51,9 +50,20 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
     data: textDetailsData,
     refetch: refetchText,
     isLoading,
-  } = trpc.text.getOne.useQuery({
-    textId,
-  });
+    isInitialLoading,
+  } = trpc.text.getOne.useQuery(
+    {
+      textId,
+    },
+    {
+      onSuccess: (data) => {
+        if (isInitialLoading && data) {
+          const { name, description } = data;
+          resetForm({ name, description });
+        }
+      },
+    }
+  );
   const { mutate: updateText, isLoading: updateIsLoading } =
     trpc.text.update.useMutation({
       onSuccess: async () => {
@@ -92,19 +102,6 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
-
-  /**
-   * @description Populate the form with {textDetailsData}
-   */
-  useEffect(() => {
-    if (!textDetailsData) {
-      return;
-    }
-
-    const { name, description } = textDetailsData;
-
-    resetForm({ name, description });
-  }, [resetForm, textDetailsData]);
 
   const downloadFile = async () => {
     if (!sessionData?.user?.id || !textDetailsData?.slamTextFileName) {
