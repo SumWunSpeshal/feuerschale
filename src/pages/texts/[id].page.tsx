@@ -50,14 +50,14 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
     data: textDetailsData,
     refetch: refetchText,
     isLoading,
-    isInitialLoading,
+    isFetchedAfterMount,
   } = trpc.text.getOne.useQuery(
     {
       textId,
     },
     {
       onSuccess: (data) => {
-        if (isInitialLoading && data) {
+        if (!isFetchedAfterMount && data) {
           const { name, description } = data;
           resetForm({ name, description });
         }

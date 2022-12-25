@@ -55,7 +55,29 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     data: showDetailsData,
     refetch: refetchShow,
     isLoading,
-  } = trpc.show.getOne.useQuery({ showId });
+    isFetchedAfterMount,
+  } = trpc.show.getOne.useQuery(
+    { showId },
+    {
+      onSuccess: (data) => {
+        if (!isFetchedAfterMount && data?.VenueText[0]) {
+          resetForm({
+            date: formatDate["yyyy-MM-dd"](data.date) as string,
+            venueId: data.VenueText[0].venueId,
+            textIds: data.VenueText.map((item) => item.textId)
+              .filter((textId): textId is string => !!textId)
+              .reduce(
+                (acc, curr) => ({
+                  ...acc,
+                  [curr]: curr,
+                }),
+                {}
+              ),
+          });
+        }
+      },
+    }
+  );
   const { mutate: deleteShow, isLoading: deleteIsLoading } =
     trpc.show.delete.useMutation();
   const { mutate: updateShow, isLoading: updateIsLoading } =
@@ -97,29 +119,6 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
 
   const modalRef = useModalRef();
   const snackbarRef = useSnackbarRef();
-
-  /**
-   * @description Populate the form with existing texts and check the corresponding checkboxes
-   */
-  useEffect(() => {
-    if (!showDetailsData || !showDetailsData.VenueText[0]) {
-      return;
-    }
-
-    resetForm({
-      date: formatDate["yyyy-MM-dd"](showDetailsData.date) as string,
-      venueId: showDetailsData.VenueText[0].venueId,
-      textIds: showDetailsData.VenueText.map((item) => item.textId)
-        .filter((textId): textId is string => !!textId)
-        .reduce(
-          (acc, curr) => ({
-            ...acc,
-            [curr]: curr,
-          }),
-          {}
-        ),
-    });
-  }, [showDetailsData, resetForm]);
 
   /**
    * @description Get all texts for a given Venue to indicate used Texts
