@@ -28,7 +28,7 @@ const SignIn: NextPage<{ providers: SignIn }> = ({ providers }) => {
           <div className="relative max-w-xs">
             <BrutalElevation className="!top-4 !h-[calc(100%-1rem)]">
               <fieldset className="relative z-10 rounded-3xl border-2 border-black bg-white p-6 text-center">
-                <legend className="rounded-md border-2 border-black bg-white px-3 text-2xl">
+                <legend className="mx-auto rounded-md border-2 border-black bg-white px-3 text-2xl">
                   <strong>Login</strong>
                 </legend>
                 <div className="mb-4">
