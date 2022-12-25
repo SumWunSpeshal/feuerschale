@@ -26,7 +26,7 @@ export const DateInput = forwardRef(function DateInput(
         ref={ref}
         data-label={`${label || name} ${required ? " *" : ""}`}
         className={clsx(
-          "box-border flex w-full rounded-lg border-2 border-black py-3 px-4 text-left font-project shadow-brutal outline-none transition-shadow before:mr-2 before:whitespace-nowrap before:content-[attr(data-label)] focus:shadow-brutal-lg"
+          "box-border flex w-full rounded-lg border-2 border-black bg-white py-3 px-4 text-left font-project shadow-brutal outline-none transition-shadow before:mr-2 before:whitespace-nowrap before:content-[attr(data-label)] focus:shadow-brutal-lg"
         )}
       />
       <label htmlFor={props.id} className="sr-only">
