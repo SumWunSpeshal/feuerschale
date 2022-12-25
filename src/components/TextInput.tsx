@@ -34,7 +34,7 @@ export const TextInput = forwardRef(function TextInput(
         ref={ref}
         placeholder={`${label || name}${required ? " *" : ""}`}
         className={clsx(
-          "w-full rounded-lg border-2 border-black py-3 px-4 shadow-brutal outline-none transition-shadow focus:shadow-brutal-lg",
+          "w-full rounded-lg border-2 border-black bg-white py-3 px-4 shadow-brutal outline-none transition-shadow focus:shadow-brutal-lg",
           icon && "pl-10"
         )}
       />
