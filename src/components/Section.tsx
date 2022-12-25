@@ -11,7 +11,7 @@ export function Section(props: SectionProps) {
   return (
     <section
       className={clsx(
-        "border-b-2 border-t-2 border-black bg-amber-100 py-8 sm:py-20",
+        "border-y-2 border-black bg-amber-100 py-8 sm:py-20",
         className
       )}
     >

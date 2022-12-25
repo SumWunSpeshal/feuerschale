@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { signOut } from "next-auth/react";
-import NextImage from "next/image";
+import { default as Image, default as NextImage } from "next/image";
+import Logo from "public/img/logo.svg";
 import { Anchor } from "src/components/Anchor";
 import { Button } from "src/components/Button";
 import { Chip } from "src/components/Chip";
@@ -17,7 +18,7 @@ import { trpc } from "src/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: sessionData } = trpc.auth.getSession.useQuery();
-  const { data: dashboardData } = trpc.dashboard.get.useQuery();
+  const { data: dashboardData, isLoading } = trpc.dashboard.get.useQuery();
 
   return (
     <Layout authGuarded noFloatingNav>
@@ -71,7 +72,21 @@ const Home: NextPage = () => {
                 title={<Anchor href="/texts">Slam-Texte</Anchor>}
                 titleClassName="bg-indigo-400"
               >
-                {dashboardData?.texts.length ? (
+                {isLoading ? (
+                  <div className="grid grow animate-pulse place-items-center">
+                    <Image
+                      src={Logo}
+                      alt="Feuerschale Lade-Animation"
+                      className="grayscale"
+                    />
+                  </div>
+                ) : !dashboardData?.texts.length ? (
+                  <div className="text-sm text-gray-600">
+                    Du besitzt noch keine Slam-Texte ☹️{" "}
+                    <Anchor href="/texts">Erstelle</Anchor> Deinen ersten
+                    Slam-Text! ✨
+                  </div>
+                ) : (
                   <PreviewList>
                     {dashboardData.texts.map(({ id, name }) => (
                       <PreviewList.Item
@@ -81,12 +96,6 @@ const Home: NextPage = () => {
                       />
                     ))}
                   </PreviewList>
-                ) : (
-                  <div className="text-sm text-gray-600">
-                    Du besitzt noch keine Slam-Texte ☹️{" "}
-                    <Anchor href="/texts">Erstelle</Anchor> Deinen ersten
-                    Slam-Text! ✨
-                  </div>
                 )}
               </DashboardTile>
             </div>
@@ -96,7 +105,21 @@ const Home: NextPage = () => {
                 title={<Anchor href="/venues">Venues</Anchor>}
                 titleClassName="bg-sky-500"
               >
-                {dashboardData?.Venue?.length ? (
+                {isLoading ? (
+                  <div className="grid grow animate-pulse place-items-center">
+                    <Image
+                      src={Logo}
+                      alt="Feuerschale Lade-Animation"
+                      className="grayscale"
+                    />
+                  </div>
+                ) : !dashboardData?.Venue?.length ? (
+                  <div className="text-sm text-gray-600">
+                    Du besitzt noch keine Venues ☹️{" "}
+                    <Anchor href="/venues">Erstelle</Anchor> Deine erste Venue!
+                    ✨
+                  </div>
+                ) : (
                   <PreviewList>
                     {dashboardData.Venue.map(({ id, name, City }) => (
                       <PreviewList.Item
@@ -107,12 +130,6 @@ const Home: NextPage = () => {
                       />
                     ))}
                   </PreviewList>
-                ) : (
-                  <div className="text-sm text-gray-600">
-                    Du besitzt noch keine Venues ☹️{" "}
-                    <Anchor href="/venues">Erstelle</Anchor> Deine erste Venue!
-                    ✨
-                  </div>
                 )}
               </DashboardTile>
             </div>
@@ -122,7 +139,21 @@ const Home: NextPage = () => {
                 title={<Anchor href="/shows">Auftritte</Anchor>}
                 titleClassName="bg-amber-500"
               >
-                {dashboardData?.Show?.length ? (
+                {isLoading ? (
+                  <div className="grid grow animate-pulse place-items-center">
+                    <Image
+                      src={Logo}
+                      alt="Feuerschale Lade-Animation"
+                      className="grayscale"
+                    />
+                  </div>
+                ) : !dashboardData?.Show?.length ? (
+                  <div className="text-sm text-gray-600">
+                    Du hast noch keine Auftritte eingerichtet ☹️{" "}
+                    <Anchor href="/shows">Erstelle</Anchor> Deinen ersten
+                    Auftritt! ✨
+                  </div>
+                ) : (
                   <PreviewList className="grid gap-4 sm:grid-cols-3 sm:gap-6">
                     {dashboardData.Show.map(({ id, date, VenueText }) => (
                       <PreviewList.Item
@@ -153,12 +184,6 @@ const Home: NextPage = () => {
                       />
                     ))}
                   </PreviewList>
-                ) : (
-                  <div className="text-sm text-gray-600">
-                    Du hast noch keine Auftritte eingerichtet ☹️{" "}
-                    <Anchor href="/shows">Erstelle</Anchor> Deinen ersten
-                    Auftritt! ✨
-                  </div>
                 )}
               </DashboardTile>
             </div>
