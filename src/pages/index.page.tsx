@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     <Layout authGuarded noFloatingNav>
       <Section className="h-full">
         <Container>
-          <div className="mb-12 sm:mb-16">
+          <div className="mb-8 sm:mb-12">
             <H1>
               <span className="font-extrabold">
                 Hallo <Highlight>{sessionData?.user?.name}</Highlight>
