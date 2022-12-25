@@ -29,7 +29,7 @@ export const SelectInput = forwardRef(function SelectInput(
         id={id}
         ref={ref}
         className={clsx(
-          "peer w-full appearance-none rounded-lg border-2 border-black py-3 pl-4 pr-10 shadow-brutal outline-none transition-all focus:shadow-brutal-lg",
+          "peer w-full appearance-none rounded-lg border-2 border-black bg-white py-3 pl-4 pr-10 shadow-brutal outline-none transition-all focus:shadow-brutal-lg",
           isEmpty && "text-gray-400"
         )}
       >
