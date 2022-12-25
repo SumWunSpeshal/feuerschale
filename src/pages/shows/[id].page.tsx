@@ -107,7 +107,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     });
 
   const {
-    formState: { errors },
+    formState: { errors, isDirty },
     register,
     handleSubmit,
     setValue,
@@ -301,6 +301,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                       onDownload={downloadFile}
                       onDelete={async () => {
                         await deleteFile();
+                        setValue("invoiceFiles", undefined);
                       }}
                     >
                       {showDetailsData.invoiceFileName}
@@ -324,7 +325,9 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                 Auftritt löschen
               </Button>
 
-              <Button type="submit">Aktualisieren</Button>
+              <Button type="submit" disabled={!isDirty}>
+                Aktualisieren
+              </Button>
             </div>
           </form>
         </Container>

@@ -93,7 +93,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
   });
 
   const {
-    formState: { errors },
+    formState: { errors, isDirty },
     register,
     handleSubmit,
     setValue,
@@ -195,6 +195,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
                   onDownload={downloadFile}
                   onDelete={async () => {
                     await deleteFile();
+                    setValue("slamTextFiles", undefined);
                   }}
                 >
                   {textDetailsData.slamTextFileName}
@@ -231,7 +232,9 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
                   </div>
                 )}
               </div>
-              <Button type="submit">Aktualisieren</Button>
+              <Button type="submit" disabled={!isDirty}>
+                Aktualisieren
+              </Button>
             </div>
           </form>
         </Container>
