@@ -74,3 +74,17 @@ export async function maybeGetSlamTextNames(sessionData?: Session | null) {
       .catch(console.warn);
   }
 }
+
+export async function createSignedUrl({
+  userId,
+  slamTextId,
+  fileName,
+}: {
+  userId: string;
+  slamTextId: string;
+  fileName: string;
+}) {
+  return supabase.storage
+    .from(userId)
+    .createSignedUrl(`slam-texts/${slamTextId}/${fileName}`, 60);
+}

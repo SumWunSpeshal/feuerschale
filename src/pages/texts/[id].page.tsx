@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
@@ -18,6 +19,7 @@ import { formatFileName } from "src/utils/string-helpers";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
 import {
+  createSignedUrl,
   deleteSlamText,
   downloadSlamText,
   maybeUploadSlamText,
@@ -103,6 +105,8 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
     resolver: zodResolver(formSchema),
   });
 
+  const [previewLink, setPreviewLink] = useState("");
+
   const downloadFile = async () => {
     if (!sessionData?.user?.id || !textDetailsData?.slamTextFileName) {
       return;
@@ -128,6 +132,25 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
 
     resetSlamTextFileName({ textId });
   };
+
+  /**
+   * @description Get a signed Url for the potential Slam-Text file
+   */
+  useEffect(() => {
+    if (!textDetailsData?.slamTextFileName) {
+      return;
+    }
+
+    createSignedUrl({
+      fileName: textDetailsData.slamTextFileName,
+      slamTextId: textDetailsData.id,
+      userId: textDetailsData.userId,
+    }).then((response) => {
+      if (response.data) {
+        setPreviewLink(response.data.signedUrl);
+      }
+    });
+  }, [textDetailsData]);
 
   const snackbarRef = useSnackbarRef();
   const modalRef = useModalRef();
@@ -192,6 +215,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
               {textDetailsData?.slamTextFileName ? (
                 <DownloadPreview
                   title="Anhang"
+                  onPreviewHref={previewLink}
                   onDownload={downloadFile}
                   onDelete={async () => {
                     await deleteFile();

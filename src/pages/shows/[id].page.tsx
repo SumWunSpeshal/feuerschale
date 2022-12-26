@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "src/components/Button";
 import { CheckInput } from "src/components/CheckInput";
@@ -22,7 +22,12 @@ import { isBrowser } from "src/utils/is-browser";
 import { formatFileName } from "src/utils/string-helpers";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
-import { deleteInvoice, downloadInvoice, maybeUploadInvoice } from "./supabase";
+import {
+  createSignedUrl,
+  deleteInvoice,
+  downloadInvoice,
+  maybeUploadInvoice,
+} from "./supabase";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
@@ -117,6 +122,8 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     resolver: zodResolver(formSchema),
   });
 
+  const [previewLink, setPreviewLink] = useState("");
+
   const modalRef = useModalRef();
   const snackbarRef = useSnackbarRef();
 
@@ -130,6 +137,25 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       getVenueTextsByVenueId({ venueId });
     }
   }, [getVenueTextsByVenueId, showDetailsData]);
+
+  /**
+   * @description Get a signed Url for the potential Invoice file
+   */
+  useEffect(() => {
+    if (!showDetailsData?.invoiceFileName) {
+      return;
+    }
+
+    createSignedUrl({
+      fileName: showDetailsData.invoiceFileName,
+      slamTextId: showDetailsData.id,
+      userId: showDetailsData.userId,
+    }).then((response) => {
+      if (response.data) {
+        setPreviewLink(response.data.signedUrl);
+      }
+    });
+  }, [showDetailsData]);
 
   const downloadFile = async () => {
     if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
@@ -298,6 +324,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                   {showDetailsData?.invoiceFileName ? (
                     <DownloadPreview
                       title="Anhang"
+                      onPreviewHref={previewLink}
                       onDownload={downloadFile}
                       onDelete={async () => {
                         await deleteFile();

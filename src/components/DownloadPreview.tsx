@@ -1,5 +1,5 @@
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { faDownload, faFile } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faEye, faFile } from "@fortawesome/free-solid-svg-icons";
 import { PropsWithChildren } from "react";
 import { BrutalElevation } from "./BrutalElevation";
 import { Button } from "./Button";
@@ -9,10 +9,11 @@ type DownloadPreviewProps = PropsWithChildren<{
   title: string;
   onDownload?: () => void;
   onDelete?: () => void;
+  onPreviewHref?: string;
 }>;
 
 export function DownloadPreview(props: DownloadPreviewProps) {
-  const { title, children, onDownload, onDelete } = props;
+  const { title, children, onDownload, onDelete, onPreviewHref } = props;
 
   return (
     <div className="relative">
@@ -26,9 +27,14 @@ export function DownloadPreview(props: DownloadPreviewProps) {
               <div>
                 <Icon icon={faFile} size={32} className="text-indigo-400" />
               </div>
-              <div>{children}</div>
+              <div className="break-all">{children}</div>
             </div>
             <div className="flex gap-2">
+              {onPreviewHref && (
+                <Button.Anchor href={onPreviewHref} target="_blank">
+                  <Icon icon={faEye} aria-label="Vorschau" size={16} />
+                </Button.Anchor>
+              )}
               {onDownload && (
                 <Button onClick={onDownload} type="button">
                   <Icon
