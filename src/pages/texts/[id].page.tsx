@@ -16,14 +16,14 @@ import { TextInput } from "src/components/TextInput";
 import { Tooltip } from "src/components/Tooltip";
 import { isBrowser } from "src/utils/is-browser";
 import { formatFileName } from "src/utils/string-helpers";
-import { trpc } from "src/utils/trpc";
-import { z } from "zod";
 import {
   createSignedUrl,
-  deleteSlamText,
-  downloadSlamText,
-  maybeUploadSlamText,
-} from "./supabase";
+  deleteFile,
+  downloadFile,
+  maybeUploadFile,
+} from "src/utils/supabase";
+import { trpc } from "src/utils/trpc";
+import { z } from "zod";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
@@ -107,26 +107,28 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
 
   const [previewLink, setPreviewLink] = useState("");
 
-  const downloadFile = async () => {
+  const downloadSlamText = async () => {
     if (!sessionData?.user?.id || !textDetailsData?.slamTextFileName) {
       return;
     }
 
-    await downloadSlamText({
+    await downloadFile({
+      dir: "slam-texts",
       userId: sessionData?.user?.id,
-      slamTextId: textId,
+      entityId: textId,
       fileName: textDetailsData.slamTextFileName,
     });
   };
 
-  const deleteFile = async () => {
+  const deleteSlamText = async () => {
     if (!sessionData?.user?.id || !textDetailsData?.slamTextFileName) {
       return;
     }
 
-    await deleteSlamText({
+    await deleteFile({
+      dir: "slam-texts",
       userId: sessionData?.user?.id,
-      slamTextId: textId,
+      entityId: textId,
       fileName: textDetailsData.slamTextFileName,
     });
 
@@ -142,6 +144,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
     }
 
     createSignedUrl({
+      dir: "slam-texts",
       fileName: textDetailsData.slamTextFileName,
       slamTextId: textDetailsData.id,
       userId: textDetailsData.userId,
@@ -189,9 +192,10 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
               });
 
               if (file) {
-                await maybeUploadSlamText({
+                await maybeUploadFile({
+                  dir: "slam-texts",
                   userId: sessionData?.user?.id,
-                  textId,
+                  entityId: textId,
                   file,
                   fileName: formatFileName(file.name),
                 });
@@ -216,9 +220,9 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
                 <DownloadPreview
                   title="Anhang"
                   onPreviewHref={previewLink}
-                  onDownload={downloadFile}
+                  onDownload={downloadSlamText}
                   onDelete={async () => {
-                    await deleteFile();
+                    await deleteSlamText();
                     setValue("slamTextFiles", undefined);
                   }}
                 >
@@ -266,7 +270,7 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
       <Modal.Confirm
         modalRef={modalRef}
         onConfirm={async () => {
-          await deleteFile();
+          await deleteSlamText();
           deleteText({ id: textId });
           window.location.href = "/texts"; // don't use nextjs router. This triggers refetching.
         }}

@@ -20,14 +20,14 @@ import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { formatDate } from "src/utils/format-date";
 import { isBrowser } from "src/utils/is-browser";
 import { formatFileName } from "src/utils/string-helpers";
-import { trpc } from "src/utils/trpc";
-import { z } from "zod";
 import {
   createSignedUrl,
-  deleteInvoice,
-  downloadInvoice,
-  maybeUploadInvoice,
-} from "./supabase";
+  deleteFile,
+  downloadFile,
+  maybeUploadFile,
+} from "src/utils/supabase";
+import { trpc } from "src/utils/trpc";
+import { z } from "zod";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   return {
@@ -147,6 +147,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     }
 
     createSignedUrl({
+      dir: "invoices",
       fileName: showDetailsData.invoiceFileName,
       slamTextId: showDetailsData.id,
       userId: showDetailsData.userId,
@@ -157,26 +158,28 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
     });
   }, [showDetailsData]);
 
-  const downloadFile = async () => {
+  const downloadInvoice = async () => {
     if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
       return;
     }
 
-    await downloadInvoice({
+    await downloadFile({
+      dir: "invoices",
       userId: sessionData?.user?.id,
-      showId,
+      entityId: showId,
       fileName: showDetailsData.invoiceFileName,
     });
   };
 
-  const deleteFile = async () => {
+  const deleteInvoice = async () => {
     if (!sessionData?.user?.id || !showDetailsData?.invoiceFileName) {
       return;
     }
 
-    await deleteInvoice({
+    await deleteFile({
+      dir: "invoices",
       userId: sessionData?.user?.id,
-      showId,
+      entityId: showId,
       fileName: showDetailsData.invoiceFileName,
     });
 
@@ -238,9 +241,10 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                 });
 
                 if (file) {
-                  await maybeUploadInvoice({
+                  await maybeUploadFile({
+                    dir: "invoices",
                     file,
-                    showId,
+                    entityId: showId,
                     userId: sessionData?.user?.id,
                     fileName: formatFileName(file.name),
                   });
@@ -325,9 +329,9 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
                     <DownloadPreview
                       title="Anhang"
                       onPreviewHref={previewLink}
-                      onDownload={downloadFile}
+                      onDownload={downloadInvoice}
                       onDelete={async () => {
-                        await deleteFile();
+                        await deleteInvoice();
                         setValue("invoiceFiles", undefined);
                       }}
                     >
@@ -362,7 +366,7 @@ const ShowDetail: NextPage<ShowDetailPageProps> = ({ showId }) => {
       <Modal.Confirm
         modalRef={modalRef}
         onConfirm={async () => {
-          await deleteFile();
+          await deleteInvoice();
           deleteShow({ showId });
           window.location.href = "/shows"; // don't use nextjs router. This triggers refetching.
         }}

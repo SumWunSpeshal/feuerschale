@@ -19,9 +19,9 @@ import { Snackbar, useSnackbarRef } from "src/components/Snackbar";
 import { TextInput } from "src/components/TextInput";
 import { isBrowser } from "src/utils/is-browser";
 import { formatFileName } from "src/utils/string-helpers";
+import { deleteFile, maybeUploadFile } from "src/utils/supabase";
 import { trpc } from "src/utils/trpc";
 import { z } from "zod";
-import { deleteSlamText, maybeUploadSlamText } from "./supabase";
 import { groupTexts } from "./utils";
 
 const formSchema = z.object({
@@ -52,9 +52,10 @@ const Texts: NextPage = () => {
         const [file] = await getValues("slamTextFiles");
 
         if (file) {
-          await maybeUploadSlamText({
+          await maybeUploadFile({
+            dir: "slam-texts",
+            entityId: id,
             file,
-            textId: id,
             fileName: slamTextFileName,
             userId: sessionData?.user?.id,
           });
@@ -72,9 +73,10 @@ const Texts: NextPage = () => {
     trpc.text.delete.useMutation({
       onSuccess: async ({ id, slamTextFileName, userId }) => {
         if (slamTextFileName) {
-          await deleteSlamText({
+          await deleteFile({
+            dir: "slam-texts",
             userId,
-            slamTextId: id,
+            entityId: id,
             fileName: slamTextFileName,
           });
         }
