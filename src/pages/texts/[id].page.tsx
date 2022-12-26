@@ -1,3 +1,4 @@
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -8,6 +9,7 @@ import { DownloadPreview } from "src/components/DownloadPreview";
 import { FileInput } from "src/components/FileInput";
 import { H2 } from "src/components/H2";
 import { Highlight } from "src/components/Highlight";
+import { Icon } from "src/components/Icon";
 import { Layout } from "src/components/Layout";
 import { Modal, useModalRef } from "src/components/Modal";
 import { Section } from "src/components/Section";
@@ -172,9 +174,17 @@ const TextDetail: NextPage<TextDetailPageProps> = ({ textId }) => {
       <Section>
         <Container>
           <div className="mb-8">
-            <H2>
-              <Highlight>Slam-Text</Highlight> bearbeiten
-            </H2>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+              <Button.Anchor href="/texts">
+                <span className="sr-only">
+                  Zurück zur Übersicht der Slam-Texte
+                </span>
+                <Icon icon={faArrowLeft} size={16} />
+              </Button.Anchor>
+              <H2>
+                <Highlight>Slam-Text</Highlight> bearbeiten
+              </H2>
+            </div>
           </div>
           <form
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6"
