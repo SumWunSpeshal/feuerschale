@@ -10,10 +10,7 @@ import { Button } from "src/components/Button";
 import { Container } from "src/components/Container";
 import { Global } from "src/components/Global";
 
-type SignIn = Record<
-  LiteralUnion<BuiltInProviderType, string>,
-  ClientSafeProvider
->;
+type SignIn = Record<LiteralUnion<BuiltInProviderType>, ClientSafeProvider>;
 
 const config = {
   Google: GoogleSvg,
