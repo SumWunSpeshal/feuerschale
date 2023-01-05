@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "op run --env-file='./.env' --no-masking -- next build",
-    "dev": "op run --env-file='./.env' --no-masking -- next dev",
-    "postinstall": "op run --env-file='./.env' --no-masking -- prisma generate",
-    "lint": "op run --env-file='./.env' --no-masking -- next lint",
-    "start": "op run --env-file='./.env' --no-masking -- next start",
+    "build": "next build",
+    "dev": "next dev",
+    "postinstall": "prisma generate",
+    "lint": "next lint",
+    "start": "next start",
     "g": "plop generate",
-    "dbdump": "op run --env-file='./.env' --no-masking -- ts-node --skip-project prisma/db-dump.ts"
+    "dbdump": "ts-node --skip-project prisma/db-dump.ts"
   },
   "prisma": {
-    "seed": "op run --env-file='./.env' --no-masking -- ts-node --skip-project prisma/seed.ts"
+    "seed": "ts-node --skip-project prisma/seed.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.2.1",
