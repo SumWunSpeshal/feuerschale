@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "op run --env-file='./.env' -- next build",
     "dev": "next dev",
-    "postinstall": "prisma generate",
-    "lint": "next lint",
-    "start": "next start",
+    "postinstall": "op run --env-file='./.env' -- prisma generate",
+    "lint": "op run --env-file='./.env' -- next lint",
+    "start": "op run --env-file='./.env' -- next start",
     "g": "plop generate",
-    "dbdump": "ts-node --skip-project prisma/db-dump.ts"
+    "dbdump": "op run --env-file='./.env' -- ts-node --skip-project prisma/db-dump.ts"
   },
   "prisma": {
-    "seed": "ts-node --skip-project prisma/seed.ts"
+    "seed": "op run --env-file='./.env' -- ts-node --skip-project prisma/seed.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.2.1",
